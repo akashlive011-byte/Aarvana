@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AARVIANA | Modern Elegance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white text-gray-900 antialiased">
+
+<div id="overlay" class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none overlay z-40 backdrop-blur-sm"></div>
+
+<aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-80 text-white transform -translate-x-full z-50 p-8 glass-sidebar overflow-y-auto">
+    <div class="mb-10">
+        <img src="logo.png" alt="AARVIANA" class="w-32 mx-auto">
+        <p class="text-[10px] text-center tracking-[0.3em] mt-2 opacity-60">EST. 2024</p>
+    </div>
+
+    <nav id="sidebar-nav" class="space-y-2 uppercase text-sm tracking-widest">
+        <a href="#home" class="nav-link block py-2 hover:opacity-60 transition-all" data-section="home">Home</a>
+
+        <div>
+            <button class="menu-btn w-full text-left py-2 flex justify-between items-center" data-menu="men">
+                Men <span>+</span>
+            </button>
+            <div class="submenu pl-4 space-y-2 text-[11px] opacity-80" id="men">
+                <a href="#" class="block py-1 hover:text-white">Shirts</a>
+                <a href="#" class="block py-1 hover:text-white">T-Shirts</a>
+                <a href="#" class="block py-1 hover:text-white">Pants</a>
+                <a href="#" class="block py-1 hover:text-white">Accessories (Men)</a>
+                <a href="#" class="block py-1 hover:text-white border-t border-white/20 pt-2">View All Men</a>
+            </div>
+        </div>
+
+        <div>
+            <button class="menu-btn w-full text-left py-2 flex justify-between items-center" data-menu="women">
+                Women <span>+</span>
+            </button>
+            <div class="submenu pl-4 space-y-2 text-[11px] opacity-80" id="women">
+                <a href="#" class="block py-1 hover:text-white">Dresses</a>
+                <a href="#" class="block py-1 hover:text-white">Tops</a>
+                <a href="#" class="block py-1 hover:text-white">Ethnic Wear</a>
+                <a href="#" class="block py-1 hover:text-white">Jewelry</a>
+                <a href="#" class="block py-1 hover:text-white border-t border-white/20 pt-2">View All Women</a>
+            </div>
+        </div>
+
+        <div>
+            <button class="menu-btn w-full text-left py-2 flex justify-between items-center" data-menu="acc">
+                Accessories <span>+</span>
+            </button>
+            <div class="submenu pl-4 space-y-2 text-[11px] opacity-80" id="acc">
+                <a href="#" class="block py-1 hover:text-white">Bags</a>
+                <a href="#" class="block py-1 hover:text-white">Watches</a>
+                <a href="#" class="block py-1 hover:text-white">Jewelry</a>
+                <a href="#" class="block py-1 hover:text-white">Sunglasses</a>
+                <a href="#" class="block py-1 hover:text-white border-t border-white/20 pt-2">View All Accessories</a>
+            </div>
+        </div>
+
+        <div>
+            <button class="menu-btn w-full text-left py-2 flex justify-between items-center" data-menu="story">
+                Aarviana Story <span>+</span>
+            </button>
+            <div class="submenu pl-4 space-y-2 text-[11px] opacity-80" id="story">
+                <a href="#philosophy" class="nav-link block py-1 hover:text-white" data-section="philosophy">Brand Philosophy</a>
+                <a href="#" class="block py-1 hover:text-white">Founder Story</a>
+                <a href="#" class="block py-1 hover:text-white">Craftsmanship</a>
+                <a href="#" class="block py-1 hover:text-white">Sustainability</a>
+            </div>
+        </div>
+
+        <div>
+            <button class="menu-btn w-full text-left py-2 flex justify-between items-center" data-menu="blog">
+                Blog <span>+</span>
+            </button>
+            <div class="submenu pl-4 space-y-2 text-[11px] opacity-80" id="blog">
+                <a href="#" class="block py-1 hover:text-white">Fashion Trends</a>
+                <a href="#" class="block py-1 hover:text-white">Style Guide</a>
+                <a href="#" class="block py-1 hover:text-white">Behind the Scenes</a>
+                <a href="#" class="block py-1 hover:text-white">News & Updates</a>
+            </div>
+        </div>
+
+        <a href="#contact" class="nav-link block py-2 hover:opacity-60 transition-all" data-section="contact">Contact</a>
+    </nav>
+
+    <button onclick="toggleMenu()" class="mt-10 text-[10px] border border-white px-4 py-2 hover:bg-white hover:text-black transition">
+        CLOSE
+    </button>
+</aside>
+
+<nav class="fixed w-full z-40 flex justify-between items-center px-10 py-6 mix-blend-difference text-white">
+    <button onclick="toggleMenu()" class="space-y-1">
+        <div class="w-6 h-[2px] bg-white"></div>
+        <div class="w-6 h-[2px] bg-white"></div>
+        <div class="w-6 h-[2px] bg-white"></div>
+    </button>
+    
+    <div class="flex flex-col items-center">
+        <img src="logo.png" alt="AARVIANA" class="h-10 w-auto">
+    </div>
+
+    <div class="flex items-center space-x-5">
+        <button class="uppercase text-xs">Search</button>
+        <button class="uppercase text-xs">Bag (0)</button>
+    </div>
+</nav>
+
+<header id="home" class="h-screen w-full hero-gradient flex items-center justify-center text-center text-white section">
+    <div class="max-w-3xl px-4">
+        <span class="block uppercase tracking-[0.3em] mb-4 text-sm">Spring / Summer 2026</span>
+        <h1 class="text-6xl md:text-8xl mb-8 leading-tight">Define Your <br><em>Presence.</em></h1>
+        <a href="#collection" class="inline-block border border-white px-10 py-4 uppercase text-xs tracking-widest hover:bg-white hover:text-black transition">
+            Shop The Collection
+        </a>
+    </div>
+</header>
+
+<section id="philosophy" class="py-32 px-10 bg-[#fafafa] section">
+    <div class="max-w-xl mx-auto text-center">
+        <h3 class="text-xs uppercase tracking-[0.4em] mb-8 opacity-60">The Philosophy</h3>
+        <p class="text-2xl leading-relaxed font-light italic text-gray-800">
+            "Design is not merely what we wear, but how we occupy space. Aarviana is a study in silence, structure, and the strength of the understated."
+        </p>
+    </div>
+</section>
+
+<section id="collection" class="py-24 px-10 max-w-7xl mx-auto section">
+    <div class="flex justify-between items-end mb-16">
+        <div>
+            <h2 class="text-4xl">Featured Pieces</h2>
+            <p class="text-gray-500 mt-2">Meticulously crafted, timeless silhouettes.</p>
+        </div>
+        <a href="#" class="border-b border-black pb-1 text-sm uppercase">View All</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4]">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-6 flex justify-between">
+                <div><h3 class="uppercase">Structured Silk Blazer</h3><p class="text-gray-400 text-sm italic">Midnight Navy</p></div>
+                <span>$1,250</span>
+            </div>
+        </div>
+        <div class="group cursor-pointer md:translate-y-12">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4]">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-6 flex justify-between">
+                <div><h3 class="uppercase">Pleated Wool Trousers</h3><p class="text-gray-400 text-sm italic">Sand Stone</p></div>
+                <span>$890</span>
+            </div>
+        </div>
+        <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4]">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-6 flex justify-between">
+                <div><h3 class="uppercase">Cashmere Overcoat</h3><p class="text-gray-400 text-sm italic">Oatmeal</p></div>
+                <span>$2,400</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="contact" class="bg-black text-white py-20 px-10 section">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-gray-800 pb-12">
+        <div class="col-span-1 md:col-span-2">
+            <h4 class="text-2xl mb-6 font-serif">Join the Inner Circle</h4>
+            <div class="flex border-b border-gray-600 pb-2 max-w-sm">
+                <input type="email" placeholder="Email Address" class="bg-transparent w-full focus:outline-none text-sm uppercase">
+                <button class="text-xs uppercase ml-4">Subscribe</button>
+            </div>
+        </div>
+        <div><h5 class="text-xs uppercase mb-6 opacity-50">Support</h5><ul class="text-sm space-y-4"><li>Client Services</li><li>Shipping & Returns</li><li>Care Guide</li></ul></div>
+        <div><h5 class="text-xs uppercase mb-6 opacity-50">Connect</h5><ul class="text-sm space-y-4"><li>Instagram</li><li>Journal</li><li>Boutiques</li></ul></div>
+    </div>
+    <div class="pt-8 text-[10px] uppercase tracking-[0.3em] opacity-40">© 2026 AARVIANA. All rights reserved.</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+      </html>

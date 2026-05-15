@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>All Accessories | AARVANA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white text-gray-900 antialiased">
+
+  <nav class="fixed w-full z-40 flex justify-between items-center px-6 md:px-10 py-6 bg-white/90 backdrop-blur-sm text-black">
+    <a href="index.html" class="space-y-1">
+      <div class="w-6 h-[2px] bg-black"></div>
+      <div class="w-6 h-[2px] bg-black"></div>
+      <div class="w-6 h-[2px] bg-black"></div>
+    </a>
+    <div class="flex flex-col items-center">
+      <a href="index.html" class="text-xl md:text-2xl font-serif tracking-[0.2em]">AARVANA</a>
+    </div>
+    <div class="flex items-center space-x-5 md:space-x-6">
+      <button class="uppercase text-sm tracking-widest hover:opacity-70 transition" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button class="uppercase text-sm tracking-widest hover:opacity-70 transition relative" aria-label="Shopping Bag">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span id="cart-counter" class="cart-counter hidden">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="pt-32 pb-16 px-6 md:px-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl md:text-7xl font-serif mb-4">All Accessories</h1>
+        <p class="text-gray-500 text-lg">Complete collection of luxury accessories</p>
+      </div>
+      
+      <div class="flex justify-center space-x-8 mb-12 text-sm uppercase tracking-widest overflow-x-auto">
+        <button class="border-b-2 border-black pb-2 whitespace-nowrap">All</button>
+        <a href="bags.html" class="hover:border-b-2 border-black pb-2 whitespace-nowrap transition">Bags</a>
+        <a href="watches.html" class="hover:border-b-2 border-black pb-2 whitespace-nowrap transition">Watches</a>
+        <a href="jewelry.html" class="hover:border-b-2 border-black pb-2 whitespace-nowrap transition">Jewelry</a>
+        <a href="sunglasses.html" class="hover:border-b-2 border-black pb-2 whitespace-nowrap transition">Sunglasses</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-24 px-6 md:px-10">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Bags Section -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-serif mb-8 pb-4 border-b border-gray-200">Bags</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=1000" alt="Structured Leather Bag" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Structured Leather Bag</h3>
+            <p class="text-gray-400 text-sm">Black</p>
+            <span class="text-sm font-medium">$2,850</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=1000" alt="Mini Crossbody Bag" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Mini Crossbody Bag</h3>
+            <p class="text-gray-400 text-sm">Tan</p>
+            <span class="text-sm font-medium">$1,250</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=1000" alt="Canvas Tote Bag" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Canvas Tote Bag</h3>
+            <p class="text-gray-400 text-sm">Natural</p>
+            <span class="text-sm font-medium">$850</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=1000" alt="Evening Clutch" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Evening Clutch</h3>
+            <p class="text-gray-400 text-sm">Silver</p>
+            <span class="text-sm font-medium">$1,450</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Watches Section -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-serif mb-8 pb-4 border-b border-gray-200">Watches</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1000" alt="Classic Timepiece" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Classic Timepiece</h3>
+            <p class="text-gray-400 text-sm">Rose Gold</p>
+            <span class="text-sm font-medium">$4,500</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&q=80&w=1000" alt="Chronograph Watch" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Chronograph Watch</h3>
+            <p class="text-gray-400 text-sm">Steel</p>
+            <span class="text-sm font-medium">$3,850</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1000" alt="Minimalist Watch" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Minimalist Watch</h3>
+            <p class="text-gray-400 text-sm">Black Leather</p>
+            <span class="text-sm font-medium">$2,250</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?auto=format&fit=crop&q=80&w=1000" alt="Dress Watch" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Dress Watch</h3>
+            <p class="text-gray-400 text-sm">Gold</p>
+            <span class="text-sm font-medium">$5,950</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jewelry Section -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-serif mb-8 pb-4 border-b border-gray-200">Jewelry</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&q=80&w=1000" alt="Gold Pendant Necklace" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Gold Pendant Necklace</h3>
+            <p class="text-gray-400 text-sm">18K Gold</p>
+            <span class="text-sm font-medium">$2,200</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&q=80&w=1000" alt="Pearl Drop Earrings" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Pearl Drop Earrings</h3>
+            <p class="text-gray-400 text-sm">Freshwater Pearl</p>
+            <span class="text-sm font-medium">$850</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1599643478518-a784f25b7a9e?auto=format&fit=crop&q=80&w=1000" alt="Silver Cuff Bracelet" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Silver Cuff Bracelet</h3>
+            <p class="text-gray-400 text-sm">Sterling Silver</p>
+            <span class="text-sm font-medium">$680</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1515562141567-4aac61b05c72?auto=format&fit=crop&q=80&w=1000" alt="Diamond Stud Earrings" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Diamond Stud Earrings</h3>
+            <p class="text-gray-400 text-sm">18K White Gold</p>
+            <span class="text-sm font-medium">$3,950</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sunglasses Section -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-serif mb-8 pb-4 border-b border-gray-200">Sunglasses</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&q=80&w=1000" alt="Aviator Sunglasses" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Aviator Sunglasses</h3>
+            <p class="text-gray-400 text-sm">Gold/Green</p>
+            <span class="text-sm font-medium">$520</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=1000" alt="Round Sunglasses" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Round Sunglasses</h3>
+            <p class="text-gray-400 text-sm">Tortoise</p>
+            <span class="text-sm font-medium">$450</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&q=80&w=1000" alt="Cat Eye Sunglasses" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Cat Eye Sunglasses</h3>
+            <p class="text-gray-400 text-sm">Black</p>
+            <span class="text-sm font-medium">$580</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+          <div class="group cursor-pointer">
+            <div class="overflow-hidden bg-gray-100 aspect-[3/4] mb-4">
+              <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1000" alt="Square Sunglasses" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <h3 class="text-sm uppercase tracking-widest">Square Sunglasses</h3>
+            <p class="text-gray-400 text-sm">Havana</p>
+            <span class="text-sm font-medium">$495</span>
+            <button onclick="addToCart()" class="mt-2 w-full border border-black text-xs uppercase tracking-widest py-2 hover:bg-black hover:text-white transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="bg-black text-white py-20 px-6 md:px-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-gray-800 pb-12">
+        <div class="col-span-1 md:col-span-2">
+          <h4 class="text-2xl mb-6 font-serif tracking-wide">Join the Inner Circle</h4>
+          <div class="flex border-b border-gray-600 pb-2 max-w-sm">
+            <input type="email" placeholder="Email Address" class="bg-transparent w-full focus:outline-none text-sm uppercase tracking-widest placeholder-gray-400">
+            <button class="text-xs uppercase ml-4 tracking-widest hover:text-gray-300 transition">Subscribe</button>
+          </div>
+        </div>
+        <div><h5 class="text-xs uppercase mb-6 opacity-50 tracking-widest">Support</h5><ul class="text-sm space-y-4 font-light"><li><a href="#" class="hover:text-gray-300">Client Services</a></li><li><a href="#" class="hover:text-gray-300">Shipping & Returns</a></li><li><a href="#" class="hover:text-gray-300">Care Guide</a></li></ul></div>
+        <div><h5 class="text-xs uppercase mb-6 opacity-50 tracking-widest">Connect</h5><ul class="text-sm space-y-4 font-light"><li><a href="#" class="hover:text-gray-300">Instagram</a></li><li><a href="#" class="hover:text-gray-300">Journal</a></li><li><a href="#" class="hover:text-gray-300">Boutiques</a></li></ul></div>
+      </div>
+      <div class="pt-8 text-[10px] uppercase tracking-[0.3em] opacity-40">© 2026 AARVANA. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    let cartCount = 0;
+    const cartCounter = document.getElementById('cart-counter');
+    function addToCart() { cartCount++; updateCartDisplay(); }
+    function updateCartDisplay() {
+      if (cartCount > 0) { cartCounter.textContent = cartCount; cartCounter.classList.remove('hidden'); cartCounter.classList.add('visible'); }
+    }
+    document.addEventListener('DOMContentLoaded', updateCartDisplay);
+  </script>
+</body>
+</html>

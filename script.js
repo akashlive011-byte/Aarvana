@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  // STYLE
   const style = document.createElement("style");
   style.innerHTML = `
     * {
@@ -34,7 +33,65 @@ document.addEventListener("DOMContentLoaded", function () {
       background: rgba(255,255,255,0.08);
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-      max-width: 500px;
+    }
+
+    h1 { font-size: 30px; margin-bottom: 10px; }
+    p { opacity: 0.8; margin-bottom: 20px; }
+
+    .timer {
+      font-size: 22px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .badge {
+      margin-top: 15px;
+      display: inline-block;
+      padding: 6px 12px;
+      background: #22c55e;
+      border-radius: 50px;
+      font-size: 12px;
+    }
+  `;
+  document.head.appendChild(style);
+
+  const launchTime = new Date();
+  launchTime.setDate(launchTime.getDate() + 2);
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <h1>🚀 Coming Soon</h1>
+    <p>Website will be live within 2 days</p>
+    <div class="timer" id="timer"></div>
+    <div class="badge">Under Development</div>
+  `;
+
+  document.body.appendChild(card);
+
+  function updateTimer() {
+    const now = new Date().getTime();
+    const distance = launchTime - now;
+
+    if (distance <= 0) {
+      document.getElementById("timer").innerText = "LIVE NOW!";
+      return;
+    }
+
+    const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((distance / (1000 * 60)) % 60);
+    const s = Math.floor((distance / 1000) % 60);
+
+    document.getElementById("timer").innerText =
+      `${d}d ${h}h ${m}m ${s}s`;
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+});      max-width: 500px;
     }
 
     h1 {

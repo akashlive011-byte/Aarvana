@@ -1,4 +1,4 @@
-// Inject CSS
+// Create styles dynamically
 const style = document.createElement("style");
 style.innerHTML = `
   * {
@@ -35,6 +35,81 @@ style.innerHTML = `
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
     max-width: 500px;
     animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+  }
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+  }
+
+  .timer {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #22c55e;
+  }
+
+  .badge {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: #22c55e;
+    border-radius: 50px;
+    font-size: 12px;
+  }
+`;
+document.head.appendChild(style);
+
+// Set launch time (2 days from now)
+const now = new Date();
+const launchTime = new Date();
+launchTime.setDate(now.getDate() + 2);
+
+// Create UI
+const card = document.createElement("div");
+card.className = "card";
+
+card.innerHTML = `
+  <h1>🚀 Coming Soon</h1>
+  <p>Our website will be live within 2 days.</p>
+  <div class="timer" id="timer">Loading countdown...</div>
+  <div class="badge">Stay Tuned</div>
+`;
+
+document.body.appendChild(card);
+
+// Countdown logic
+function updateTimer() {
+  const now = new Date().getTime();
+  const distance = launchTime - now;
+
+  if (distance <= 0) {
+    document.getElementById("timer").innerText = "We are LIVE NOW!";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("timer").innerText =
+    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();    animation: fadeIn 1s ease;
   }
 
   @keyframes fadeIn {

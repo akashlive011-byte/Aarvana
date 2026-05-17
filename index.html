@@ -1,40 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Site Under Development</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coming Soon</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #111, #333);
-      color: white;
-      text-align: center;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #0f0f0f, #1a1a2e, #16213e, #0f3460);
+  background-size: 400% 400%;
+  animation: bg 12s ease infinite;
+  color: white;
+  overflow: hidden;
+}
 
-    p {
-      font-size: 18px;
-      opacity: 0.8;
-    }
+@keyframes bg {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
 
-    .countdown {
-      font-size: 30px;
-      margin-top: 20px;
-      background: rgba(255,255,255,0.1);
-      padding: 15px 25px;
-      border-radius: 10px;
+/* floating circles */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  animation: float 10s infinite ease-in-out;
+}
+
+.circle:nth-child(1) {
+  width: 120px; height: 120px;
+  top: 10%; left: 15%;
+}
+.circle:nth-child(2) {
+  width: 200px; height: 200px;
+  bottom: 10%; right: 10%;
+}
+.circle:nth-child(3) {
+  width: 80px; height: 80px;
+  bottom: 20%; left: 20%;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  z-index: 10;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+p {
+  opacity: 0.8;
+  margin-bottom: 25px;
+}
+
+.countdown {
+  font-size: 22px;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  margin-bottom: 20px;
+}
+
+.tag {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="card">
+  <h1>🚧 Coming Soon</h1>
+  <p>We are building something amazing for you</p>
+
+  <div class="countdown" id="timer">Loading...</div>
+
+  <div class="tag">Website Launch Countdown</div>
+</div>
+
+<script>
+// Set launch time (2 days from now)
+const launchDate = new Date();
+launchDate.setDate(launchDate.getDate() + 2);
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = launchDate.getTime() - now;
+
+  if (distance <= 0) {
+    document.getElementById("timer").innerHTML = "🚀 Now Live!";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("timer").innerHTML =
+    `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+</script>
+
+</body>
+</html>      border-radius: 10px;
     }
   </style>
 </head>

@@ -1,40 +1,109 @@
-// Create styles dynamically
-const style = document.createElement("style");
-style.innerHTML = `
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+document.addEventListener("DOMContentLoaded", function () {
+
+  // STYLE
+  const style = document.createElement("style");
+  style.innerHTML = `
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a);
+      background-size: 400% 400%;
+      animation: bgMove 10s ease infinite;
+      color: white;
+    }
+
+    @keyframes bgMove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .card {
+      text-align: center;
+      padding: 40px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      font-size: 22px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .badge {
+      margin-top: 15px;
+      display: inline-block;
+      padding: 6px 12px;
+      background: #22c55e;
+      border-radius: 50px;
+      font-size: 12px;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // SET 2 DAYS TIMER
+  const launchTime = new Date();
+  launchTime.setDate(launchTime.getDate() + 2);
+
+  // CREATE UI
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <h1>🚀 Website Coming Soon</h1>
+    <p>We will be live within 2 days</p>
+    <div class="timer" id="timer">Loading...</div>
+    <div class="badge">Under Development</div>
+  `;
+
+  document.body.appendChild(card);
+
+  // TIMER
+  function updateTimer() {
+    const now = new Date().getTime();
+    const distance = launchTime - now;
+
+    if (distance <= 0) {
+      document.getElementById("timer").innerText = "WE ARE LIVE!";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    document.getElementById("timer").innerText =
+      `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a);
-    background-size: 400% 400%;
-    animation: bgMove 10s ease infinite;
-    color: white;
-    overflow: hidden;
-  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
 
-  @keyframes bgMove {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
-
-  .card {
-    text-align: center;
-    padding: 40px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    max-width: 500px;
-    animation: fadeIn 1s ease;
+});    animation: fadeIn 1s ease;
   }
 
   @keyframes fadeIn {

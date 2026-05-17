@@ -3,38 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coming Soon</title>
+<title>Loading...</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
 body {
+  margin: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at top, #111827, #05060a);
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  font-family: "Inter", sans-serif;
   overflow: hidden;
   color: white;
 }
 
-/* glowing orbs */
-.orb {
+/* background glow */
+.glow {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
+  width: 300px;
+  height: 300px;
+  filter: blur(90px);
   opacity: 0.6;
-  animation: float 10s infinite ease-in-out;
+  border-radius: 50%;
+  animation: float 8s infinite ease-in-out;
 }
 
-.orb1 {
+.g1 { background: #6366f1; top: 10%; left: 10%; }
+.g2 { background: #22c55e; bottom: 10%; right: 10%; }
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-25px); }
+}
+
+/* card */
+.card {
+  text-align: center;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 50px;
+  background: rgba(99,102,241,0.2);
+  border: 1px solid rgba(99,102,241,0.5);
+  color: #a5b4fc;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+p {
+  opacity: 0.7;
+  margin-bottom: 25px;
+}
+
+.timer {
+  font-size: 22px;
+  font-weight: 600;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #6366f1, #22c55e);
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+
+<div id="app"></div>
+
+<script>
+// ===== JS BUILDS FULL PAGE =====
+const app = document.getElementById("app");
+
+// Create card
+const card = document.createElement("div");
+card.className = "card";
+
+// Badge
+const badge = document.createElement("div");
+badge.className = "badge";
+badge.innerText = "UNDER DEVELOPMENT";
+
+// Title
+const title = document.createElement("h1");
+title.innerText = "We are Coming Soon";
+
+// Subtitle
+const desc = document.createElement("p");
+desc.innerText = "Something premium is being built right now";
+
+// Timer
+const timer = document.createElement("div");
+timer.className = "timer";
+timer.innerText = "Loading countdown...";
+
+// Button
+const btn = document.createElement("a");
+btn.className = "btn";
+btn.href = "#";
+btn.innerText = "Notify Me";
+
+// append
+card.appendChild(badge);
+card.appendChild(title);
+card.appendChild(desc);
+card.appendChild(timer);
+card.appendChild(btn);
+
+app.appendChild(card);
+
+// ===== COUNTDOWN LOGIC =====
+const launchDate = new Date();
+launchDate.setDate(launchDate.getDate() + 2);
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = launchDate - now;
+
+  if (distance <= 0) {
+    timer.innerText = "LIVE NOW 🚀";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  timer.innerText = `${days}D : ${hours}H : ${minutes}M : ${seconds}S`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+</script>
+
+</body>
+</html>.orb1 {
   width: 300px;
   height: 300px;
   background: #6366f1;

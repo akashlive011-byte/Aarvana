@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Website Launch | 2-Day Countdown + Real Counter</title>
+  <title>Website Launch | 2-Day Countdown + Persistent Counter</title>
   <!-- Separate CSS file: countdown-styles.css -->
   <link rel="stylesheet" href="countdown-styles.css">
 </head>
@@ -23,15 +23,15 @@
         Our website is live within <strong>2 days</strong>. Stay tuned.
       </p>
 
-      <!-- Real-time counter (counting up) -->
+      <!-- Visitor counter with persistence -->
       <div class="real-counter-section">
         <div class="real-counter-label">
-          <span class="live-dot"></span> LIVE ACTIVITY COUNTER
+          <span class="live-dot"></span> TOTAL VISITORS COUNT
         </div>
-        <div class="real-counter-display" id="realCounter">
+        <div class="real-counter-display" id="visitorCounter">
           00000000
         </div>
-        <p class="counter-hint">Real-time counting since you arrived</p>
+        <p class="counter-hint">Persistent counter • Survives refresh • <span id="visitCount">1</span> visits from you</p>
       </div>
 
       <!-- COUNTDOWN TIMER (2 days from now) -->
@@ -66,18 +66,27 @@
       <!-- Stats row -->
       <div class="stats-row">
         <div class="stat-item">
-          <span class="stat-number" id="sessionSeconds">0</span>
-          <span class="stat-label">Seconds in session</span>
+          <span class="stat-number" id="totalVisitors">0</span>
+          <span class="stat-label">Total Visitors</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number" id="counterValue">0</span>
-          <span class="stat-label">Total counts</span>
+          <span class="stat-number" id="yourVisits">0</span>
+          <span class="stat-label">Your Visits</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="lastVisit">-</span>
+          <span class="stat-label">Last Visit</span>
         </div>
       </div>
+
+      <!-- Reset button (small, for testing) -->
+      <button class="reset-button" id="resetCounter" title="Reset counter (for testing)">
+        ↺ Reset Counter
+      </button>
     </div>
 
     <footer class="footer">
-      <p>© 2026 LaunchPad. All rights reserved. | Countdown set for 2 days | Real counter active</p>
+      <p>© 2026 LaunchPad. All rights reserved. | Countdown: 2 days | Counter persists in browser</p>
     </footer>
   </div>
 

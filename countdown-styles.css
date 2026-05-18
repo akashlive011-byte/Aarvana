@@ -1,5 +1,5 @@
 /* countdown-styles.css */
-/* Modern under-construction styling with real counter and countdown */
+/* Modern under-construction styling with persistent counter and countdown */
 
 * {
   margin: 0;
@@ -19,7 +19,6 @@ body {
   position: relative;
 }
 
-/* Subtle animated background pattern */
 body::before {
   content: "";
   position: fixed;
@@ -44,7 +43,6 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(2px);
 }
 
 .container {
@@ -172,10 +170,15 @@ body::before {
 }
 
 .counter-hint {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #6b7280;
   margin-top: 0.5rem;
   letter-spacing: 0.5px;
+}
+
+.counter-hint span {
+  color: #86efac;
+  font-weight: 600;
 }
 
 /* Countdown timer styles */
@@ -287,6 +290,28 @@ body::before {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #64748b;
+}
+
+/* Reset button */
+.reset-button {
+  margin-top: 1.5rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.reset-button:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fecaca;
 }
 
 .footer {

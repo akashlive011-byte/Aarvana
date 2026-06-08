@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aarvana Men's Collection - Premium Shirts, Polos, Panjabi, Pants & more.">
+    <meta name="description" content="Aarvana Men's Pants Collection - Premium Formal & Casual Pants.">
     <meta name="theme-color" content="#0A0A0A">
     <meta name="robots" content="index, follow">
     
-    <title>Aarvana - Men's Collection | Premium Fashion</title>
+    <title>Aarvana - Men's Pants | Premium Fashion</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -100,9 +100,6 @@
         .subcat-btn.active { background: #1a1a1a; color: #ffffff; border-color: #1a1a1a; }
         .breadcrumb-link { transition: color 0.2s ease; }
         .breadcrumb-link:hover { color: #1a1a1a; }
-        #filterPanel::-webkit-scrollbar { width: 3px; }
-        #filterPanel::-webkit-scrollbar-track { background: transparent; }
-        #filterPanel::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
         a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #D4AF37; outline-offset: 2px; border-radius: 4px; }
         :focus:not(:focus-visible) { outline: none; }
         main { animation: pageEnter 0.4s ease-out; }
@@ -182,18 +179,10 @@
 
                 <div class="border-t border-gray-700 my-3"></div>
 
-                <a href="../our-story.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm">
-                    <i class="fas fa-info-circle w-5 mr-3"></i> Our Story
-                </a>
-                <a href="../track-order.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm">
-                    <i class="fas fa-map-marker-alt w-5 mr-3"></i> Track Order
-                </a>
-                <a href="../legal/return-cancellation.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm">
-                    <i class="fas fa-undo w-5 mr-3"></i> Returns
-                </a>
-                <a href="../sales/sales.html" class="flex items-center px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition-all text-sm mt-2">
-                    <i class="fas fa-tag w-5 mr-3"></i> Sale <span class="ml-auto text-xs font-bold animate-pulse">UP TO 50%</span>
-                </a>
+                <a href="../our-story.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm"><i class="fas fa-info-circle w-5 mr-3"></i> Our Story</a>
+                <a href="../track-order.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm"><i class="fas fa-map-marker-alt w-5 mr-3"></i> Track Order</a>
+                <a href="../legal/return-cancellation.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm"><i class="fas fa-undo w-5 mr-3"></i> Returns</a>
+                <a href="../sales/sales.html" class="flex items-center px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition-all text-sm mt-2"><i class="fas fa-tag w-5 mr-3"></i> Sale <span class="ml-auto text-xs font-bold animate-pulse">UP TO 50%</span></a>
             </nav>
 
             <div class="px-5 mt-auto pt-6">
@@ -211,12 +200,9 @@
     <header class="sticky top-0 z-30 glass-header lg:ml-[280px]">
         <div class="flex items-center justify-between px-4 py-3 lg:px-6">
             <button onclick="toggleSidebar()" class="lg:hidden text-white hover:text-gray-300 transition-colors p-1" aria-label="Toggle menu"><i class="fas fa-bars text-lg"></i></button>
-            <a href="../index.html" class="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none">
-                <h1 class="text-xl lg:text-2xl font-display font-bold text-white tracking-wider">AARVANA</h1>
-            </a>
+            <a href="../index.html" class="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none"><h1 class="text-xl lg:text-2xl font-display font-bold text-white tracking-wider">AARVANA</h1></a>
             <div class="flex items-center space-x-1 sm:space-x-4 ml-auto">
                 <button onclick="openSearchModal()" class="text-white hover:text-gray-300 transition-colors p-2" aria-label="Search (Ctrl+K)"><i class="fas fa-search text-lg"></i></button>
-                <button onclick="toggleFilterPanel()" class="lg:hidden text-white hover:text-gray-300 transition-colors p-2" aria-label="Filter"><i class="fas fa-sliders-h text-lg"></i></button>
                 <a href="../js/cart/cart.html" class="relative text-white hover:text-gray-300 transition-colors p-2" aria-label="Shopping cart">
                     <i class="fas fa-shopping-bag text-lg"></i>
                     <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
@@ -234,11 +220,13 @@
                 <div class="flex items-center justify-center gap-2 text-sm text-gray-400 mb-3">
                     <a href="../index.html" class="breadcrumb-link hover:text-gray-800 transition-colors">Home</a>
                     <i class="fas fa-chevron-right text-[10px]"></i>
-                    <span class="text-gray-800 font-medium">Men</span>
+                    <a href="men.html" class="breadcrumb-link hover:text-gray-800 transition-colors">Men</a>
+                    <i class="fas fa-chevron-right text-[10px]"></i>
+                    <span class="text-gray-800 font-medium">Pants</span>
                 </div>
                 <div class="text-center">
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-2">Men's Collection</h2>
-                    <p class="text-gray-500 text-sm sm:text-base">Shirts, Polos, Panjabi & Pants crafted for the modern man</p>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-2">Men's Pants</h2>
+                    <p class="text-gray-500 text-sm sm:text-base">Tailored for the perfect fit</p>
                 </div>
             </div>
         </section>
@@ -247,93 +235,30 @@
         <section class="py-6 sm:py-8 lg:py-10 bg-white border-b border-gray-100">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4">
-                    <a href="men.html" class="subcat-btn active px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">ALL</a>
+                    <a href="men.html" class="subcat-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">ALL</a>
                     <a href="shirt.html" class="subcat-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">SHIRTS</a>
                     <a href="polo.html" class="subcat-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">POLOS</a>
                     <a href="panjabi.html" class="subcat-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">PANJABI</a>
-                    <a href="pants.html" class="subcat-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">PANTS</a>
+                    <a href="pants.html" class="subcat-btn active px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider">PANTS</a>
                 </div>
             </div>
         </section>
 
-        <!-- Products + Filter -->
+        <!-- Products -->
         <section class="py-8 sm:py-12 lg:py-16 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex gap-6 lg:gap-8">
-                    
-                    <!-- Products Grid -->
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-end mb-6">
-                            <select id="sortSelect" onchange="applySort()" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-800">
-                                <option value="default">Default</option>
-                                <option value="price-asc">Price: Low to High</option>
-                                <option value="price-desc">Price: High to Low</option>
-                                <option value="name-asc">Name: A to Z</option>
-                                <option value="name-desc">Name: Z to A</option>
-                            </select>
-                        </div>
-                        <div id="categoryProductsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-                            <div class="col-span-full flex justify-center py-12">
-                                <div class="animate-spin rounded-full h-10 w-10 border-3 border-gray-200 border-t-gray-800"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Filter Panel -->
-                    <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden" onclick="closeFilterPanel()"></div>
-                    <div id="filterPanel" class="fixed lg:static inset-y-0 right-0 w-[280px] max-w-[85vw] bg-white z-50 lg:z-auto transform translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto shadow-lg lg:shadow-none border-l lg:border-l-0 lg:w-[240px] flex-shrink-0">
-                        <div class="p-5 lg:p-0">
-                            <div class="flex items-center justify-between mb-6 lg:hidden">
-                                <h3 class="text-lg font-bold text-gray-900">Filters</h3>
-                                <button onclick="closeFilterPanel()" class="text-gray-400 hover:text-gray-600 p-1"><i class="fas fa-times text-xl"></i></button>
-                            </div>
-                            <h3 class="hidden lg:block text-lg font-bold text-gray-900 mb-6">Filters</h3>
-                            
-                            <!-- Category -->
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Category</h4>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterCategory" value="all" checked onchange="applyFilters()"><span class="text-sm text-gray-600">All</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterCategory" value="Shirts" onchange="applyFilters()"><span class="text-sm text-gray-600">Shirts</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterCategory" value="Polos" onchange="applyFilters()"><span class="text-sm text-gray-600">Polos</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterCategory" value="Panjabi" onchange="applyFilters()"><span class="text-sm text-gray-600">Panjabi</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterCategory" value="Pants" onchange="applyFilters()"><span class="text-sm text-gray-600">Pants</span></label>
-                                </div>
-                            </div>
-                            
-                            <!-- Price Range -->
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Price Range</h4>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="all" checked onchange="applyFilters()"><span class="text-sm text-gray-600">All Prices</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="0-1000" onchange="applyFilters()"><span class="text-sm text-gray-600">Under $1,000</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="1000-3000" onchange="applyFilters()"><span class="text-sm text-gray-600">$1,000 - $3,000</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="3000-5000" onchange="applyFilters()"><span class="text-sm text-gray-600">$3,000 - $5,000</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="5000+" onchange="applyFilters()"><span class="text-sm text-gray-600">$5,000+</span></label>
-                                </div>
-                            </div>
-                            
-                            <!-- Badge -->
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Badge</h4>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="New" onchange="applyFilters()"><span class="text-sm text-gray-600">New</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Sale" onchange="applyFilters()"><span class="text-sm text-gray-600">Sale</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Premium" onchange="applyFilters()"><span class="text-sm text-gray-600">Premium</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Trending" onchange="applyFilters()"><span class="text-sm text-gray-600">Trending</span></label>
-                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Hot" onchange="applyFilters()"><span class="text-sm text-gray-600">Hot</span></label>
-                                </div>
-                            </div>
-                            
-                            <!-- On Sale -->
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Deals</h4>
-                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="filterOnSale" onchange="applyFilters()"><span class="text-sm text-gray-600">On Sale Only</span></label>
-                            </div>
-                            
-                            <!-- Clear -->
-                            <button onclick="clearFilters()" class="w-full py-2.5 border-2 border-gray-300 text-gray-600 text-sm font-semibold rounded-full hover:border-gray-800 hover:text-gray-800 transition-all">Clear All Filters</button>
-                        </div>
+                <div class="flex items-center justify-end mb-6">
+                    <select id="sortSelect" onchange="applySort()" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-800">
+                        <option value="default">Default</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="name-desc">Name: Z to A</option>
+                    </select>
+                </div>
+                <div id="categoryProductsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                    <div class="col-span-full flex justify-center py-12">
+                        <div class="animate-spin rounded-full h-10 w-10 border-3 border-gray-200 border-t-gray-800"></div>
                     </div>
                 </div>
             </div>
@@ -373,9 +298,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-t border-gray-700 mt-8 sm:mt-10 pt-6 sm:pt-8 text-center">
-                    <p class="text-gray-500 text-xs sm:text-sm">© 2026 Aarvana. All rights reserved. | Premium Fashion</p>
-                </div>
+                <div class="border-t border-gray-700 mt-8 sm:mt-10 pt-6 sm:pt-8 text-center"><p class="text-gray-500 text-xs sm:text-sm">© 2026 Aarvana. All rights reserved. | Premium Fashion</p></div>
             </div>
         </footer>
     </main>
@@ -402,14 +325,10 @@
     <!-- Scripts -->
     <script src="../js/core/script.js"></script>
     <script>
-        function toggleFilterPanel(){var p=document.getElementById('filterPanel'),o=document.getElementById('filterOverlay');if(p.classList.contains('translate-x-full')){p.classList.remove('translate-x-full');o.classList.remove('hidden');document.body.style.overflow='hidden'}else closeFilterPanel()}
-        function closeFilterPanel(){document.getElementById('filterPanel').classList.add('translate-x-full');document.getElementById('filterOverlay').classList.add('hidden');document.body.style.overflow=''}
-        var allMenProducts=[],filteredProducts=[];
-        function loadMenProducts(){var g=document.getElementById('categoryProductsGrid');if(!g)return;g.innerHTML='<div class="col-span-full flex justify-center py-12"><div class="animate-spin rounded-full h-10 w-10 border-3 border-gray-200 border-t-gray-800"></div></div>';if(typeof getAllProducts==='function'){getAllProducts(function(p){allMenProducts=p.filter(function(x){return x.category&&x.category.toLowerCase()==='men'});filteredProducts=allMenProducts.slice();applySort()})}else{fetch('../data/products.json').then(function(r){return r.json()}).then(function(p){allMenProducts=p.filter(function(x){return x.category&&x.category.toLowerCase()==='men'});filteredProducts=allMenProducts.slice();applySort()}).catch(function(){g.innerHTML='<div class="col-span-full text-center py-12"><i class="fas fa-box-open text-5xl text-gray-300 mb-4"></i><p class="text-gray-400 text-sm">Unable to load products</p></div>'})}}
-        function applyFilters(){var r=allMenProducts.slice();var c=document.querySelector('input[name="filterCategory"]:checked');if(c&&c.value!=='all'){r=r.filter(function(p){return p.name&&p.name.toLowerCase().indexOf(c.value.toLowerCase())!==-1})}var pr=document.querySelector('input[name="filterPrice"]:checked');if(pr&&pr.value!=='all'){r=r.filter(function(p){var ep=(p.salePrice!==null&&p.salePrice<p.price)?p.salePrice:p.price;if(pr.value==='0-1000')return ep<1000;if(pr.value==='1000-3000')return ep>=1000&&ep<3000;if(pr.value==='3000-5000')return ep>=3000&&ep<5000;if(pr.value==='5000+')return ep>=5000;return true})}var b=document.querySelectorAll('input[name="filterBadge"]:checked');if(b.length>0){var bv=[];b.forEach(function(cb){bv.push(cb.value)});r=r.filter(function(p){return p.badge&&bv.indexOf(p.badge)!==-1})}var os=document.getElementById('filterOnSale');if(os&&os.checked){r=r.filter(function(p){return p.salePrice!==null&&p.salePrice<p.price})}filteredProducts=r;applySort()}
+        var allPantsProducts=[],filteredProducts=[];
+        function loadPantsProducts(){var g=document.getElementById('categoryProductsGrid');if(!g)return;g.innerHTML='<div class="col-span-full flex justify-center py-12"><div class="animate-spin rounded-full h-10 w-10 border-3 border-gray-200 border-t-gray-800"></div></div>';if(typeof getAllProducts==='function'){getAllProducts(function(p){allPantsProducts=p.filter(function(x){return x.category&&x.category.toLowerCase()==='men'&&x.name&&x.name.toLowerCase().indexOf('pants')!==-1});filteredProducts=allPantsProducts.slice();applySort()})}else{fetch('../data/products.json').then(function(r){return r.json()}).then(function(p){allPantsProducts=p.filter(function(x){return x.category&&x.category.toLowerCase()==='men'&&x.name&&x.name.toLowerCase().indexOf('pants')!==-1});filteredProducts=allPantsProducts.slice();applySort()}).catch(function(){g.innerHTML='<div class="col-span-full text-center py-12"><i class="fas fa-box-open text-5xl text-gray-300 mb-4"></i><p class="text-gray-400 text-sm">Unable to load products</p></div>'})}}
         function applySort(){var sv=document.getElementById('sortSelect').value;var p=filteredProducts.slice();if(sv==='price-asc')p.sort(function(a,b){var pa=(a.salePrice&&a.salePrice<a.price)?a.salePrice:a.price;var pb=(b.salePrice&&b.salePrice<b.price)?b.salePrice:b.price;return pa-pb});if(sv==='price-desc')p.sort(function(a,b){var pa=(a.salePrice&&a.salePrice<a.price)?a.salePrice:a.price;var pb=(b.salePrice&&b.salePrice<b.price)?b.salePrice:b.price;return pb-pa});if(sv==='name-asc')p.sort(function(a,b){return a.name.localeCompare(b.name)});if(sv==='name-desc')p.sort(function(a,b){return b.name.localeCompare(a.name)});if(typeof renderProductCards==='function'){renderProductCards(p,document.getElementById('categoryProductsGrid'))}}
-        function clearFilters(){document.querySelectorAll('input[type="radio"]').forEach(function(r){r.checked=(r.value==='all')});document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){cb.checked=false});document.getElementById('sortSelect').value='default';filteredProducts=allMenProducts.slice();if(typeof renderProductCards==='function'){renderProductCards(filteredProducts,document.getElementById('categoryProductsGrid'))}}
-        document.addEventListener('DOMContentLoaded',function(){loadMenProducts();updateCartCount()});
+        document.addEventListener('DOMContentLoaded',function(){loadPantsProducts();updateCartCount()});
     </script>
 </body>
 </html>

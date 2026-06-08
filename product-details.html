@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aarvana - Product Details">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="robots" content="index, follow">
+    
+    <title>Aarvana - Product Details | Premium Fashion</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aarvana': { 'gold': '#D4AF37' }
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---------- CUSTOM SCROLLBAR ---------- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #666; }
+        
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Body base styles */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #ffffff;
+            color: #1a1a1a;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar thinner scrollbar */
+        #sidebar::-webkit-scrollbar { width: 3px; }
+        #sidebar::-webkit-scrollbar-track { background: transparent; }
+        #sidebar::-webkit-scrollbar-thumb { background: #555; border-radius: 10px; }
+
+        /* ---------- GLASS HEADER EFFECT ---------- */
+        .glass-header {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ---------- TOAST NOTIFICATION ---------- */
+        .toast { animation: slideInRight 0.3s ease-out; }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* ---------- BREADCRUMB ---------- */
+        .breadcrumb-link { transition: color 0.2s ease; }
+        .breadcrumb-link:hover { color: #1a1a1a; }
+
+        /* ---------- ACCESSIBILITY ---------- */
+        a:focus-visible, button:focus-visible, input:focus-visible {
+            outline: 2px solid #D4AF37;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        :focus:not(:focus-visible) { outline: none; }
+
+        /* ---------- PAGE ENTER ANIMATION ---------- */
+        main { animation: pageEnter 0.4s ease-out; }
+        @keyframes pageEnter {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- QUANTITY BUTTON ---------- */
+        .qty-btn {
+            transition: all 0.2s ease;
+        }
+        .qty-btn:hover { background: #f3f4f6; }
+        .qty-btn:active { background: #e5e7eb; }
+
+        /* ---------- IMAGE ZOOM ON HOVER ---------- */
+        #mainImage { transition: transform 0.3s ease; }
+        #mainImage:hover { transform: scale(1.05); }
+
+        /* ---------- RELATED PRODUCT CARD ---------- */
+        .related-card {
+            transition: all 0.3s ease;
+        }
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+    </style>
+</head>
+
+<body class="bg-white font-body text-gray-800 overflow-x-hidden">
+
+    <!-- ============================================
+    SIDEBAR OVERLAY - Mobile only backdrop
+    ============================================ -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden transition-opacity duration-300" onclick="closeSidebar()"></div>
+
+    <!-- ============================================
+    LEFT SIDEBAR NAVIGATION
+    ============================================ -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[280px] max-w-[85vw] bg-gradient-to-b from-black via-gray-900 to-black text-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:z-30 overflow-y-auto border-r border-gray-800">
+        <div class="flex flex-col h-full py-6">
+            
+            <!-- Brand Logo -->
+            <div class="px-5 mb-8">
+                <a href="index.html" class="block">
+                    <h2 class="text-2xl font-display font-bold text-white tracking-wider">AARVANA</h2>
+                    <p class="text-[10px] text-gray-400 tracking-widest mt-1">PREMIUM FASHION</p>
+                </a>
+            </div>
+
+            <!-- Main Navigation -->
+            <nav class="flex-1 px-5 space-y-0.5" aria-label="Main navigation">
+                
+                <!-- Home Link -->
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-white transition-all text-sm">
+                    <i class="fas fa-home w-5 mr-3"></i> Home
+                </a>
+
+                <!-- Men Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('menDropdown')" 
+                            class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-left text-sm"
+                            aria-expanded="false" aria-haspopup="true">
+                        <div class="flex items-center"><i class="fas fa-male w-5 mr-3"></i> Men</div>
+                        <i id="menDropdownIcon" class="fas fa-plus text-[10px] transition-transform duration-300"></i>
+                    </button>
+                    <div id="menDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5" role="menu">
+                        <a href="men/shirt.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Shirts</a>
+                        <a href="men/polo.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Polos</a>
+                        <a href="men/panjabi.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Panjabi</a>
+                        <a href="men/pants.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Pants</a>
+                    </div>
+                </div>
+
+                <!-- Women Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('womenDropdown')" 
+                            class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-left text-sm"
+                            aria-expanded="false" aria-haspopup="true">
+                        <div class="flex items-center"><i class="fas fa-female w-5 mr-3"></i> Women</div>
+                        <i id="womenDropdownIcon" class="fas fa-plus text-[10px] transition-transform duration-300"></i>
+                    </button>
+                    <div id="womenDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5" role="menu">
+                        <a href="women/salwar.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Salwar Kameez</a>
+                        <a href="women/anarkali.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Anarkali</a>
+                        <a href="women/saree.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Sarees</a>
+                        <a href="women/tops.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Tops</a>
+                    </div>
+                </div>
+
+                <!-- Accessories Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('accessoriesDropdown')" 
+                            class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-left text-sm"
+                            aria-expanded="false" aria-haspopup="true">
+                        <div class="flex items-center"><i class="fas fa-gem w-5 mr-3"></i> Accessories</div>
+                        <i id="accessoriesDropdownIcon" class="fas fa-plus text-[10px] transition-transform duration-300"></i>
+                    </button>
+                    <div id="accessoriesDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5" role="menu">
+                        <a href="accessories/jewellery.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Jewellery</a>
+                        <a href="accessories/bags.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Bags</a>
+                        <a href="accessories/sunglasses.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Sunglasses</a>
+                        <a href="accessories/watches.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded transition-colors" role="menuitem">Watches</a>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-700 my-3"></div>
+
+                <!-- Secondary Links -->
+                <a href="our-story.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm">
+                    <i class="fas fa-info-circle w-5 mr-3"></i> Our Story
+                </a>
+                <a href="track-order.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm">
+                    <i class="fas fa-map-marker-alt w-5 mr-3"></i> Track Order
+                </a>
+                <a href="legal/return-cancellation.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition-all text-sm">
+                    <i class="fas fa-undo w-5 mr-3"></i> Returns
+                </a>
+                
+                <!-- Sale Link -->
+                <a href="sales/sales.html" class="flex items-center px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition-all text-sm mt-2">
+                    <i class="fas fa-tag w-5 mr-3"></i> Sale <span class="ml-auto text-xs font-bold animate-pulse">UP TO 50%</span>
+                </a>
+            </nav>
+
+            <!-- Social Media Links -->
+            <div class="px-5 mt-auto pt-6">
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-[#1877F2] transition-colors transform hover:scale-110" aria-label="Facebook"><i class="fab fa-facebook-f text-base"></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-[#E4405F] transition-colors transform hover:scale-110" aria-label="Instagram"><i class="fab fa-instagram text-base"></i></a>
+                    <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-[#25D366] transition-colors transform hover:scale-110" aria-label="WhatsApp"><i class="fab fa-whatsapp text-base"></i></a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors transform hover:scale-110" aria-label="TikTok"><i class="fab fa-tiktok text-base"></i></a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ============================================
+    TOP HEADER BAR - Glass morphism effect
+    ============================================ -->
+    <header class="sticky top-0 z-30 glass-header lg:ml-[280px]">
+        <div class="flex items-center justify-between px-4 py-3 lg:px-6">
+            
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleSidebar()" class="lg:hidden text-white hover:text-gray-300 transition-colors p-1" aria-label="Toggle menu">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+            
+            <!-- Centered Logo -->
+            <a href="index.html" class="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none">
+                <h1 class="text-xl lg:text-2xl font-display font-bold text-white tracking-wider">AARVANA</h1>
+            </a>
+            
+            <!-- Header Right Actions: Search + Cart -->
+            <div class="flex items-center space-x-1 sm:space-x-4 ml-auto">
+                
+                <!-- Search Toggle -->
+                <button onclick="openSearchModal()" class="text-white hover:text-gray-300 transition-colors p-2" aria-label="Search (Ctrl+K)">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                
+                <!-- Cart Link with Dynamic Badge -->
+                <a href="js/cart/cart.html" class="relative text-white hover:text-gray-300 transition-colors p-2" aria-label="Shopping cart">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+    MAIN CONTENT - PRODUCT DETAILS
+    ============================================ -->
+    <main class="lg:ml-[280px] bg-white">
+
+        <!-- ============================================
+        BREADCRUMB
+        ============================================ -->
+        <section class="py-4 bg-gray-50 border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="productBreadcrumb" class="flex items-center gap-2 text-sm text-gray-400">
+                    <a href="index.html" class="breadcrumb-link hover:text-gray-800 transition-colors">Home</a>
+                    <i class="fas fa-chevron-right text-[10px]"></i>
+                    <span id="breadcrumbCategory" class="text-gray-800 font-medium">Loading...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+        PRODUCT DETAIL SECTION - Image + Info
+        ============================================ -->
+        <section class="py-8 sm:py-12 lg:py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Loading State -->
+                <div id="productLoading" class="flex items-center justify-center py-20">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-gray-800"></div>
+                </div>
+                
+                <!-- Product Content (Hidden until loaded) -->
+                <div id="productContent" class="hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                        
+                        <!-- ============================================
+                        LEFT COLUMN - Product Image
+                        ============================================ -->
+                        <div class="relative">
+                            <!-- Main Image Container -->
+                            <div class="relative rounded-2xl overflow-hidden bg-gray-100 aspect-[3/4]">
+                                <!-- Product Image -->
+                                <img id="mainImage" src="" alt="Product Image" class="w-full h-full object-cover">
+                                
+                                <!-- Discount Badge (top-left, red) -->
+                                <span id="discountBadge" class="absolute top-4 left-4 bg-red-600 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-lg hidden"></span>
+                                
+                                <!-- Custom Badge (top-right, colored) -->
+                                <span id="customBadge" class="absolute top-4 right-4 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-lg hidden"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- ============================================
+                        RIGHT COLUMN - Product Information
+                        ============================================ -->
+                        <div class="flex flex-col justify-center">
+                            
+                            <!-- Category Label -->
+                            <p id="productCategory" class="text-sm text-gray-400 uppercase tracking-wider mb-1"></p>
+                            
+                            <!-- SKU Display -->
+                            <p id="productSKU" class="text-xs text-gray-400 mb-2"></p>
+                            
+                            <!-- Product Name -->
+                            <h1 id="productName" class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-4"></h1>
+                            
+                            <!-- Price Section -->
+                            <div class="flex items-center gap-3 mb-6">
+                                <!-- Sale Price (red, bold, shown only when discounted) -->
+                                <span id="salePrice" class="text-3xl font-bold text-red-600 hidden"></span>
+                                <!-- Original Price (strikethrough, shown only when discounted) -->
+                                <span id="originalPrice" class="text-xl text-gray-400 line-through hidden"></span>
+                                <!-- Regular Price (shown when no discount) -->
+                                <span id="regularPrice" class="text-3xl font-bold text-gray-900 hidden"></span>
+                            </div>
+                            
+                            <!-- Divider -->
+                            <hr class="border-gray-200 my-6">
+                            
+                            <!-- Product Description -->
+                            <div class="mb-6">
+                                <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-2">Description</h3>
+                                <p id="productDescription" class="text-gray-600 text-sm leading-relaxed"></p>
+                            </div>
+                            
+                            <!-- Quantity Selector -->
+                            <div class="mb-6">
+                                <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Quantity</h3>
+                                <div class="flex items-center border-2 border-gray-300 rounded-full w-fit">
+                                    <!-- Decrease Quantity Button -->
+                                    <button onclick="decreaseQty()" class="qty-btn w-10 h-10 flex items-center justify-center text-gray-600 text-lg rounded-l-full">
+                                        <i class="fas fa-minus text-xs"></i>
+                                    </button>
+                                    <!-- Quantity Input -->
+                                    <input type="number" id="quantityInput" value="1" min="1" max="10" 
+                                           class="w-14 h-10 text-center text-sm font-semibold text-gray-800 border-x-2 border-gray-300 focus:outline-none"
+                                           onchange="validateQty()">
+                                    <!-- Increase Quantity Button -->
+                                    <button onclick="increaseQty()" class="qty-btn w-10 h-10 flex items-center justify-center text-gray-600 text-lg rounded-r-full">
+                                        <i class="fas fa-plus text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                                <!-- Add to Cart Button -->
+                                <button id="addToCartBtn" onclick="addToCartFromDetail()" 
+                                        class="flex-1 bg-gray-900 text-white font-semibold px-8 py-4 rounded-full hover:bg-black transition-all text-sm shadow-lg">
+                                    <i class="fas fa-shopping-bag mr-2"></i> Add to Cart
+                                </button>
+                                
+                                <!-- Buy Now Button -->
+                                <button onclick="buyNow()" 
+                                        class="flex-1 border-2 border-gray-900 text-gray-900 font-semibold px-8 py-4 rounded-full hover:bg-gray-900 hover:text-white transition-all text-sm">
+                                    Buy Now
+                                </button>
+                            </div>
+                            
+                            <!-- Additional Info -->
+                            <div class="space-y-3 text-sm text-gray-500">
+                                <!-- Free Shipping -->
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-truck text-gray-400 w-5"></i>
+                                    <span>Free shipping on orders over $500</span>
+                                </div>
+                                <!-- Easy Returns -->
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-undo text-gray-400 w-5"></i>
+                                    <span>Easy 7-day returns</span>
+                                </div>
+                                <!-- Secure Checkout -->
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-lock text-gray-400 w-5"></i>
+                                    <span>Secure checkout</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ============================================
+                    RELATED PRODUCTS SECTION
+                    ============================================ -->
+                    <div class="mt-16 sm:mt-20">
+                        <h2 class="text-2xl sm:text-3xl font-display font-bold text-gray-900 mb-6 text-center">You May Also Like</h2>
+                        <div id="relatedProductsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                            <!-- Related products loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ============================================
+                ERROR STATE - Product Not Found
+                ============================================ -->
+                <div id="productError" class="hidden text-center py-20">
+                    <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+                    <h2 class="text-xl font-bold text-gray-500 mb-2">Product Not Found</h2>
+                    <p class="text-gray-400 text-sm mb-6">The product you're looking for doesn't exist or has been removed.</p>
+                    <a href="index.html" class="inline-block bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-black transition-all text-sm">Back to Home</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+        FOOTER SECTION
+        ============================================ -->
+        <footer class="bg-gradient-to-b from-black via-gray-900 to-black text-white py-10 sm:py-16 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Footer Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 sm:gap-10">
+                    
+                    <!-- Brand Column -->
+                    <div class="text-center sm:text-left">
+                        <h2 class="text-3xl sm:text-4xl font-display font-bold text-white mb-3 sm:mb-4 tracking-wider">AARVANA</h2>
+                        <p class="text-gray-400 mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed">Premium fashion for the modern lifestyle. Quality, style, and affordability in every stitch.</p>
+                        <!-- Social Icons -->
+                        <div class="flex justify-center sm:justify-start space-x-3">
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1877F2] hover:text-white transition-all transform hover:scale-110" aria-label="Facebook"><i class="fab fa-facebook-f text-sm sm:text-base"></i></a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E4405F] hover:text-white transition-all transform hover:scale-110" aria-label="Instagram"><i class="fab fa-instagram text-sm sm:text-base"></i></a>
+                            <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#25D366] hover:text-white transition-all transform hover:scale-110" aria-label="WhatsApp"><i class="fab fa-whatsapp text-sm sm:text-base"></i></a>
+                            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all transform hover:scale-110" aria-label="TikTok"><i class="fab fa-tiktok text-sm sm:text-base"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Legal & Contact -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                        
+                        <!-- Legal Links -->
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Legal</h3>
+                            <ul class="space-y-2 sm:space-y-3">
+                                <li><a href="legal/privacy-policy.html" class="text-gray-400 hover:text-white transition-colors text-xs sm:text-sm">Privacy Policy</a></li>
+                                <li><a href="legal/terms-conditions.html" class="text-gray-400 hover:text-white transition-colors text-xs sm:text-sm">Terms & Conditions</a></li>
+                                <li><a href="legal/return-cancellation.html" class="text-gray-400 hover:text-white transition-colors text-xs sm:text-sm">Return & Cancellation</a></li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Contact Us</h3>
+                            <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-gray-400">
+                                <li class="flex items-start justify-center sm:justify-start">
+                                    <i class="fas fa-map-marker-alt w-4 sm:w-5 mr-2 mt-0.5 text-aarvana-gold flex-shrink-0"></i>
+                                    <span>123 Fashion Street, Downtown</span>
+                                </li>
+                                <li class="flex items-center justify-center sm:justify-start">
+                                    <i class="fas fa-envelope w-4 sm:w-5 mr-2 text-aarvana-gold flex-shrink-0"></i>
+                                    <a href="mailto:support@aarvana.com" class="hover:text-white transition-colors">support@aarvana.com</a>
+                                </li>
+                                <li class="flex items-center justify-center sm:justify-start">
+                                    <i class="fas fa-phone w-4 sm:w-5 mr-2 text-aarvana-gold flex-shrink-0"></i>
+                                    <a href="tel:+1234567890" class="hover:text-white transition-colors">+1 234-567-890</a>
+                                </li>
+                                <li class="flex items-center justify-center sm:justify-start text-xs text-gray-500 mt-2">
+                                    <i class="fas fa-clock w-4 sm:w-5 mr-2 text-aarvana-gold flex-shrink-0"></i>
+                                    <span>Mon-Sat: 10AM - 8PM</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Copyright Bar -->
+                <div class="border-t border-gray-700 mt-8 sm:mt-10 pt-6 sm:pt-8 text-center">
+                    <p class="text-gray-500 text-xs sm:text-sm">© 2026 Aarvana. All rights reserved. | Premium Fashion</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ============================================
+    BACK TO TOP BUTTON
+    ============================================ -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-6 right-6 bg-gray-900 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-black transition-all z-30 opacity-0 invisible transform hover:scale-110"
+            aria-label="Back to top">
+        <i class="fas fa-arrow-up text-sm sm:text-base"></i>
+    </button>
+
+    <!-- ============================================
+    TOAST NOTIFICATION CONTAINER
+    ============================================ -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-3 pointer-events-none"></div>
+
+    <!-- ============================================
+    SEARCH MODAL
+    ============================================ -->
+    <div id="searchModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex items-start justify-center pt-16 sm:pt-20 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl mx-3 sm:mx-4 overflow-hidden animate-slide-up">
+            
+            <!-- Search Input Row -->
+            <div class="flex items-center p-3 sm:p-4 border-b border-gray-200">
+                <i class="fas fa-search text-gray-400 mr-2 sm:mr-3 text-sm"></i>
+                <input type="text" id="modalSearchInput" placeholder="Search products, categories..." 
+                       class="flex-1 text-base sm:text-lg text-gray-800 focus:outline-none" autocomplete="off">
+                <button onclick="closeSearchModal()" class="text-gray-400 hover:text-gray-600 p-1 ml-2" aria-label="Close search">
+                    <i class="fas fa-times text-lg sm:text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Search Results Area -->
+            <div id="searchResults" class="max-h-80 sm:max-h-96 overflow-y-auto p-3 sm:p-4">
+                <p class="text-gray-400 text-center py-6 sm:py-8 text-sm">Start typing to search products...</p>
+            </div>
+            
+            <!-- Keyboard Shortcut Hint -->
+            <div class="border-t border-gray-100 p-3 text-center">
+                <p class="text-xs text-gray-400">Press <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-mono">ESC</kbd> to close</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script src="js/core/script.js"></script>
+    <script src="js/products/product-details.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aarvana - Order Confirmed">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Aarvana - Order Confirmed | Premium Fashion</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>tailwind.config={theme:{extend:{colors:{'aarvana':{'gold':'#D4AF37'}},fontFamily:{'display':['Playfair Display','serif'],'body':['Inter','sans-serif']}}}}</script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0A0A0A}::-webkit-scrollbar-thumb{background:#444;border-radius:10px}
+        html{scroll-behavior:smooth}
+        body{-webkit-font-smoothing:antialiased;background:#fff;color:#1a1a1a;overflow-x:hidden}
+        
+        /* Page enter animation */
+        main{animation:pageEnter 0.4s ease-out}
+        @keyframes pageEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        /* Accessibility */
+        a:focus-visible,button:focus-visible{outline:2px solid #D4AF37;outline-offset:2px}:focus:not(:focus-visible){outline:none}
+        
+        /* Hide buttons when printing */
+        @media print{.no-print{display:none!important}body{background:#fff}main{margin:0;padding:0}}
+    </style>
+</head>
+<body class="bg-white font-body text-gray-800">
+
+    <!-- ============================================
+    MAIN CONTENT - ORDER CONFIRMATION
+    ============================================ -->
+    <main class="min-h-screen bg-gray-50 py-8 sm:py-12">
+        <div class="max-w-2xl mx-auto px-4">
+
+            <!-- Loading State -->
+            <div id="confirmationLoading" class="text-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-gray-800 mx-auto"></div>
+                <p class="text-gray-400 text-sm mt-4">Loading order details...</p>
+            </div>
+
+            <!-- Order Confirmation Content -->
+            <div id="confirmationContent" class="hidden">
+                
+                <!-- Success Card -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    
+                    <!-- Green Success Header -->
+                    <div class="bg-green-500 text-white p-6 sm:p-8 text-center">
+                        <i class="fas fa-check-circle text-5xl mb-3"></i>
+                        <h2 class="text-xl sm:text-2xl font-display font-bold">Order Confirmed!</h2>
+                        <p class="text-green-100 text-sm mt-1">Thank you for your purchase</p>
+                    </div>
+                    
+                    <!-- Order Details Body -->
+                    <div class="p-6 sm:p-8">
+                        
+                        <!-- Order Number Box -->
+                        <div class="text-center mb-6 p-4 bg-gray-50 rounded-xl">
+                            <p class="text-xs text-gray-400 uppercase tracking-wider">Order Number</p>
+                            <p id="confOrderNumber" class="text-2xl font-bold text-gray-900">Loading...</p>
+                            <p id="confDate" class="text-xs text-gray-400 mt-1"></p>
+                        </div>
+                        
+                        <!-- Customer Information -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Customer Details</h3>
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div><p class="text-gray-400 text-xs">Name</p><p id="confName" class="font-medium">-</p></div>
+                                <div><p class="text-gray-400 text-xs">Phone</p><p id="confPhone" class="font-medium">-</p></div>
+                                <div><p class="text-gray-400 text-xs">Payment Method</p><p id="confPayment" class="font-medium">-</p></div>
+                                <div><p class="text-gray-400 text-xs">Total Amount</p><p id="confTotal" class="font-bold text-gray-900">-</p></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Order Items List -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Order Items</h3>
+                            <div id="confItems" class="space-y-2"></div>
+                        </div>
+                        
+                        <!-- Shipping Address -->
+                        <div class="mb-6 p-4 bg-gray-50 rounded-xl">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-2">Shipping Address</h3>
+                            <p id="confAddress" class="text-sm text-gray-600"></p>
+                        </div>
+                        
+                        <!-- ============================================
+                        ACTION BUTTONS
+                        ============================================ -->
+                        <div class="flex flex-col sm:flex-row gap-3 no-print">
+                            
+                            <!-- Continue Shopping Button -->
+                            <a href="index.html" class="flex-1 bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-black transition-all text-sm text-center shadow-lg">
+                                Continue Shopping
+                            </a>
+                            
+                            <!-- Take Receipt Button - Links to receipt.html -->
+                            <a id="receiptLink" href="#" class="flex-1 border-2 border-gray-300 text-gray-700 font-semibold px-6 py-3 rounded-full hover:border-gray-800 transition-all text-sm text-center">
+                                <i class="fas fa-receipt mr-1"></i> Take Receipt
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State - Order Not Found -->
+            <div id="confirmationError" class="hidden text-center py-20">
+                <i class="fas fa-exclamation-circle text-6xl text-gray-300 mb-4"></i>
+                <h2 class="text-xl font-bold text-gray-500 mb-2">Order Not Found</h2>
+                <p class="text-gray-400 text-sm mb-6">We couldn't find your order details.</p>
+                <a href="index.html" class="inline-block bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-black transition-all text-sm">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script>
+        /**
+         * Get order number from URL query parameter
+         * Example: order-confirmation.html?order=AAR-XXXXXXXX
+         */
+        function getOrderFromUrl() {
+            var params = new URLSearchParams(window.location.search);
+            return params.get('order');
+        }
+
+        /**
+         * Load order details from localStorage and display
+         */
+        function loadOrderConfirmation() {
+            var orderNumber = getOrderFromUrl();
+            
+            // No order number in URL
+            if (!orderNumber) {
+                showError();
+                return;
+            }
+
+            // Get orders from localStorage
+            var orders = JSON.parse(localStorage.getItem('aarvana_orders') || '[]');
+            var order = null;
+            
+            // Find matching order
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].orderNumber === orderNumber) {
+                    order = orders[i];
+                    break;
+                }
+            }
+
+            if (order) {
+                renderConfirmation(order);
+                // Set receipt link
+                document.getElementById('receiptLink').href = 'receipt.html?order=' + orderNumber;
+            } else {
+                showError();
+            }
+        }
+
+        /**
+         * Render order confirmation details
+         */
+        function renderConfirmation(order) {
+            // Hide loading, show content
+            document.getElementById('confirmationLoading').classList.add('hidden');
+            document.getElementById('confirmationContent').classList.remove('hidden');
+            
+            // Order number and date
+            document.getElementById('confOrderNumber').textContent = order.orderNumber;
+            document.getElementById('confDate').textContent = new Date(order.date).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+            
+            // Customer details
+            document.getElementById('confName').textContent = order.customer.name || '-';
+            document.getElementById('confPhone').textContent = order.customer.phone || '-';
+            document.getElementById('confPayment').textContent = order.payment.method.toUpperCase();
+            document.getElementById('confTotal').textContent = '৳' + order.total.toFixed(2);
+            
+            // Build address string
+            var addrParts = [];
+            if (order.customer.address) addrParts.push(order.customer.address);
+            if (order.customer.upazila) addrParts.push(order.customer.upazila);
+            if (order.customer.district) addrParts.push(order.customer.district);
+            if (order.customer.division) addrParts.push(order.customer.division);
+            document.getElementById('confAddress').textContent = addrParts.join(', ') || '-';
+            
+            // Render order items
+            var itemsHtml = '';
+            for (var i = 0; i < order.items.length; i++) {
+                var item = order.items[i];
+                itemsHtml += '<div class="flex justify-between items-center py-2 border-b border-gray-100">' +
+                    '<span class="text-sm text-gray-700">' + item.name + ' × ' + item.quantity + '</span>' +
+                    '<span class="text-sm font-semibold">৳' + (item.price * item.quantity).toFixed(2) + '</span>' +
+                '</div>';
+            }
+            document.getElementById('confItems').innerHTML = itemsHtml;
+        }
+
+        /**
+         * Show error state when order not found
+         */
+        function showError() {
+            document.getElementById('confirmationLoading').classList.add('hidden');
+            document.getElementById('confirmationContent').classList.add('hidden');
+            document.getElementById('confirmationError').classList.remove('hidden');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderConfirmation();
+        });
+    </script>
+</body>
+</html>

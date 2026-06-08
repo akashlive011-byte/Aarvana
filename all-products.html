@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aarvana - All Products. Shop Men's, Women's & Accessories.">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="robots" content="index, follow">
+    
+    <title>Aarvana - All Products | Premium Fashion</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 'aarvana': { 'gold': '#D4AF37' } },
+                    fontFamily: { 'display': ['Playfair Display', 'serif'], 'body': ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0A0A0A}::-webkit-scrollbar-thumb{background:#444;border-radius:10px}
+        html{scroll-behavior:smooth}
+        body{-webkit-font-smoothing:antialiased;background:#fff;color:#1a1a1a;overflow-x:hidden}
+        #sidebar::-webkit-scrollbar{width:3px}#sidebar::-webkit-scrollbar-track{background:transparent}#sidebar::-webkit-scrollbar-thumb{background:#555}
+        
+        /* Glass header */
+        .glass-header{background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+        
+        /* Toast */
+        .toast{animation:slideInRight 0.3s}@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        
+        /* Breadcrumb */
+        .breadcrumb-link{transition:color 0.2s}.breadcrumb-link:hover{color:#1a1a1a}
+        
+        /* Product card hover */
+        .product-card-hover:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.12)}
+        
+        /* Filter panel scrollbar */
+        #filterPanel::-webkit-scrollbar{width:3px}#filterPanel::-webkit-scrollbar-track{background:transparent}#filterPanel::-webkit-scrollbar-thumb{background:#ddd}
+        
+        /* Accessibility */
+        a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #D4AF37;outline-offset:2px}:focus:not(:focus-visible){outline:none}
+        
+        /* Page enter */
+        main{animation:pageEnter 0.4s}@keyframes pageEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    </style>
+</head>
+<body class="bg-white font-body text-gray-800 overflow-x-hidden">
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden" onclick="closeSidebar()"></div>
+
+    <!-- ============================================
+    LEFT SIDEBAR NAVIGATION
+    ============================================ -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[280px] max-w-[85vw] bg-gradient-to-b from-black via-gray-900 to-black text-white z-50 transform -translate-x-full lg:translate-x-0 lg:z-30 overflow-y-auto border-r border-gray-800">
+        <div class="flex flex-col h-full py-6">
+            
+            <!-- Brand Logo -->
+            <div class="px-5 mb-8">
+                <a href="index.html" class="block">
+                    <h2 class="text-2xl font-display font-bold text-white tracking-wider">AARVANA</h2>
+                    <p class="text-[10px] text-gray-400 tracking-widest mt-1">PREMIUM FASHION</p>
+                </a>
+            </div>
+
+            <!-- Main Navigation -->
+            <nav class="flex-1 px-5 space-y-0.5">
+                
+                <!-- Home Link -->
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-white text-sm">
+                    <i class="fas fa-home w-5 mr-3"></i> Home
+                </a>
+
+                <!-- Men Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('menDropdown')" class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 text-left text-sm">
+                        <div class="flex items-center"><i class="fas fa-male w-5 mr-3"></i> Men</div>
+                        <i id="menDropdownIcon" class="fas fa-plus text-[10px]"></i>
+                    </button>
+                    <div id="menDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5">
+                        <a href="men/shirt.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Shirts</a>
+                        <a href="men/polo.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Polos</a>
+                        <a href="men/panjabi.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Panjabi</a>
+                        <a href="men/pants.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Pants</a>
+                    </div>
+                </div>
+
+                <!-- Women Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('womenDropdown')" class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 text-left text-sm">
+                        <div class="flex items-center"><i class="fas fa-female w-5 mr-3"></i> Women</div>
+                        <i id="womenDropdownIcon" class="fas fa-plus text-[10px]"></i>
+                    </button>
+                    <div id="womenDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5">
+                        <a href="women/salwar.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Salwar Kameez</a>
+                        <a href="women/anarkali.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Anarkali</a>
+                        <a href="women/saree.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Sarees</a>
+                        <a href="women/tops.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Tops</a>
+                    </div>
+                </div>
+
+                <!-- Accessories Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('accessoriesDropdown')" class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 text-left text-sm">
+                        <div class="flex items-center"><i class="fas fa-gem w-5 mr-3"></i> Accessories</div>
+                        <i id="accessoriesDropdownIcon" class="fas fa-plus text-[10px]"></i>
+                    </button>
+                    <div id="accessoriesDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5">
+                        <a href="accessories/jewellery.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Jewellery</a>
+                        <a href="accessories/bags.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Bags</a>
+                        <a href="accessories/sunglasses.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Sunglasses</a>
+                        <a href="accessories/watches.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Watches</a>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-700 my-3"></div>
+
+                <!-- Secondary Links -->
+                <a href="our-story.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-sm"><i class="fas fa-info-circle w-5 mr-3"></i> Our Story</a>
+                <a href="track-order.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-sm"><i class="fas fa-map-marker-alt w-5 mr-3"></i> Track Order</a>
+                <a href="legal/return-cancellation.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-sm"><i class="fas fa-undo w-5 mr-3"></i> Returns</a>
+                
+                <!-- Sale Link -->
+                <a href="sales/sales.html" class="flex items-center px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-sm mt-2"><i class="fas fa-tag w-5 mr-3"></i> Sale <span class="ml-auto text-xs font-bold animate-pulse">UP TO 50%</span></a>
+            </nav>
+
+            <!-- Social Links -->
+            <div class="px-5 mt-auto pt-6"><div class="flex space-x-4">
+                <a href="https://facebook.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#1877F2] transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#E4405F] transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#25D366] transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://tiktok.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transform hover:scale-110"><i class="fab fa-tiktok"></i></a>
+            </div></div>
+        </div>
+    </aside>
+
+    <!-- ============================================
+    TOP HEADER BAR
+    ============================================ -->
+    <header class="sticky top-0 z-30 glass-header lg:ml-[280px]">
+        <div class="flex items-center justify-between px-4 py-3 lg:px-6">
+            
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleSidebar()" class="lg:hidden text-white hover:text-gray-300 p-1"><i class="fas fa-bars text-lg"></i></button>
+            
+            <!-- Logo -->
+            <a href="index.html" class="absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none"><h1 class="text-xl lg:text-2xl font-display font-bold text-white tracking-wider">AARVANA</h1></a>
+            
+            <!-- Header Right: Search + Cart -->
+            <div class="flex items-center space-x-3 sm:space-x-4 ml-auto">
+                
+                <!-- Search Button -->
+                <button onclick="openSearchModal()" class="text-white hover:text-gray-300 p-2"><i class="fas fa-search text-lg"></i></button>
+                
+                <!-- Filter Toggle (Mobile) -->
+                <button onclick="toggleFilterPanel()" class="lg:hidden text-white hover:text-gray-300 p-2"><i class="fas fa-sliders-h text-lg"></i></button>
+                
+                <!-- Cart with Badge -->
+                <a href="js/cart/cart.html" class="relative text-white hover:text-gray-300 p-2">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 w-4 hidden">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+    MAIN CONTENT - ALL PRODUCTS
+    ============================================ -->
+    <main class="lg:ml-[280px] bg-white">
+
+        <!-- Breadcrumb + Page Header -->
+        <section class="py-8 sm:py-12 lg:py-16 bg-gray-50 border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Breadcrumb: Home > All Products -->
+                <div class="flex items-center justify-center gap-2 text-sm text-gray-400 mb-3">
+                    <a href="index.html" class="breadcrumb-link hover:text-gray-800">Home</a>
+                    <i class="fas fa-chevron-right text-[10px]"></i>
+                    <span class="text-gray-800 font-medium">All Products</span>
+                </div>
+                <div class="text-center">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-2">All Products</h2>
+                    <p class="text-gray-500 text-sm sm:text-base">Browse our complete collection</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products + Filter Layout -->
+        <section class="py-8 sm:py-12 lg:py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="flex gap-6 lg:gap-8">
+                    
+                    <!-- ============================================
+                    LEFT: PRODUCTS GRID
+                    ============================================ -->
+                    <div class="flex-1 min-w-0">
+                        
+                        <!-- Results Count + Sort -->
+                        <div class="flex items-center justify-between mb-6">
+                            <p id="resultsCount" class="text-sm text-gray-500"></p>
+                            <select id="sortSelect" onchange="applySort()" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-800">
+                                <option value="default">Default</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Product Grid -->
+                        <div id="allProductsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+                            <div class="col-span-full flex justify-center py-12">
+                                <div class="animate-spin rounded-full h-10 w-10 border-3 border-gray-200 border-t-gray-800"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Load More Button -->
+                        <div id="loadMoreContainer" class="text-center mt-8 hidden">
+                            <button onclick="loadMore()" class="border-2 border-gray-300 text-gray-600 font-semibold px-6 py-3 rounded-full hover:border-gray-800 hover:text-gray-800 transition-all text-sm">
+                                Load More Products
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- ============================================
+                    RIGHT: FILTER PANEL
+                    ============================================ -->
+                    <!-- Filter Overlay (Mobile) -->
+                    <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden" onclick="closeFilterPanel()"></div>
+                    
+                    <!-- Filter Panel -->
+                    <div id="filterPanel" class="fixed lg:static inset-y-0 right-0 w-[280px] max-w-[85vw] bg-white z-50 lg:z-auto transform translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto shadow-lg lg:shadow-none border-l lg:border-l-0 lg:w-[240px] flex-shrink-0">
+                        
+                        <div class="p-5 lg:p-0">
+                            
+                            <!-- Mobile Close Button -->
+                            <div class="flex items-center justify-between mb-6 lg:hidden">
+                                <h3 class="text-lg font-bold text-gray-900">Filters</h3>
+                                <button onclick="closeFilterPanel()" class="text-gray-400 hover:text-gray-600 p-1"><i class="fas fa-times text-xl"></i></button>
+                            </div>
+                            
+                            <h3 class="hidden lg:block text-lg font-bold text-gray-900 mb-6">Filters</h3>
+                            
+                            <!-- Category Filter -->
+                            <div class="mb-6">
+                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Category</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="filterCategory" value="all" checked onchange="applyFilters()">
+                                        <span class="text-sm text-gray-600">All</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="filterCategory" value="Men" onchange="applyFilters()">
+                                        <span class="text-sm text-gray-600">Men</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="filterCategory" value="Women" onchange="applyFilters()">
+                                        <span class="text-sm text-gray-600">Women</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="filterCategory" value="Accessories" onchange="applyFilters()">
+                                        <span class="text-sm text-gray-600">Accessories</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Price Range Filter -->
+                            <div class="mb-6">
+                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Price Range</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="all" checked onchange="applyFilters()"><span class="text-sm text-gray-600">All Prices</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="0-1000" onchange="applyFilters()"><span class="text-sm text-gray-600">Under $1,000</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="1000-3000" onchange="applyFilters()"><span class="text-sm text-gray-600">$1,000 - $3,000</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="3000-5000" onchange="applyFilters()"><span class="text-sm text-gray-600">$3,000 - $5,000</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filterPrice" value="5000+" onchange="applyFilters()"><span class="text-sm text-gray-600">$5,000+</span></label>
+                                </div>
+                            </div>
+                            
+                            <!-- Badge Filter -->
+                            <div class="mb-6">
+                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Badge</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="New" onchange="applyFilters()"><span class="text-sm text-gray-600">New</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Sale" onchange="applyFilters()"><span class="text-sm text-gray-600">Sale</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Premium" onchange="applyFilters()"><span class="text-sm text-gray-600">Premium</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Trending" onchange="applyFilters()"><span class="text-sm text-gray-600">Trending</span></label>
+                                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" name="filterBadge" value="Hot" onchange="applyFilters()"><span class="text-sm text-gray-600">Hot</span></label>
+                                </div>
+                            </div>
+                            
+                            <!-- On Sale Filter -->
+                            <div class="mb-6">
+                                <h4 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wider">Deals</h4>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="filterOnSale" onchange="applyFilters()">
+                                    <span class="text-sm text-gray-600">On Sale Only</span>
+                                </label>
+                            </div>
+                            
+                            <!-- Clear Filters -->
+                            <button onclick="clearFilters()" class="w-full py-2.5 border-2 border-gray-300 text-gray-600 text-sm font-semibold rounded-full hover:border-gray-800 hover:text-gray-800 transition-all">
+                                Clear All Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gradient-to-b from-black via-gray-900 to-black text-white py-10 sm:py-16 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 sm:gap-10">
+                    
+                    <!-- Brand Column -->
+                    <div class="text-center sm:text-left">
+                        <h2 class="text-3xl sm:text-4xl font-display font-bold text-white mb-3 sm:mb-4 tracking-wider">AARVANA</h2>
+                        <p class="text-gray-400 mb-4 sm:mb-6 text-xs sm:text-sm">Premium fashion for the modern lifestyle.</p>
+                        <div class="flex justify-center sm:justify-start space-x-3">
+                            <a href="https://facebook.com" target="_blank" rel="noopener" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1877F2] hover:text-white transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E4405F] hover:text-white transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                            <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#25D366] hover:text-white transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://tiktok.com" target="_blank" rel="noopener" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transform hover:scale-110"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Legal & Contact -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Legal</h3>
+                            <ul class="space-y-2 sm:space-y-3">
+                                <li><a href="legal/privacy-policy.html" class="text-gray-400 hover:text-white text-xs sm:text-sm">Privacy Policy</a></li>
+                                <li><a href="legal/terms-conditions.html" class="text-gray-400 hover:text-white text-xs sm:text-sm">Terms & Conditions</a></li>
+                                <li><a href="legal/return-cancellation.html" class="text-gray-400 hover:text-white text-xs sm:text-sm">Return & Cancellation</a></li>
+                            </ul>
+                        </div>
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4">Contact Us</h3>
+                            <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-gray-400">
+                                <li class="flex items-start justify-center sm:justify-start"><i class="fas fa-map-marker-alt w-4 sm:w-5 mr-2 mt-0.5 text-aarvana-gold"></i><span>123 Fashion Street, Downtown</span></li>
+                                <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-envelope w-4 sm:w-5 mr-2 text-aarvana-gold"></i><a href="mailto:support@aarvana.com" class="hover:text-white">support@aarvana.com</a></li>
+                                <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-phone w-4 sm:w-5 mr-2 text-aarvana-gold"></i><a href="tel:+1234567890" class="hover:text-white">+1 234-567-890</a></li>
+                                <li class="flex items-center justify-center sm:justify-start text-xs text-gray-500 mt-2"><i class="fas fa-clock w-4 sm:w-5 mr-2 text-aarvana-gold"></i><span>Mon-Sat: 10AM - 8PM</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 sm:mt-10 pt-6 sm:pt-8 text-center"><p class="text-gray-500 text-xs sm:text-sm">© 2026 Aarvana. All rights reserved. | Premium Fashion</p></div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Back to Top -->
+    <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 right-6 bg-gray-900 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-black z-30 opacity-0 invisible transform hover:scale-110"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-3 pointer-events-none"></div>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex items-start justify-center pt-16 sm:pt-20 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl mx-3 sm:mx-4 overflow-hidden animate-slide-up">
+            <div class="flex items-center p-3 sm:p-4 border-b border-gray-200"><i class="fas fa-search text-gray-400 mr-2 sm:mr-3 text-sm"></i><input type="text" id="modalSearchInput" placeholder="Search products..." class="flex-1 text-base sm:text-lg text-gray-800 focus:outline-none" autocomplete="off"><button onclick="closeSearchModal()" class="text-gray-400 hover:text-gray-600 p-1 ml-2"><i class="fas fa-times text-lg sm:text-xl"></i></button></div>
+            <div id="searchResults" class="max-h-80 sm:max-h-96 overflow-y-auto p-3 sm:p-4"><p class="text-gray-400 text-center py-6 sm:py-8 text-sm">Start typing to search products...</p></div>
+            <div class="border-t border-gray-100 p-3 text-center"><p class="text-xs text-gray-400">Press <kbd class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-mono">ESC</kbd> to close</p></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/core/script.js"></script>
+    <script>
+        // ==================== FILTER PANEL (MOBILE) ====================
+        function toggleFilterPanel(){var p=document.getElementById('filterPanel'),o=document.getElementById('filterOverlay');if(p.classList.contains('translate-x-full')){p.classList.remove('translate-x-full');o.classList.remove('hidden');document.body.style.overflow='hidden'}else closeFilterPanel()}
+        function closeFilterPanel(){document.getElementById('filterPanel').classList.add('translate-x-full');document.getElementById('filterOverlay').classList.add('hidden');document.body.style.overflow=''}
+
+        // ==================== PRODUCTS DATA ====================
+        var allProducts = [];
+        var filteredProducts = [];
+        var displayedCount = 0;
+        var ITEMS_PER_PAGE = 12;
+
+        function loadAllProducts() {
+            var grid = document.getElementById('allProductsGrid');
+            if (!grid) return;
+            grid.innerHTML = '<div class="col-span-full flex justify-center py-12"><div class="animate-spin rounded-full h-10 w-10 border-3 border-gray-200 border-t-gray-800"></div></div>';
+            
+            if (typeof getAllProducts === 'function') {
+                getAllProducts(function(products) {
+                    allProducts = products.filter(function(p) { return !p.type || p.type !== 'mega_sale'; });
+                    filteredProducts = allProducts.slice();
+                    displayedCount = 0;
+                    loadMore();
+                });
+            } else {
+                fetch('data/products.json').then(function(r){return r.json()}).then(function(products) {
+                    allProducts = products.filter(function(p) { return !p.type || p.type !== 'mega_sale'; });
+                    filteredProducts = allProducts.slice();
+                    displayedCount = 0;
+                    loadMore();
+                }).catch(function() {
+                    grid.innerHTML = '<div class="col-span-full text-center py-12"><i class="fas fa-box-open text-5xl text-gray-300 mb-4"></i><p class="text-gray-400 text-sm">Unable to load products</p></div>';
+                });
+            }
+        }
+
+        // ==================== FILTERS ====================
+        function applyFilters() {
+            var results = allProducts.slice();
+            
+            // Category filter
+            var cat = document.querySelector('input[name="filterCategory"]:checked');
+            if (cat && cat.value !== 'all') {
+                results = results.filter(function(p) { return p.category && p.category.toLowerCase() === cat.value.toLowerCase(); });
+            }
+            
+            // Price range filter
+            var pr = document.querySelector('input[name="filterPrice"]:checked');
+            if (pr && pr.value !== 'all') {
+                results = results.filter(function(p) {
+                    var ep = (p.salePrice !== null && p.salePrice < p.price) ? p.salePrice : p.price;
+                    if (pr.value === '0-1000') return ep < 1000;
+                    if (pr.value === '1000-3000') return ep >= 1000 && ep < 3000;
+                    if (pr.value === '3000-5000') return ep >= 3000 && ep < 5000;
+                    if (pr.value === '5000+') return ep >= 5000;
+                    return true;
+                });
+            }
+            
+            // Badge filter
+            var badges = document.querySelectorAll('input[name="filterBadge"]:checked');
+            if (badges.length > 0) {
+                var bv = []; badges.forEach(function(cb){bv.push(cb.value)});
+                results = results.filter(function(p) { return p.badge && bv.indexOf(p.badge) !== -1; });
+            }
+            
+            // On sale filter
+            var os = document.getElementById('filterOnSale');
+            if (os && os.checked) {
+                results = results.filter(function(p) { return p.salePrice !== null && p.salePrice < p.price; });
+            }
+            
+            filteredProducts = results;
+            displayedCount = 0;
+            
+            var grid = document.getElementById('allProductsGrid');
+            if (grid) grid.innerHTML = '';
+            
+            updateResultsCount(filteredProducts.length);
+            loadMore();
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('input[type="radio"]').forEach(function(r){r.checked=(r.value==='all')});
+            document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){cb.checked=false});
+            document.getElementById('sortSelect').value = 'default';
+            filteredProducts = allProducts.slice();
+            displayedCount = 0;
+            var grid = document.getElementById('allProductsGrid');
+            if (grid) grid.innerHTML = '';
+            updateResultsCount(filteredProducts.length);
+            loadMore();
+        }
+
+        // ==================== SORT ====================
+        function applySort() {
+            var sv = document.getElementById('sortSelect').value;
+            var products = filteredProducts.slice();
+            
+            if (sv === 'price-asc') products.sort(function(a,b){var pa=(a.salePrice&&a.salePrice<a.price)?a.salePrice:a.price;var pb=(b.salePrice&&b.salePrice<b.price)?b.salePrice:b.price;return pa-pb});
+            if (sv === 'price-desc') products.sort(function(a,b){var pa=(a.salePrice&&a.salePrice<a.price)?a.salePrice:a.price;var pb=(b.salePrice&&b.salePrice<b.price)?b.salePrice:b.price;return pb-pa});
+            if (sv === 'name-asc') products.sort(function(a,b){return a.name.localeCompare(b.name)});
+            if (sv === 'name-desc') products.sort(function(a,b){return b.name.localeCompare(a.name)});
+            
+            filteredProducts = products;
+            displayedCount = 0;
+            var grid = document.getElementById('allProductsGrid');
+            if (grid) grid.innerHTML = '';
+            loadMore();
+        }
+
+        // ==================== LOAD MORE ====================
+        function loadMore() {
+            var grid = document.getElementById('allProductsGrid');
+            var loadMoreBtn = document.getElementById('loadMoreContainer');
+            if (!grid) return;
+            
+            var nextItems = filteredProducts.slice(displayedCount, displayedCount + ITEMS_PER_PAGE);
+            
+            if (nextItems.length === 0 && displayedCount === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12"><i class="fas fa-filter text-4xl text-gray-300 mb-3"></i><p class="text-gray-400 text-sm">No products match your filters</p><button onclick="clearFilters()" class="mt-3 text-sm text-gray-800 underline hover:no-underline">Clear all filters</button></div>';
+                if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
+                return;
+            }
+            
+            if (typeof renderProductCards === 'function') {
+                // Create temporary container
+                var tempDiv = document.createElement('div');
+                tempDiv.className = grid.className;
+                renderProductCards(nextItems, tempDiv);
+                // Append new items
+                while (tempDiv.firstChild) {
+                    grid.appendChild(tempDiv.firstChild);
+                }
+            } else {
+                var html = '';
+                for (var i = 0; i < nextItems.length; i++) {
+                    var p = nextItems[i];
+                    var hasSale = (p.salePrice !== null && p.salePrice < p.price);
+                    var discount = hasSale ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
+                    var priceHtml = hasSale ? '<span class="text-sm sm:text-lg font-bold text-red-600">$' + p.salePrice.toFixed(2) + '</span><span class="text-[10px] sm:text-sm text-gray-400 line-through ml-1.5">$' + p.price.toFixed(2) + '</span>' : '<span class="text-sm sm:text-lg font-bold text-gray-800">$' + p.price.toFixed(2) + '</span>';
+                    var sn = p.name.replace(/'/g,"\\'");
+                    var img = p.images && p.images[0] ? p.images[0] : 'https://via.placeholder.com/400x500?text=No+Image';
+                    var db = (hasSale && discount > 0) ? '<span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg">-' + discount + '%</span>' : '';
+                    var cb = ''; if (p.badge) { var bc = {'New':'bg-green-500','Sale':'bg-red-500','Premium':'bg-aarvana-gold','Trending':'bg-purple-500','Hot':'bg-orange-500','Limited':'bg-pink-500'}; cb = '<span class="absolute top-2 right-2 '+(bc[p.badge]||'bg-gray-800')+' text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-lg">'+p.badge.toUpperCase()+'</span>'; }
+                    html += '<div class="bg-white rounded-xl sm:rounded-2xl overflow-hidden product-card-hover transition-all duration-300 group"><a href="product-details.html?id='+p.id+'" class="block relative overflow-hidden aspect-[3/4]"><img src="'+img+'" alt="'+p.name+'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">'+db+cb+'<button onclick="event.preventDefault();addToCart(\''+p.id+'\',\''+sn+'\','+(hasSale?p.salePrice:p.price)+',\''+img+'\')" class="absolute bottom-2 right-2 bg-white text-gray-900 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0 hover:bg-gray-900 hover:text-white"><i class="fas fa-shopping-bag text-xs sm:text-sm"></i></button></a><div class="p-3 sm:p-4"><p class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider mb-0.5">'+(p.category||'')+'</p><h3 class="font-medium sm:font-semibold text-gray-800 text-sm sm:text-base mb-1.5 truncate"><a href="product-details.html?id='+p.id+'" class="hover:text-gray-600 transition-colors">'+p.name+'</a></h3><div class="flex items-center justify-between"><div>'+priceHtml+'</div></div></div></div>';
+                }
+                grid.innerHTML += html;
+            }
+            
+            displayedCount += nextItems.length;
+            updateResultsCount(filteredProducts.length);
+            
+            // Show/hide load more button
+            if (loadMoreBtn) {
+                if (displayedCount >= filteredProducts.length) {
+                    loadMoreBtn.classList.add('hidden');
+                } else {
+                    loadMoreBtn.classList.remove('hidden');
+                }
+            }
+        }
+
+        function updateResultsCount(total) {
+            var el = document.getElementById('resultsCount');
+            if (el) el.textContent = 'Showing ' + Math.min(displayedCount, total) + ' of ' + total + ' products';
+        }
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllProducts();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

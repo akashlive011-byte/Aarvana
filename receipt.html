@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aarvana - Order Receipt">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Aarvana - Invoice | Premium Fashion</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 'aarvana': { 'gold': '#D4AF37' } },
+                    fontFamily: { 'display': ['Playfair Display', 'serif'], 'body': ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0A0A0A}::-webkit-scrollbar-thumb{background:#444;border-radius:10px}
+        html{scroll-behavior:smooth}
+        body{-webkit-font-smoothing:antialiased;background:#fff;color:#1a1a1a}
+        main{animation:pageEnter 0.4s ease-out}
+        @keyframes pageEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        a:focus-visible,button:focus-visible{outline:2px solid #D4AF37;outline-offset:2px}:focus:not(:focus-visible){outline:none}
+        @media print{.no-print{display:none!important}body{background:#fff}main{margin:0;padding:0;box-shadow:none}}
+    </style>
+</head>
+<body class="bg-white font-body text-gray-800">
+
+    <!-- ============================================
+    MAIN CONTENT - INVOICE / RECEIPT
+    ============================================ -->
+    <main class="min-h-screen bg-gray-50 py-8 sm:py-12">
+        <div class="max-w-2xl mx-auto px-4">
+
+            <!-- Loading State -->
+            <div id="receiptLoading" class="text-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-gray-800 mx-auto"></div>
+                <p class="text-gray-400 text-sm mt-4">Loading invoice...</p>
+            </div>
+
+            <!-- Invoice Content -->
+            <div id="receiptContent" class="hidden">
+                
+                <!-- ============================================
+                INVOICE CARD
+                ============================================ -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    
+                    <!-- ============================================
+                    INVOICE HEADER
+                    ============================================ -->
+                    <div class="p-6 sm:p-8 border-b border-gray-200">
+                        
+                        <!-- Brand Name Centered -->
+                        <div class="text-center mb-4">
+                            <h2 class="text-2xl font-display font-bold text-gray-900 tracking-wider">AARVANA</h2>
+                            <p class="text-gray-400 text-xs tracking-widest mt-1">PREMIUM FASHION</p>
+                        </div>
+                        
+                        <!-- Order Number + Date -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-4 border-t border-gray-100">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Order Number</p>
+                                <p id="recOrderNumber" class="text-base font-bold text-gray-900">Loading...</p>
+                            </div>
+                            <div class="text-right mt-2 sm:mt-0">
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Date</p>
+                                <p id="recDate" class="text-sm font-semibold text-gray-700">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ============================================
+                    INVOICE BODY
+                    ============================================ -->
+                    <div class="p-6 sm:p-8">
+                        
+                        <!-- ============================================
+                        CUSTOMER INFORMATION
+                        ============================================ -->
+                        <div class="mb-6 pb-6 border-b border-gray-200">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Customer Information</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Name</span>
+                                    <span id="recName" class="font-medium text-gray-800">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Phone</span>
+                                    <span id="recPhone" class="font-medium text-gray-800">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Email</span>
+                                    <span id="recEmail" class="font-medium text-gray-800">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Address</span>
+                                    <span id="recAddress" class="font-medium text-gray-800 text-right max-w-[60%]">-</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Payment Method</span>
+                                    <span id="recPayment" class="font-medium text-gray-800">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- ============================================
+                        PRODUCT DETAILS
+                        ============================================ -->
+                        <div class="mb-6 pb-6 border-b border-gray-200">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Product Details</h3>
+                            
+                            <!-- Table Header (Desktop only) -->
+                            <div class="hidden sm:grid grid-cols-5 gap-2 text-xs text-gray-400 uppercase tracking-wider mb-2 pb-2 border-b border-gray-100">
+                                <span class="col-span-2">Item</span>
+                                <span class="text-center">Qty</span>
+                                <span class="text-center">Unit Price</span>
+                                <span class="text-right">Total</span>
+                            </div>
+                            
+                            <!-- Product Rows -->
+                            <div id="recItems" class="space-y-3"></div>
+                        </div>
+                        
+                        <!-- ============================================
+                        ORDER SUMMARY
+                        ============================================ -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Order Summary</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Subtotal</span>
+                                    <span id="recSubtotal" class="font-semibold">$0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Delivery Charge</span>
+                                    <span id="recShipping" class="font-semibold">$0.00</span>
+                                </div>
+                                <div id="recCodRow" class="flex justify-between hidden">
+                                    <span class="text-gray-400">COD Advance</span>
+                                    <span id="recCodAdvance" class="font-semibold text-amber-600">-$0.00</span>
+                                </div>
+                                <hr class="border-gray-200">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Total</span>
+                                    <span id="recTotal" class="font-semibold text-gray-900">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-base">
+                                    <span class="font-semibold text-gray-800">Paid Amount</span>
+                                    <span id="recPaid" class="font-bold text-green-600">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-base">
+                                    <span class="font-semibold text-gray-800">Due Amount</span>
+                                    <span id="recDue" class="font-bold text-red-500">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Delivery Instructions (if any) -->
+                        <div id="recDeliveryNote" class="mb-6 hidden">
+                            <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-3">Delivery Instructions</h3>
+                            <p class="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg"></p>
+                        </div>
+                        
+                        <!-- Thank You -->
+                        <div class="text-center text-sm text-gray-500 pt-4 border-t border-gray-200">
+                            <p>Thank you for shopping with <strong>Aarvana</strong>!</p>
+                            <p class="text-xs mt-1">For any questions, contact support@aarvana.com</p>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- ============================================
+                    FOOTER - Bill ID (Down Left) + Serial (Down Right)
+                    SMALL TEXT
+                    ============================================ -->
+                    <div class="px-6 sm:px-8 pb-6 sm:pb-8 flex justify-between items-end">
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Bill ID</p>
+                            <p id="recBillId" class="text-xs text-gray-500 font-mono">INV-001</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider">Serial</p>
+                            <p id="recSerial" class="text-xs text-gray-500 font-mono">#01</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ============================================
+                ACTION BUTTONS (Hidden when printing)
+                ============================================ -->
+                <div class="flex flex-col sm:flex-row gap-3 mt-6 no-print">
+                    <button onclick="window.print()" class="flex-1 bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-black transition-all text-sm shadow-lg">
+                        <i class="fas fa-print mr-2"></i> Print Invoice
+                    </button>
+                    <a href="index.html" class="flex-1 border-2 border-gray-300 text-gray-700 font-semibold px-6 py-3 rounded-full hover:border-gray-800 hover:text-gray-900 transition-all text-sm text-center">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="receiptError" class="hidden text-center py-20">
+                <i class="fas fa-exclamation-circle text-6xl text-gray-300 mb-4"></i>
+                <h2 class="text-xl font-bold text-gray-500 mb-2">Invoice Not Found</h2>
+                <p class="text-gray-400 text-sm mb-6">We couldn't find the order you're looking for.</p>
+                <a href="index.html" class="inline-block bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-black transition-all text-sm">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+    <script>
+        // Counter for serial numbers (starts at 01)
+        var invoiceCounter = 1;
+
+        function getOrderFromUrl() {
+            var params = new URLSearchParams(window.location.search);
+            return params.get('order');
+        }
+
+        function generateBillId(orderNumber) {
+            return 'INV-' + orderNumber.replace('AAR-', '');
+        }
+
+        function generateSerial() {
+            var stored = localStorage.getItem('aarvana_invoice_counter');
+            if (stored) { invoiceCounter = parseInt(stored) || 1; }
+            var serial = '#' + String(invoiceCounter).padStart(2, '0');
+            invoiceCounter++;
+            localStorage.setItem('aarvana_invoice_counter', invoiceCounter);
+            return serial;
+        }
+
+        function loadReceipt() {
+            var orderNumber = getOrderFromUrl();
+            if (!orderNumber) { showError(); return; }
+
+            var orders = JSON.parse(localStorage.getItem('aarvana_orders') || '[]');
+            var order = null;
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].orderNumber === orderNumber) { order = orders[i]; break; }
+            }
+
+            if (order) { renderReceipt(order); } else { showError(); }
+        }
+
+        function renderReceipt(order) {
+            document.getElementById('receiptLoading').classList.add('hidden');
+            document.getElementById('receiptContent').classList.remove('hidden');
+            
+            // Bill ID + Serial (DOWN - bottom left + bottom right, small text)
+            document.getElementById('recBillId').textContent = generateBillId(order.orderNumber);
+            document.getElementById('recSerial').textContent = generateSerial();
+            
+            // Order number + Date
+            document.getElementById('recOrderNumber').textContent = order.orderNumber;
+            document.getElementById('recDate').textContent = new Date(order.date).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+            
+            // Customer Information
+            document.getElementById('recName').textContent = order.customer.name || '-';
+            document.getElementById('recPhone').textContent = order.customer.phone || '-';
+            document.getElementById('recEmail').textContent = order.customer.email || 'Not provided';
+            document.getElementById('recPayment').textContent = order.payment.method.toUpperCase();
+            
+            var addressParts = [];
+            if (order.customer.address) addressParts.push(order.customer.address);
+            if (order.customer.upazila) addressParts.push(order.customer.upazila);
+            if (order.customer.district) addressParts.push(order.customer.district);
+            if (order.customer.division) addressParts.push(order.customer.division);
+            document.getElementById('recAddress').textContent = addressParts.join(', ') || '-';
+            
+            // Product Details
+            var itemsHtml = '';
+            for (var i = 0; i < order.items.length; i++) {
+                var item = order.items[i];
+                var itemTotal = item.price * item.quantity;
+                itemsHtml += '<div class="grid grid-cols-1 sm:grid-cols-5 gap-2 items-center py-2 border-b border-gray-100 text-sm">' +
+                    '<div class="sm:col-span-2 flex items-center gap-2">' +
+                        '<img src="' + (item.image || 'https://via.placeholder.com/32') + '" alt="' + item.name + '" class="w-8 h-8 rounded object-cover flex-shrink-0">' +
+                        '<span class="text-gray-800 truncate">' + item.name + '</span>' +
+                    '</div>' +
+                    '<span class="text-center text-gray-600">' + item.quantity + '</span>' +
+                    '<span class="text-center text-gray-600">$' + item.price.toFixed(2) + '</span>' +
+                    '<span class="text-right font-semibold text-gray-800">$' + itemTotal.toFixed(2) + '</span>' +
+                '</div>';
+            }
+            document.getElementById('recItems').innerHTML = itemsHtml;
+            
+            // Order Summary
+            document.getElementById('recSubtotal').textContent = '$' + order.subtotal.toFixed(2);
+            document.getElementById('recShipping').textContent = '$' + order.shipping.toFixed(2);
+            
+            var codAdvance = order.payment.codAdvance || 0;
+            if (codAdvance > 0) {
+                document.getElementById('recCodRow').classList.remove('hidden');
+                document.getElementById('recCodAdvance').textContent = '-$' + codAdvance.toFixed(2);
+            }
+            
+            document.getElementById('recTotal').textContent = '$' + order.total.toFixed(2);
+            
+            // Paid + Due
+            var isCOD = order.payment.method === 'cod';
+            var paidAmount = isCOD ? codAdvance : order.total;
+            var dueAmount = isCOD ? (order.total - codAdvance) : 0;
+            document.getElementById('recPaid').textContent = '$' + paidAmount.toFixed(2);
+            document.getElementById('recDue').textContent = '$' + dueAmount.toFixed(2);
+            
+            // Delivery instructions
+            if (order.deliveryNote) {
+                var noteDiv = document.getElementById('recDeliveryNote');
+                noteDiv.classList.remove('hidden');
+                noteDiv.querySelector('p').textContent = order.deliveryNote;
+            }
+        }
+
+        function showError() {
+            document.getElementById('receiptLoading').classList.add('hidden');
+            document.getElementById('receiptContent').classList.add('hidden');
+            document.getElementById('receiptError').classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() { loadReceipt(); });
+    </script>
+</body>
+</html>

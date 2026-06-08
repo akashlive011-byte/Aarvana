@@ -385,3 +385,126 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('🛍️ Aarvana - Premium Fashion Store');
     console.log('✅ All systems loaded successfully');
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ========== DEVELOPMENT WARNING POPUP ==========
+(function() {
+    // Check if warning was already dismissed this session
+    if (sessionStorage.getItem('devWarningDismissed') === 'true') return;
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'devWarningOverlay';
+    overlay.innerHTML = `
+        <div class="dev-warning-modal">
+            <div class="warn-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ef4444" stroke="#161616" stroke-width="1.5" width="56" height="56">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="8" x2="12" y2="12" stroke="#161616" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="16.5" r="0.7" fill="#161616" stroke="none"/>
+                </svg>
+            </div>
+            <h3>⚠️ Warning</h3>
+            <p class="subtitle">Website Is Under Development</p>
+            <div class="divider"></div>
+            <p class="msg"><strong>This site is not ready for use.</strong><br>Proceeding may result in errors, data loss, or unexpected behavior.</p>
+            <ul class="alert-list">
+                <li><span class="icon-x">✕</span> Features are unstable or incomplete</li>
+                <li><span class="icon-x">✕</span> Data may not be saved or persisted</li>
+                <li><span class="icon-x">✕</span> Design and functionality subject to change</li>
+            </ul>
+            <div class="blink-row">
+                <span class="blink-dot"></span>
+                <span>Active Development</span>
+            </div>
+            <button class="btn-danger" id="devWarningDismiss">I Understand the Risk</button>
+            <p class="footer-tag">aarvana —</p>
+        </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+        #devWarningOverlay {
+            position: fixed; inset: 0; z-index: 99999;
+            background: rgba(0,0,0,0.82); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            animation: devFadeIn 0.25s ease-out;
+        }
+        @keyframes devFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .dev-warning-modal {
+            background: #161616; border: 2px solid rgba(239,68,68,0.35);
+            border-radius: 14px; padding: 2rem 1.8rem; max-width: 430px; width: 92%;
+            text-align: center; position: relative;
+            box-shadow: 0 0 60px rgba(239,68,68,0.35), 0 30px 60px rgba(0,0,0,0.7);
+            animation: devSlamIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+            font-family: 'Inter','Segoe UI',system-ui,sans-serif; color: #e5e5e5;
+        }
+        @keyframes devSlamIn {
+            0% { opacity:0; transform:scale(0.7) translateY(-40px); }
+            60% { transform:scale(1.04) translateY(4px); }
+            100% { opacity:1; transform:scale(1) translateY(0); }
+        }
+        .dev-warning-modal::before {
+            content:''; position:absolute; top:0; left:0; right:0; height:4px;
+            background: repeating-linear-gradient(90deg,#ef4444,#ef4444 12px,#1a1a1a 12px,#1a1a1a 24px);
+            border-radius:14px 14px 0 0; animation: devStripeSlide 1s linear infinite;
+        }
+        @keyframes devStripeSlide { from { background-position:0 0; } to { background-position:24px 0; } }
+        .dev-warning-modal .warn-icon { display:inline-block; margin-top:0.5rem; margin-bottom:1rem; }
+        .dev-warning-modal h3 { font-size:1.3rem; font-weight:800; color:#ef4444; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.3rem; }
+        .dev-warning-modal .subtitle { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#f87171; margin-bottom:0.8rem; }
+        .dev-warning-modal .divider { width:45px; height:2px; background:#ef4444; margin:0 auto 0.9rem; opacity:0.5; border-radius:2px; }
+        .dev-warning-modal .msg { color:#bbb; font-size:0.85rem; line-height:1.65; margin-bottom:1.2rem; }
+        .dev-warning-modal .msg strong { color:#fca5a5; }
+        .dev-warning-modal .alert-list { text-align:left; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.18); border-radius:10px; padding:0.8rem 1rem; margin-bottom:1.2rem; list-style:none; }
+        .dev-warning-modal .alert-list li { display:flex; align-items:flex-start; gap:0.5rem; font-size:0.76rem; color:#ccc; padding:0.3rem 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .dev-warning-modal .alert-list li:last-child { border-bottom:none; }
+        .dev-warning-modal .icon-x { color:#ef4444; font-weight:700; flex-shrink:0; }
+        .dev-warning-modal .blink-row { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:1.2rem; }
+        .dev-warning-modal .blink-dot { width:9px; height:9px; background:#ef4444; border-radius:50%; animation:devBlink 0.8s step-end infinite; box-shadow:0 0 12px rgba(239,68,68,0.35); }
+        @keyframes devBlink { 0%,100%{opacity:1;} 50%{opacity:0.15;} }
+        .dev-warning-modal .blink-row span { font-size:0.8rem; font-weight:700; color:#f87171; text-transform:uppercase; letter-spacing:0.06em; }
+        .dev-warning-modal .btn-danger { display:inline-block; background:transparent; border:2px solid rgba(239,68,68,0.5); color:#f87171; padding:0.55rem 1.8rem; border-radius:25px; cursor:pointer; font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; transition:all 0.2s; }
+        .dev-warning-modal .btn-danger:hover { background:rgba(239,68,68,0.12); border-color:#ef4444; box-shadow:0 0 25px rgba(239,68,68,0.35); color:#fca5a5; }
+        .dev-warning-modal .footer-tag { font-size:0.65rem; color:#555; margin-top:1rem; letter-spacing:0.06em; text-transform:uppercase; }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+    
+    // Dismiss handler
+    const dismissBtn = overlay.querySelector('#devWarningDismiss');
+    dismissBtn.addEventListener('click', () => {
+        sessionStorage.setItem('devWarningDismissed', 'true');
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.2s ease';
+        setTimeout(() => overlay.remove(), 200);
+    });
+    
+    // Escape key
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+            sessionStorage.setItem('devWarningDismissed', 'true');
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.2s ease';
+            setTimeout(() => overlay.remove(), 200);
+            document.removeEventListener('keydown', escHandler);
+        }
+    });
+    
+    console.warn('⚠️ WARNING | aarvana — Site under active development.');
+})();

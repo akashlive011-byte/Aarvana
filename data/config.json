@@ -1,0 +1,19 @@
+{
+  "codAdvance": 200,
+  "codNote": "To confirm your COD order, pay {amount} TK advance via bKash/Rocket/Nagad below. This amount will be adjusted from your total.",
+  "paymentNumbers": {
+    "bkash": "01XXXXXXXXX",
+    "rocket": "01XXXXXXXXX",
+    "nagad": "01XXXXXXXXX"
+  },
+  "deliveryCharges": {
+    "Dhaka": 60,
+    "Chattogram": 120,
+    "Rajshahi": 120,
+    "Khulna": 120,
+    "Barishal": 130,
+    "Sylhet": 130,
+    "Rangpur": 150,
+    "Mymensingh": 120
+  }
+}

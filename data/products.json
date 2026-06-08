@@ -1,1 +1,115 @@
-
+[
+    {
+        "id": "1",
+        "sku": "MEN-SRT-001",
+        "name": "Classic Cotton Shirt",
+        "category": "Men",
+        "price": 1999.99,
+        "salePrice": 1499.99,
+        "badge": "Sale",
+        "isFeatured": true,
+        "description": "Premium cotton shirt crafted for comfort and style.",
+        "images": ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "2",
+        "sku": "WMN-SAR-001",
+        "name": "Elegant Silk Saree",
+        "category": "Women",
+        "price": 5999.99,
+        "salePrice": 3999.99,
+        "badge": "Trending",
+        "isFeatured": true,
+        "description": "Beautiful silk saree with intricate design.",
+        "images": ["https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "3",
+        "sku": "ACC-WTC-001",
+        "name": "Premium Leather Watch",
+        "category": "Accessories",
+        "price": 3499.99,
+        "badge": "Premium",
+        "isFeatured": true,
+        "description": "Elegant leather strap watch for every occasion.",
+        "images": ["https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "4",
+        "sku": "MEN-POL-001",
+        "name": "Designer Polo T-Shirt",
+        "category": "Men",
+        "price": 2499.99,
+        "salePrice": 1799.99,
+        "badge": "New",
+        "isFeatured": true,
+        "description": "Smart casual polo for effortless style.",
+        "images": ["https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "5",
+        "sku": "WMN-ANK-001",
+        "name": "Party Wear Anarkali",
+        "category": "Women",
+        "price": 8999.99,
+        "salePrice": 6499.99,
+        "badge": "Hot",
+        "isFeatured": false,
+        "description": "Stunning anarkali for special occasions.",
+        "images": ["https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "6",
+        "sku": "ACC-SUN-001",
+        "name": "Stylish Sunglasses",
+        "category": "Accessories",
+        "price": 1499.99,
+        "salePrice": 999.99,
+        "badge": "Limited",
+        "isFeatured": false,
+        "description": "Trendy sunglasses with UV protection.",
+        "images": ["https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "7",
+        "sku": "MEN-PNT-001",
+        "name": "Casual Linen Pants",
+        "category": "Men",
+        "price": 2799.99,
+        "badge": "New",
+        "isFeatured": false,
+        "description": "Comfortable linen pants for daily wear.",
+        "images": ["https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "8",
+        "sku": "ACC-NKL-001",
+        "name": "Handcrafted Necklace",
+        "category": "Accessories",
+        "price": 1999.99,
+        "salePrice": 1499.99,
+        "badge": "Premium",
+        "isFeatured": false,
+        "description": "Exquisite handcrafted necklace with fine details.",
+        "images": ["https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=500&fit=crop"]
+    },
+    {
+        "id": "mega_sale_001",
+        "type": "mega_sale",
+        "title": "UP TO <span class=\"text-yellow-300\">50%</span> OFF",
+        "subtitle": "Everything Must Go!",
+        "discount": 50,
+        "badge": "FLASH SALE",
+        "badgeBg": "bg-white",
+        "badgeText": "text-red-600",
+        "description": "Don't miss out on the biggest sale of the season. Limited stock available.",
+        "ctaText": "SHOP SALE",
+        "ctaLink": "sales/sales.html",
+        "ctaBg": "bg-white",
+        "ctaTextColor": "text-red-600",
+        "ctaHoverBg": "hover:bg-gray-100",
+        "bgGradient": "from-red-600 via-rose-700 to-pink-800",
+        "endDate": "2026-12-31T23:59:59",
+        "isActive": true
+    }
+]

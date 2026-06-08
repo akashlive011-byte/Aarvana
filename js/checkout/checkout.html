@@ -1,1 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aarvana - Checkout">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta name="robots" content="index, follow">
+    
+    <title>Aarvana - Checkout | Premium Fashion</title>
 
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Custom Configuration - Brand colors and fonts -->
+    <script>tailwind.config={theme:{extend:{colors:{'aarvana':{'gold':'#D4AF37'}},fontFamily:{'display':['Playfair Display','serif'],'body':['Inter','sans-serif']}}}}</script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0A0A0A}::-webkit-scrollbar-thumb{background:#444;border-radius:10px}
+        html{scroll-behavior:smooth}
+        body{-webkit-font-smoothing:antialiased;background:#fff;color:#1a1a1a;overflow-x:hidden}
+        #sidebar::-webkit-scrollbar{width:3px}#sidebar::-webkit-scrollbar-track{background:transparent}#sidebar::-webkit-scrollbar-thumb{background:#555}
+        
+        /* Glass header effect */
+        .glass-header{background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
+        
+        /* Toast animation */
+        .toast{animation:slideInRight 0.3s}@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        
+        /* Breadcrumb */
+        .breadcrumb-link{transition:color 0.2s}.breadcrumb-link:hover{color:#1a1a1a}
+        
+        /* Accessibility */
+        a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #D4AF37;outline-offset:2px}:focus:not(:focus-visible){outline:none}
+        
+        /* Page enter animation */
+        main{animation:pageEnter 0.4s}@keyframes pageEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        /* Form input single border */
+        .form-input{border:1px solid #d1d5db;transition:border-color 0.2s}.form-input:focus{border-color:#1a1a1a;outline:none}
+        
+        /* Custom dropdown arrow for select */
+        select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+        
+        /* Transaction ID input visibility */
+        .trx-input{display:none}
+        
+        /* Payment radio hidden */
+        .payment-radio{display:none}
+        .payment-card{cursor:pointer;transition:all 0.2s}.payment-card:hover{border-color:#9ca3af}
+        
+        /* Field warning text below inputs */
+        .field-warning{display:none;font-size:11px;margin-top:2px}.field-warning.show{display:block}
+    </style>
+</head>
+<body class="bg-white font-body text-gray-800 overflow-x-hidden">
+
+    <!-- Sidebar Overlay - Mobile backdrop -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden" onclick="closeSidebar()"></div>
+
+    <!-- ============================================
+    LEFT SIDEBAR NAVIGATION
+    All links use ../../ to navigate from js/checkout/ folder
+    ============================================ -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-[280px] max-w-[85vw] bg-gradient-to-b from-black via-gray-900 to-black text-white z-50 transform -translate-x-full lg:translate-x-0 lg:z-30 overflow-y-auto border-r border-gray-800">
+        <div class="flex flex-col h-full py-6">
+            
+            <!-- Brand Logo -->
+            <div class="px-5 mb-8">
+                <a href="../../index.html" class="block">
+                    <h2 class="text-2xl font-display font-bold text-white tracking-wider">AARVANA</h2>
+                    <p class="text-[10px] text-gray-400 tracking-widest mt-1">PREMIUM FASHION</p>
+                </a>
+            </div>
+
+            <!-- Main Navigation -->
+            <nav class="flex-1 px-5 space-y-0.5">
+                
+                <!-- Home Link -->
+                <a href="../../index.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-white text-sm">
+                    <i class="fas fa-home w-5 mr-3"></i> Home
+                </a>
+
+                <!-- Men Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('menDropdown')" class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 text-left text-sm">
+                        <div class="flex items-center"><i class="fas fa-male w-5 mr-3"></i> Men</div>
+                        <i id="menDropdownIcon" class="fas fa-plus text-[10px]"></i>
+                    </button>
+                    <div id="menDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5">
+                        <a href="../../men/shirt.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Shirts</a>
+                        <a href="../../men/polo.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Polos</a>
+                        <a href="../../men/panjabi.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Panjabi</a>
+                        <a href="../../men/pants.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Pants</a>
+                    </div>
+                </div>
+
+                <!-- Women Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('womenDropdown')" class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 text-left text-sm">
+                        <div class="flex items-center"><i class="fas fa-female w-5 mr-3"></i> Women</div>
+                        <i id="womenDropdownIcon" class="fas fa-plus text-[10px]"></i>
+                    </button>
+                    <div id="womenDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5">
+                        <a href="../../women/salwar.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Salwar Kameez</a>
+                        <a href="../../women/anarkali.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Anarkali</a>
+                        <a href="../../women/saree.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Sarees</a>
+                        <a href="../../women/tops.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Tops</a>
+                    </div>
+                </div>
+
+                <!-- Accessories Category Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('accessoriesDropdown')" class="flex items-center justify-between w-full px-4 py-3 rounded-lg hover:bg-gray-800 text-left text-sm">
+                        <div class="flex items-center"><i class="fas fa-gem w-5 mr-3"></i> Accessories</div>
+                        <i id="accessoriesDropdownIcon" class="fas fa-plus text-[10px]"></i>
+                    </button>
+                    <div id="accessoriesDropdown" class="dropdown-menu hidden pl-10 mt-0.5 space-y-0.5">
+                        <a href="../../accessories/jewellery.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Jewellery</a>
+                        <a href="../../accessories/bags.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Bags</a>
+                        <a href="../../accessories/sunglasses.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Sunglasses</a>
+                        <a href="../../accessories/watches.html" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white rounded">Watches</a>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-gray-700 my-3"></div>
+
+                <!-- Secondary Links -->
+                <a href="../../our-story.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-sm"><i class="fas fa-info-circle w-5 mr-3"></i> Our Story</a>
+                <a href="../../track-order.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-sm"><i class="fas fa-map-marker-alt w-5 mr-3"></i> Track Order</a>
+                <a href="../../legal/return-cancellation.html" class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 text-sm"><i class="fas fa-undo w-5 mr-3"></i> Returns</a>
+                
+                <!-- Sale Link (Highlighted) -->
+                <a href="../../sales/sales.html" class="flex items-center px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-sm mt-2"><i class="fas fa-tag w-5 mr-3"></i> Sale <span class="ml-auto text-xs font-bold animate-pulse">UP TO 50%</span></a>
+            </nav>
+
+            <!-- Social Links -->
+            <div class="px-5 mt-auto pt-6"><div class="flex space-x-4">
+                <a href="https://facebook.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#1877F2] transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#E4405F] transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/1234567890" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#25D366] transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://tiktok.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transform hover:scale-110"><i class="fab fa-tiktok"></i></a>
+            </div></div>
+        </div>
+    </aside>
+
+    <!-- ============================================
+    TOP HEADER BAR
+    ============================================ -->
+    <header class="sticky top-0 z-30 glass-header lg:ml-[280px]">
+        <div class="flex items-center justify-between px-4 py-3 lg:px-6">
+            
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleSidebar()" class="lg:hidden text-white hover:text-gray-300 p-1"><i class="fas fa-bars text-lg"></i></button>
+            
+            <!-- Logo -->
+            <a href="../../index.html" class="absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none"><h1 class="text-xl lg:text-2xl font-display font-bold text-white tracking-wider">AARVANA</h1></a>
+            
+            <!-- Header Right: Cart with Badge -->
+            <div class="flex items-center ml-auto">
+                <a href="../cart/cart.html" class="relative text-white hover:text-gray-300 p-2">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <!-- Cart count badge - top right corner of icon -->
+                    <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+    MAIN CONTENT - CHECKOUT PAGE
+    ============================================ -->
+    <main class="lg:ml-[280px] bg-white">
+
+        <!-- Breadcrumb + Page Header -->
+        <section class="py-8 sm:py-12 bg-gray-50 border-b border-gray-200">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <!-- Breadcrumb: Home > Cart > Checkout -->
+                <div class="flex items-center gap-2 text-sm text-gray-400 mb-3">
+                    <a href="../../index.html" class="breadcrumb-link hover:text-gray-800">Home</a><i class="fas fa-chevron-right text-[10px]"></i>
+                    <a href="../cart/cart.html" class="breadcrumb-link hover:text-gray-800">Cart</a><i class="fas fa-chevron-right text-[10px]"></i>
+                    <span class="text-gray-800 font-medium">Checkout</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-display font-bold text-gray-900">Checkout</h2>
+            </div>
+        </section>
+
+        <!-- Checkout Form -->
+        <section class="py-8 sm:py-12 bg-white">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                
+                <!-- Checkout Content (Hidden after successful order) -->
+                <div id="checkoutContent">
+                    
+                    <!-- ============================================
+                    SHIPPING ADDRESS FORM
+                    ============================================ -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Shipping Address</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            
+                            <!-- Full Name -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                <input type="text" id="fullName" class="form-input w-full px-4 py-3 rounded-lg text-sm" placeholder="John Doe" required oninput="clearFieldWarning('fullName')">
+                                <p class="field-warning text-red-500" id="warn-fullName">Please enter your full name</p>
+                            </div>
+                            
+                            <!-- Phone with validation -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                                <input type="tel" id="phone" class="form-input w-full px-4 py-3 rounded-lg text-sm" placeholder="01XXXXXXXXX" required oninput="clearFieldWarning('phone')">
+                                <p class="field-warning text-red-500" id="warn-phone">Please enter a valid phone number (01XXXXXXXXX)</p>
+                            </div>
+                            
+                            <!-- Email (Optional) -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-gray-400 font-normal">(optional)</span></label>
+                                <input type="email" id="email" class="form-input w-full px-4 py-3 rounded-lg text-sm" placeholder="john@example.com">
+                            </div>
+                            
+                            <!-- Division Dropdown (Loaded from data/bangladesh.json via fetch) -->
+                            <div><label class="block text-sm font-medium text-gray-700 mb-1">Division *</label><select id="division" class="form-input w-full px-4 py-3 rounded-lg text-sm" onchange="updateDistricts()" required><option value="">Select Division</option></select></div>
+                            
+                            <!-- District Dropdown (Populated based on division selection) -->
+                            <div><label class="block text-sm font-medium text-gray-700 mb-1">District *</label><select id="district" class="form-input w-full px-4 py-3 rounded-lg text-sm" onchange="updateUpazilas()" required><option value="">Select District</option></select></div>
+                            
+                            <!-- Upazila/Thana Dropdown (Populated based on district selection) -->
+                            <div class="sm:col-span-2"><label class="block text-sm font-medium text-gray-700 mb-1">Upazila/Thana *</label><select id="upazila" class="form-input w-full px-4 py-3 rounded-lg text-sm" onchange="updateShipping()" required><option value="">Select Upazila/Thana</option></select></div>
+                            
+                            <!-- Address with validation -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                                <input type="text" id="address" class="form-input w-full px-4 py-3 rounded-lg text-sm" placeholder="House/Road/Area" required oninput="clearFieldWarning('address')">
+                                <p class="field-warning text-red-500" id="warn-address">Please enter your full delivery address</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================
+                    PAYMENT METHOD SELECTION
+                    No option pre-selected by default
+                    ============================================ -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Payment Method</h3>
+                        <p class="text-xs text-gray-400 mb-3">Please select a payment method</p>
+                        <div class="space-y-3">
+                            
+                            <!-- bKash (Full Payment) -->
+                            <div class="border border-gray-200 rounded-xl overflow-hidden">
+                                <label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-gray-50 transition-all">
+                                    <input type="radio" name="payment" value="bkash" onchange="togglePaymentMethod()" class="payment-radio">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"><div class="w-2.5 h-2.5 rounded-full bg-gray-900 hidden"></div></div>
+                                    <div class="flex items-center justify-between flex-1"><div><p class="text-sm font-semibold text-gray-800">bKash (Full Payment)</p><p class="text-xs text-gray-400">Pay total amount via bKash</p></div><span class="text-xs text-gray-400">Send to: <strong id="bkashNumber">Loading...</strong></span></div>
+                                </label>
+                                <div id="trx_bkash" class="trx-input border-t border-gray-100 bg-gray-50 px-4 py-3"><label class="block text-xs text-gray-500 mb-1">Transaction ID *</label><input type="text" class="bkash-trx form-input w-full px-3 py-2 rounded-lg text-sm" placeholder="Enter bKash Transaction ID"></div>
+                            </div>
+                            
+                            <!-- Rocket (Full Payment) -->
+                            <div class="border border-gray-200 rounded-xl overflow-hidden">
+                                <label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-gray-50 transition-all">
+                                    <input type="radio" name="payment" value="rocket" onchange="togglePaymentMethod()" class="payment-radio">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"><div class="w-2.5 h-2.5 rounded-full bg-gray-900 hidden"></div></div>
+                                    <div class="flex items-center justify-between flex-1"><div><p class="text-sm font-semibold text-gray-800">Rocket (Full Payment)</p><p class="text-xs text-gray-400">Pay total amount via Rocket</p></div><span class="text-xs text-gray-400">Send to: <strong id="rocketNumber">Loading...</strong></span></div>
+                                </label>
+                                <div id="trx_rocket" class="trx-input border-t border-gray-100 bg-gray-50 px-4 py-3"><label class="block text-xs text-gray-500 mb-1">Transaction ID *</label><input type="text" class="rocket-trx form-input w-full px-3 py-2 rounded-lg text-sm" placeholder="Enter Rocket Transaction ID"></div>
+                            </div>
+                            
+                            <!-- Nagad (Full Payment) -->
+                            <div class="border border-gray-200 rounded-xl overflow-hidden">
+                                <label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-gray-50 transition-all">
+                                    <input type="radio" name="payment" value="nagad" onchange="togglePaymentMethod()" class="payment-radio">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"><div class="w-2.5 h-2.5 rounded-full bg-gray-900 hidden"></div></div>
+                                    <div class="flex items-center justify-between flex-1"><div><p class="text-sm font-semibold text-gray-800">Nagad (Full Payment)</p><p class="text-xs text-gray-400">Pay total amount via Nagad</p></div><span class="text-xs text-gray-400">Send to: <strong id="nagadNumber">Loading...</strong></span></div>
+                                </label>
+                                <div id="trx_nagad" class="trx-input border-t border-gray-100 bg-gray-50 px-4 py-3"><label class="block text-xs text-gray-500 mb-1">Transaction ID *</label><input type="text" class="nagad-trx form-input w-full px-3 py-2 rounded-lg text-sm" placeholder="Enter Nagad Transaction ID"></div>
+                            </div>
+                            
+                            <!-- Cash on Delivery (COD) with Advance Payment -->
+                            <div class="border border-gray-200 rounded-xl overflow-hidden">
+                                <label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-gray-50 transition-all">
+                                    <input type="radio" name="payment" value="cod" onchange="togglePaymentMethod()" class="payment-radio">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"><div class="w-2.5 h-2.5 rounded-full bg-gray-900 hidden"></div></div>
+                                    <div><p class="text-sm font-semibold text-gray-800">Cash on Delivery</p><p class="text-xs text-gray-400">Pay advance, rest on delivery</p></div>
+                                </label>
+                                <div id="cod_note" class="trx-input border-t border-gray-100 bg-amber-50 px-4 py-3">
+                                    <div class="flex items-start gap-2 mb-3">
+                                        <i class="fas fa-info-circle text-amber-600 text-sm mt-0.5"></i>
+                                        <p class="text-xs text-amber-700" id="codNoteText">To confirm your COD order, pay <span class="font-bold" id="codAdvanceAmountNote">200 TK</span> advance via bKash/Rocket/Nagad below. This amount will be adjusted from your total.</p>
+                                    </div>
+                                    <!-- COD Advance: bKash -->
+                                    <div class="border border-amber-200 rounded-lg overflow-hidden mb-2">
+                                        <label class="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-amber-100 transition-all">
+                                            <div class="flex items-center gap-2"><input type="radio" name="codAdvanceMethod" value="bkash" onchange="toggleCodAdvanceMethod()"><span class="text-xs font-medium text-gray-700">bKash</span></div>
+                                            <span class="text-xs text-gray-500">Send to: <strong id="codBkashNumber">Loading...</strong></span>
+                                        </label>
+                                        <div id="cod_trx_bkash" class="px-3 pb-3" style="display:none"><input type="text" class="cod-bkash-trx form-input w-full px-3 py-2 rounded-lg text-sm bg-white" placeholder="Enter bKash Transaction ID"></div>
+                                    </div>
+                                    <!-- COD Advance: Rocket -->
+                                    <div class="border border-amber-200 rounded-lg overflow-hidden mb-2">
+                                        <label class="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-amber-100 transition-all">
+                                            <div class="flex items-center gap-2"><input type="radio" name="codAdvanceMethod" value="rocket" onchange="toggleCodAdvanceMethod()"><span class="text-xs font-medium text-gray-700">Rocket</span></div>
+                                            <span class="text-xs text-gray-500">Send to: <strong id="codRocketNumber">Loading...</strong></span>
+                                        </label>
+                                        <div id="cod_trx_rocket" class="px-3 pb-3" style="display:none"><input type="text" class="cod-rocket-trx form-input w-full px-3 py-2 rounded-lg text-sm bg-white" placeholder="Enter Rocket Transaction ID"></div>
+                                    </div>
+                                    <!-- COD Advance: Nagad -->
+                                    <div class="border border-amber-200 rounded-lg overflow-hidden mb-2">
+                                        <label class="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-amber-100 transition-all">
+                                            <div class="flex items-center gap-2"><input type="radio" name="codAdvanceMethod" value="nagad" onchange="toggleCodAdvanceMethod()"><span class="text-xs font-medium text-gray-700">Nagad</span></div>
+                                            <span class="text-xs text-gray-500">Send to: <strong id="codNagadNumber">Loading...</strong></span>
+                                        </label>
+                                        <div id="cod_trx_nagad" class="px-3 pb-3" style="display:none"><input type="text" class="cod-nagad-trx form-input w-full px-3 py-2 rounded-lg text-sm bg-white" placeholder="Enter Nagad Transaction ID"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Payment method validation warning -->
+                        <p class="field-warning text-red-500 mt-2" id="warn-payment">Please select a payment method</p>
+                    </div>
+
+                    <!-- ============================================
+                    DELIVERY INSTRUCTIONS (Optional)
+                    ============================================ -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Delivery Instructions</h3>
+                        <textarea id="deliveryNote" class="form-input w-full px-4 py-3 rounded-lg text-sm" rows="3" placeholder="Add a note for your delivery (optional)..."></textarea>
+                        <p class="text-xs text-gray-400 mt-1">Any special instructions for delivery, landmarks, or preferred delivery time.</p>
+                    </div>
+
+                    <!-- ============================================
+                    ORDER SUMMARY
+                    ============================================ -->
+                    <div class="mb-8 bg-gray-50 rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Order Summary</h3>
+                        
+                        <!-- Cart Items List (Populated dynamically) -->
+                        <div id="checkoutItems" class="space-y-3 mb-4"></div>
+                        
+                        <hr class="border-gray-200 mb-4">
+                        
+                        <!-- Price Breakdown -->
+                        <div class="space-y-2 text-sm">
+                            <!-- Subtotal -->
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Subtotal</span>
+                                <span id="chkSubtotal" class="font-semibold">৳0.00</span>
+                            </div>
+                            
+                            <!-- Delivery Charges (Based on selected upazila) -->
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Delivery Charges</span>
+                                <span id="chkShipping" class="font-semibold">Select upazila</span>
+                            </div>
+                            
+                            <!-- COD Advance Deduction (Only shown for COD orders) -->
+                            <div id="codAdvanceRow" class="flex justify-between hidden">
+                                <span class="text-gray-500">COD Advance</span>
+                                <span id="chkCodAdvance" class="font-semibold text-amber-600">-৳200.00</span>
+                            </div>
+                            
+                            <hr class="border-gray-200">
+                            
+                            <!-- Grand Total -->
+                            <div class="flex justify-between text-base">
+                                <span class="font-bold">Total</span>
+                                <span id="chkTotal" class="font-bold text-gray-900">৳0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error/Warning Box -->
+                    <div id="orderError" class="hidden mb-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3">
+                        <i class="fas fa-exclamation-circle text-red-500 text-lg flex-shrink-0"></i>
+                        <p id="orderErrorMessage" class="text-sm text-red-600"></p>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <button onclick="placeOrder()" class="w-full bg-gray-900 text-white font-semibold px-6 py-4 rounded-full hover:bg-black transition-all text-sm shadow-lg">Place Order</button>
+
+                    <!-- Agreement Text -->
+                    <p class="text-xs text-gray-400 text-center mt-4">By placing this order, I agree to the <a href="../../legal/terms-conditions.html" class="underline hover:text-gray-600">Terms & Conditions</a>, <a href="../../legal/privacy-policy.html" class="underline hover:text-gray-600">Privacy Policy</a>, and <a href="../../legal/return-cancellation.html" class="underline hover:text-gray-600">Return Policy</a>.</p>
+                </div>
+
+                <!-- Order Success State -->
+                <div id="orderSuccess" class="hidden text-center py-12">
+                    <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Order Placed Successfully!</h2>
+                    <p id="orderNumber" class="text-gray-500 mb-4"></p>
+                    <a href="../../index.html" class="inline-block bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-black transition-all text-sm">Continue Shopping</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gradient-to-b from-black via-gray-900 to-black text-white py-10 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 text-center"><p class="text-gray-500 text-xs">© 2026 Aarvana. All rights reserved. | Premium Fashion</p></div>
+        </footer>
+    </main>
+
+    <!-- Back to Top -->
+    <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 right-6 bg-gray-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-black z-30 opacity-0 invisible"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-3 pointer-events-none"></div>
+
+    <!-- ============================================
+    SCRIPTS
+    Order: API Config → Google Sheets API → Core → Checkout    ============================================ -->
+    <script src="../../js/api/api-config.js"></script>
+    <script src="../../js/api/google-sheets-api.js"></script>
+    <script src="../../js/core/script.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>

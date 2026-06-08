@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Aarvana Admin - Offers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#1a1a1a;color:#fff;padding:20px 0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform 0.3s}
+        .sidebar.collapsed{transform:translateX(-260px)}
+        .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px}
+        .sidebar-logo h2{font-size:20px;font-weight:700;letter-spacing:2px}
+        .nav-item{display:flex;align-items:center;padding:12px 20px;color:#aaa;text-decoration:none;font-size:13px;transition:all 0.2s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.05);color:#fff;border-left:3px solid #D4AF37}
+        .nav-item i{width:20px;margin-right:12px;text-align:center}
+        .main-content{flex:1;margin-left:260px;padding:24px;transition:margin-left 0.3s}
+        .main-content.expanded{margin-left:0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .menu-toggle{background:none;border:none;font-size:20px;cursor:pointer;color:#333;padding:8px}
+        .btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+        .btn-primary{background:#1a1a1a;color:#fff}.btn-primary:hover{background:#000}
+        .btn-danger{background:#ef4444;color:#fff}.btn-danger:hover{background:#dc2626}
+        .btn-sm{padding:6px 12px;font-size:11px}
+        .offer-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);margin-bottom:16px;border-left:4px solid #D4AF37}
+        .offer-card.inactive{border-left-color:#ccc;opacity:0.6}
+        .offer-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+        .offer-card p{font-size:13px;color:#666;margin-bottom:4px}
+        .badge{padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600}
+        .badge-active{background:#d4edda;color:#155724}
+        .badge-inactive{background:#f8d7da;color:#721c24}
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center}
+        .modal{background:#fff;border-radius:16px;padding:24px;width:90%;max-width:550px;max-height:80vh;overflow-y:auto}
+        .input-field{width:100%;padding:10px 14px;border:2px solid #e5e5e5;border-radius:8px;font-size:13px;margin-bottom:12px}
+        .input-field:focus{outline:none;border-color:#1a1a1a}
+        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        @media(max-width:768px){.sidebar{transform:translateX(-260px)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><h2>AARVANA</h2><p>ADMIN PANEL</p></div>
+        <nav>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="inventory.html" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="tracking.html" class="nav-item"><i class="fas fa-truck"></i> Tracking</a>
+            <a href="discount.html" class="nav-item"><i class="fas fa-tags"></i> Discounts</a>
+            <a href="refund.html" class="nav-item"><i class="fas fa-undo"></i> Refunds</a>
+            <a href="analytics.html" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="offers.html" class="nav-item active"><i class="fas fa-bullhorn"></i> Offers</a>
+            <a href="staff.html" class="nav-item"><i class="fas fa-user-shield"></i> Staff</a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <div style="border-top:1px solid #333;margin:10px 0"></div>
+            <a href="#" class="nav-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <button class="btn btn-primary" onclick="openAddOffer()"><i class="fas fa-plus mr-1"></i> Create Offer</button>
+        </div>
+
+        <!-- Active Offers -->
+        <h3 class="text-lg font-bold mb-4">Mega Sale Offers</h3>
+        <div id="offersList">
+            <p class="text-gray-400 text-sm">Loading offers...</p>
+        </div>
+    </main>
+
+    <!-- Offer Modal -->
+    <div id="offerModal" class="modal-overlay" style="display:none">
+        <div class="modal">
+            <h3 id="offerModalTitle" class="text-lg font-bold mb-4">Create Offer</h3>
+            <form id="offerForm" onsubmit="saveOffer(event)">
+                <input type="hidden" id="offerId">
+                <div class="grid-2">
+                    <input type="text" id="offerBadge" class="input-field" placeholder="Badge Text (e.g., FLASH SALE)">
+                    <input type="number" id="offerDiscount" class="input-field" placeholder="Discount % (e.g., 50)">
+                </div>
+                <input type="text" id="offerTitle" class="input-field" placeholder="Title (HTML allowed)" required>
+                <input type="text" id="offerSubtitle" class="input-field" placeholder="Subtitle">
+                <textarea id="offerDescription" class="input-field" rows="2" placeholder="Description"></textarea>
+                <div class="grid-2">
+                    <input type="text" id="offerCtaText" class="input-field" placeholder="Button Text (e.g., SHOP SALE)">
+                    <input type="text" id="offerCtaLink" class="input-field" placeholder="Button Link (e.g., sales/sales.html)">
+                </div>
+                <div class="grid-2">
+                    <input type="text" id="offerBgGradient" class="input-field" placeholder="BG Gradient (e.g., from-red-600 via-rose-700 to-pink-800)">
+                    <input type="number" id="offerCountdownDays" class="input-field" placeholder="Countdown Days" value="3">
+                </div>
+                <div class="grid-2">
+                    <label class="text-sm">Start Date</label>
+                    <label class="text-sm">End Date</label>
+                    <input type="datetime-local" id="offerStartDate" class="input-field">
+                    <input type="datetime-local" id="offerEndDate" class="input-field">
+                </div>
+                <label class="flex items-center gap-2 mb-3 text-sm">
+                    <input type="checkbox" id="offerActive" checked> Active
+                </label>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-1">Save Offer</button>
+                    <button type="button" class="btn flex-1" style="background:#fff;color:#1a1a1a;border:2px solid #ddd" onclick="closeOfferModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+    <script>
+        if (localStorage.getItem('aarvana_admin_logged_in') !== 'true') { window.location.href = 'login.html'; }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); document.getElementById('mainContent').classList.toggle('expanded'); }
+        function handleLogout() { localStorage.removeItem('aarvana_admin_logged_in'); window.location.href = 'login.html'; }
+
+        function getOffers() {
+            var stored = localStorage.getItem('aarvana_mega_sale_offers');
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function saveOffers(offers) {
+            localStorage.setItem('aarvana_mega_sale_offers', JSON.stringify(offers));
+        }
+
+        function loadOffers() {
+            var offers = getOffers();
+            var container = document.getElementById('offersList');
+            
+            if (offers.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-400"><i class="fas fa-bullhorn text-3xl mb-3 block"></i>No offers created yet</div>';
+                return;
+            }
+
+            var html = '';
+            for (var i = 0; i < offers.length; i++) {
+                var o = offers[i];
+                html += '<div class="offer-card' + (o.isActive ? '' : ' inactive') + '">' +
+                    '<div class="flex justify-between items-start mb-2">' +
+                        '<div>' +
+                            '<h3>' + (o.badge ? '<span class="badge '+(o.isActive?'badge-active':'badge-inactive')+' mr-2">'+o.badge+'</span>' : '') + (o.title || 'Untitled') + '</h3>' +
+                            '<p class="text-sm">' + (o.subtitle || '') + '</p>' +
+                            '<p class="text-xs text-gray-400">Discount: ' + (o.discount || 0) + '% | CTA: ' + (o.ctaText || 'N/A') + ' | Days: ' + (o.countdownDays || 3) + '</p>' +
+                        '</div>' +
+                        '<div class="flex gap-1">' +
+                            '<button class="btn btn-sm" style="background:#fff;border:1px solid #ddd" onclick="editOffer(\''+o.id+'\')"><i class="fas fa-edit"></i></button>' +
+                            '<button class="btn btn-sm '+(o.isActive?'btn-danger':'btn-primary')+'" onclick="toggleOffer(\''+o.id+'\')">'+(o.isActive?'Deactivate':'Activate')+'</button>' +
+                            '<button class="btn btn-sm btn-danger" onclick="deleteOffer(\''+o.id+'\')"><i class="fas fa-trash"></i></button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        function openAddOffer() {
+            document.getElementById('offerModalTitle').textContent = 'Create Offer';
+            document.getElementById('offerForm').reset();
+            document.getElementById('offerId').value = '';
+            document.getElementById('offerActive').checked = true;
+            document.getElementById('offerModal').style.display = 'flex';
+        }
+
+        function editOffer(id) {
+            var offers = getOffers();
+            var o = null;
+            for (var i = 0; i < offers.length; i++) { if (offers[i].id === id) { o = offers[i]; break; } }
+            if (!o) return;
+            document.getElementById('offerModalTitle').textContent = 'Edit Offer';
+            document.getElementById('offerId').value = o.id;
+            document.getElementById('offerBadge').value = o.badge || '';
+            document.getElementById('offerDiscount').value = o.discount || '';
+            document.getElementById('offerTitle').value = o.title || '';
+            document.getElementById('offerSubtitle').value = o.subtitle || '';
+            document.getElementById('offerDescription').value = o.description || '';
+            document.getElementById('offerCtaText').value = o.ctaText || '';
+            document.getElementById('offerCtaLink').value = o.ctaLink || '';
+            document.getElementById('offerBgGradient').value = o.bgGradient || '';
+            document.getElementById('offerCountdownDays').value = o.countdownDays || 3;
+            document.getElementById('offerStartDate').value = o.startDate ? o.startDate.substring(0,16) : '';
+            document.getElementById('offerEndDate').value = o.endDate ? o.endDate.substring(0,16) : '';
+            document.getElementById('offerActive').checked = o.isActive;
+            document.getElementById('offerModal').style.display = 'flex';
+        }
+
+        function closeOfferModal() { document.getElementById('offerModal').style.display = 'none'; }
+
+        function saveOffer(e) {
+            e.preventDefault();
+            var id = document.getElementById('offerId').value;
+            var data = {
+                badge: document.getElementById('offerBadge').value,
+                discount: parseInt(document.getElementById('offerDiscount').value) || 0,
+                title: document.getElementById('offerTitle').value,
+                subtitle: document.getElementById('offerSubtitle').value,
+                description: document.getElementById('offerDescription').value,
+                ctaText: document.getElementById('offerCtaText').value,
+                ctaLink: document.getElementById('offerCtaLink').value,
+                bgGradient: document.getElementById('offerBgGradient').value,
+                countdownDays: parseInt(document.getElementById('offerCountdownDays').value) || 3,
+                startDate: document.getElementById('offerStartDate').value || null,
+                endDate: document.getElementById('offerEndDate').value || null,
+                isActive: document.getElementById('offerActive').checked,
+                badgeBg: 'bg-white',
+                badgeText: 'text-red-600',
+                ctaBg: 'bg-white',
+                ctaTextColor: 'text-red-600',
+                ctaHoverBg: 'hover:bg-gray-100',
+                type: 'mega_sale'
+            };
+
+            var offers = getOffers();
+            if (id) {
+                for (var i = 0; i < offers.length; i++) {
+                    if (offers[i].id === id) {
+                        offers[i] = Object.assign({}, offers[i], data, {id: id, updatedAt: new Date().toISOString()});
+                        break;
+                    }
+                }
+            } else {
+                data.id = 'mega_' + Date.now();
+                data.createdAt = new Date().toISOString();
+                offers.push(data);
+            }
+            saveOffers(offers);
+            closeOfferModal();
+            loadOffers();
+            alert('Offer saved!');
+        }
+
+        function toggleOffer(id) {
+            var offers = getOffers();
+            for (var i = 0; i < offers.length; i++) {
+                if (offers[i].id === id) {
+                    offers[i].isActive = !offers[i].isActive;
+                    break;
+                }
+            }
+            saveOffers(offers);
+            loadOffers();
+        }
+
+        function deleteOffer(id) {
+            if (!confirm('Delete this offer?')) return;
+            var offers = getOffers().filter(function(o){return o.id !== id});
+            saveOffers(offers);
+            loadOffers();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadOffers);
+    </script>
+</body>
+</html>

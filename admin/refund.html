@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Aarvana Admin - Refunds</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#1a1a1a;color:#fff;padding:20px 0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform 0.3s}
+        .sidebar.collapsed{transform:translateX(-260px)}
+        .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px}
+        .sidebar-logo h2{font-size:20px;font-weight:700;letter-spacing:2px}
+        .nav-item{display:flex;align-items:center;padding:12px 20px;color:#aaa;text-decoration:none;font-size:13px;transition:all 0.2s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.05);color:#fff;border-left:3px solid #D4AF37}
+        .nav-item i{width:20px;margin-right:12px;text-align:center}
+        .main-content{flex:1;margin-left:260px;padding:24px;transition:margin-left 0.3s}
+        .main-content.expanded{margin-left:0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .menu-toggle{background:none;border:none;font-size:20px;cursor:pointer;color:#333;padding:8px}
+        .card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.04);margin-bottom:20px}
+        .card h3{font-size:16px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eee}
+        .btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+        .btn-primary{background:#1a1a1a;color:#fff}.btn-primary:hover{background:#000}
+        .btn-success{background:#16a34a;color:#fff}.btn-success:hover{background:#15803d}
+        .btn-danger{background:#ef4444;color:#fff}.btn-danger:hover{background:#dc2626}
+        .btn-sm{padding:6px 12px;font-size:11px}
+        .input-field{width:100%;padding:10px 14px;border:2px solid #e5e5e5;border-radius:8px;font-size:13px;margin-bottom:12px}
+        .input-field:focus{outline:none;border-color:#1a1a1a}
+        .badge{padding:3px 8px;border-radius:12px;font-size:10px;font-weight:600}
+        .badge-pending{background:#fff3cd;color:#856404}
+        .badge-approved{background:#d4edda;color:#155724}
+        .badge-rejected{background:#f8d7da;color:#721c24}
+        .badge-refunded{background:#cce5ff;color:#004085}
+        .table-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .table-card th{background:#fafafa;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #eee}
+        .table-card td{padding:10px 14px;font-size:13px;border-bottom:1px solid #f5f5f5}
+        .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+        @media(max-width:768px){.sidebar{transform:translateX(-260px)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}.grid-3{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><h2>AARVANA</h2><p>ADMIN PANEL</p></div>
+        <nav>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="inventory.html" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="tracking.html" class="nav-item"><i class="fas fa-truck"></i> Tracking</a>
+            <a href="discount.html" class="nav-item"><i class="fas fa-tags"></i> Discounts</a>
+            <a href="refund.html" class="nav-item active"><i class="fas fa-undo"></i> Refunds</a>
+            <a href="analytics.html" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="offers.html" class="nav-item"><i class="fas fa-bullhorn"></i> Offers</a>
+            <a href="staff.html" class="nav-item"><i class="fas fa-user-shield"></i> Staff</a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <div style="border-top:1px solid #333;margin:10px 0"></div>
+            <a href="#" class="nav-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <h2 class="text-xl font-bold">Refund & Return Management</h2>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="card"><p class="text-xs text-gray-400 uppercase">Pending Requests</p><p class="text-2xl font-bold text-yellow-600" id="pendingCount">0</p></div>
+            <div class="card"><p class="text-xs text-gray-400 uppercase">Approved</p><p class="text-2xl font-bold text-green-600" id="approvedCount">0</p></div>
+            <div class="card"><p class="text-xs text-gray-400 uppercase">Total Refunded</p><p class="text-2xl font-bold" id="totalRefunded">$0</p></div>
+        </div>
+
+        <!-- Refund Requests Table -->
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="refundsTable">
+                    <tr><td colspan="9" class="text-center text-gray-400 py-8">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/admin.js"></script>
+    <script>
+        if (localStorage.getItem('aarvana_admin_logged_in') !== 'true') { window.location.href = 'login.html'; }
+        
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); document.getElementById('mainContent').classList.toggle('expanded'); }
+        function handleLogout() { localStorage.removeItem('aarvana_admin_logged_in'); window.location.href = 'login.html'; }
+        
+        var refunds = JSON.parse(localStorage.getItem('aarvana_refunds') || '[]');
+        
+        // Add some sample data if empty
+        if (refunds.length === 0) {
+            refunds = [
+                {id:'REF-001',orderId:'AAR-L1234567',customer:'John Doe',product:'Classic Cotton Shirt',amount:29.99,reason:'Wrong size received',status:'pending',date:'2026-06-08T10:30:00'},
+                {id:'REF-002',orderId:'AAR-M9876543',customer:'Jane Smith',product:'Elegant Silk Saree',amount:59.99,reason:'Damaged item',status:'approved',date:'2026-06-07T14:15:00',refundedAmount:59.99,refundedDate:'2026-06-08'},
+                {id:'REF-003',orderId:'AAR-X4567890',customer:'Bob Johnson',product:'Premium Watch',amount:34.99,reason:'Changed mind',status:'rejected',date:'2026-06-06T09:00:00',rejectReason:'Return window expired'}
+            ];
+            localStorage.setItem('aarvana_refunds', JSON.stringify(refunds));
+        }
+        
+        function loadRefunds() {
+            var pending = 0, approved = 0, totalRefunded = 0;
+            
+            for (var i = 0; i < refunds.length; i++) {
+                if (refunds[i].status === 'pending') pending++;
+                if (refunds[i].status === 'approved' || refunds[i].status === 'refunded') approved++;
+                if (refunds[i].refundedAmount) totalRefunded += refunds[i].refundedAmount;
+            }
+            
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('totalRefunded').textContent = '$' + totalRefunded.toFixed(2);
+            
+            var tbody = document.getElementById('refundsTable');
+            if (refunds.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center text-gray-400 py-8">No refund requests</td></tr>';
+                return;
+            }
+            
+            var html = '';
+            for (var i = 0; i < refunds.length; i++) {
+                var r = refunds[i];
+                var statusClass = 'badge-' + r.status;
+                
+                html += '<tr>' +
+                    '<td class="font-medium font-mono text-xs">' + r.id + '</td>' +
+                    '<td class="font-mono text-xs">' + r.orderId + '</td>' +
+                    '<td>' + r.customer + '</td>' +
+                    '<td>' + r.product + '</td>' +
+                    '<td>$' + r.amount.toFixed(2) + '</td>' +
+                    '<td class="text-xs text-gray-500">' + r.reason + '</td>' +
+                    '<td><span class="badge ' + statusClass + '">' + r.status.charAt(0).toUpperCase() + r.status.slice(1) + '</span></td>' +
+                    '<td class="text-xs">' + new Date(r.date).toLocaleDateString() + '</td>' +
+                    '<td>';
+                
+                if (r.status === 'pending') {
+                    html += '<button class="btn btn-success btn-sm mr-1" onclick="approveRefund(\'' + r.id + '\')">Approve</button>' +
+                        '<button class="btn btn-danger btn-sm" onclick="rejectRefund(\'' + r.id + '\')">Reject</button>';
+                } else if (r.status === 'approved') {
+                    html += '<button class="btn btn-primary btn-sm" onclick="processRefund(\'' + r.id + '\')">Refund</button>';
+                } else {
+                    html += '<span class="text-xs text-gray-400">-</span>';
+                }
+                
+                html += '</td></tr>';
+            }
+            tbody.innerHTML = html;
+        }
+        
+        function approveRefund(id) {
+            for (var i = 0; i < refunds.length; i++) {
+                if (refunds[i].id === id) { refunds[i].status = 'approved'; refunds[i].approvedDate = new Date().toISOString(); break; }
+            }
+            localStorage.setItem('aarvana_refunds', JSON.stringify(refunds));
+            loadRefunds();
+        }
+        
+        function rejectRefund(id) {
+            var reason = prompt('Reason for rejection:');
+            if (!reason) return;
+            for (var i = 0; i < refunds.length; i++) {
+                if (refunds[i].id === id) { refunds[i].status = 'rejected'; refunds[i].rejectReason = reason; break; }
+            }
+            localStorage.setItem('aarvana_refunds', JSON.stringify(refunds));
+            loadRefunds();
+        }
+        
+        function processRefund(id) {
+            if (!confirm('Process refund? This will mark as refunded.')) return;
+            for (var i = 0; i < refunds.length; i++) {
+                if (refunds[i].id === id) {
+                    refunds[i].status = 'refunded';
+                    refunds[i].refundedAmount = refunds[i].amount;
+                    refunds[i].refundedDate = new Date().toISOString();
+                    break;
+                }
+            }
+            localStorage.setItem('aarvana_refunds', JSON.stringify(refunds));
+            loadRefunds();
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadRefunds);
+    </script>
+</body>
+</html>

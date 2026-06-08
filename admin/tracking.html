@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Aarvana Admin - Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#1a1a1a;color:#fff;padding:20px 0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform 0.3s}
+        .sidebar.collapsed{transform:translateX(-260px)}
+        .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px}
+        .sidebar-logo h2{font-size:20px;font-weight:700;letter-spacing:2px}
+        .nav-item{display:flex;align-items:center;padding:12px 20px;color:#aaa;text-decoration:none;font-size:13px;transition:all 0.2s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.05);color:#fff;border-left:3px solid #D4AF37}
+        .nav-item i{width:20px;margin-right:12px;text-align:center}
+        .main-content{flex:1;margin-left:260px;padding:24px;transition:margin-left 0.3s}
+        .main-content.expanded{margin-left:0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .menu-toggle{background:none;border:none;font-size:20px;cursor:pointer;color:#333;padding:8px}
+        .table-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .table-card th{background:#fafafa;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #eee}
+        .table-card td{padding:10px 14px;font-size:13px;border-bottom:1px solid #f5f5f5}
+        .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+        .badge-confirmed{background:#d4edda;color:#155724}
+        .badge-processing{background:#cce5ff;color:#004085}
+        .badge-shipped{background:#fff3cd;color:#856404}
+        .badge-delivered{background:#d4edda;color:#155724}
+        .badge-cancelled{background:#f8d7da;color:#721c24}
+        .btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+        .btn-primary{background:#1a1a1a;color:#fff}.btn-primary:hover{background:#000}
+        .btn-sm{padding:6px 12px;font-size:11px}
+        .input-field{width:100%;padding:8px 12px;border:2px solid #e5e5e5;border-radius:8px;font-size:13px}
+        .input-field:focus{outline:none;border-color:#1a1a1a}
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center}
+        .modal{background:#fff;border-radius:16px;padding:24px;width:90%;max-width:450px}
+        .modal h3{font-size:18px;font-weight:700;margin-bottom:16px}
+        .form-group{margin-bottom:14px}
+        .form-group label{display:block;font-size:13px;font-weight:500;color:#555;margin-bottom:4px}
+        select.input-field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+        @media(max-width:768px){.sidebar{transform:translateX(-260px)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><h2>AARVANA</h2><p>ADMIN PANEL</p></div>
+        <nav>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="inventory.html" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="tracking.html" class="nav-item active"><i class="fas fa-truck"></i> Tracking</a>
+            <a href="discount.html" class="nav-item"><i class="fas fa-tags"></i> Discounts</a>
+            <a href="refund.html" class="nav-item"><i class="fas fa-undo"></i> Refunds</a>
+            <a href="analytics.html" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="offers.html" class="nav-item"><i class="fas fa-bullhorn"></i> Offers</a>
+            <a href="staff.html" class="nav-item"><i class="fas fa-user-shield"></i> Staff</a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <div style="border-top:1px solid #333;margin:10px 0"></div>
+            <a href="#" class="nav-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <h2 class="text-xl font-bold">Order Tracking</h2>
+        </div>
+
+        <!-- Tracking Table -->
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Courier</th>
+                        <th>Tracking No.</th>
+                        <th>Status</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="trackingTable">
+                    <tr><td colspan="7" class="text-center text-gray-400 py-8">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Update Tracking Modal -->
+    <div id="trackingModal" class="modal-overlay" style="display:none">
+        <div class="modal">
+            <h3>Update Tracking</h3>
+            <form id="trackingForm" onsubmit="saveTracking(event)">
+                <input type="hidden" id="trackOrderId">
+                <div class="form-group">
+                    <label>Courier Partner</label>
+                    <select id="trackCourier" class="input-field" required>
+                        <option value="">Select Courier</option>
+                        <option value="Pathao">Pathao</option>
+                        <option value="Steadfast">Steadfast</option>
+                        <option value="RedX">RedX</option>
+                        <option value="Sundarban">Sundarban Courier</option>
+                        <option value="SA Paribahan">SA Paribahan</option>
+                        <option value="eCourier">eCourier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tracking Number</label>
+                    <input type="text" id="trackNumber" class="input-field" placeholder="Enter tracking number" required>
+                </div>
+                <div class="form-group">
+                    <label>Order Status</label>
+                    <select id="trackStatus" class="input-field" required>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <input type="text" id="trackNotes" class="input-field" placeholder="Optional notes">
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-1">Save</button>
+                    <button type="button" class="btn btn-sm flex-1" style="background:#e5e5e5;color:#333" onclick="document.getElementById('trackingModal').style.display='none'">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+    <script>
+        if (localStorage.getItem('aarvana_admin_logged_in') !== 'true') { window.location.href = 'login.html'; }
+        function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');document.getElementById('mainContent').classList.toggle('expanded')}
+        function handleLogout(){localStorage.removeItem('aarvana_admin_logged_in');window.location.href='login.html'}
+
+        var orders = [];
+        var trackingData = [];
+
+        function loadTracking() {
+            orders = JSON.parse(localStorage.getItem('aarvana_orders') || '[]');
+            var stored = localStorage.getItem('aarvana_tracking');
+            if (stored) { try { trackingData = JSON.parse(stored); } catch(e) { trackingData = []; } }
+            
+            // Merge orders into tracking if not present
+            for (var i = 0; i < orders.length; i++) {
+                var found = false;
+                for (var j = 0; j < trackingData.length; j++) {
+                    if (trackingData[j].orderNumber === orders[i].orderNumber) { found = true; break; }
+                }
+                if (!found) {
+                    trackingData.push({
+                        orderNumber: orders[i].orderNumber,
+                        customer: orders[i].customer ? orders[i].customer.name : 'N/A',
+                        courier: '',
+                        trackingNumber: '',
+                        status: orders[i].status || 'Confirmed',
+                        notes: '',
+                        updatedAt: orders[i].date || new Date().toISOString()
+                    });
+                }
+            }
+            
+            renderTracking();
+        }
+
+        function renderTracking() {
+            var tbody = document.getElementById('trackingTable');
+            if (trackingData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-400 py-8">No orders to track</td></tr>';
+                return;
+            }
+            
+            var statusBadges = {
+                'Confirmed': 'badge-confirmed',
+                'Processing': 'badge-processing',
+                'Shipped': 'badge-shipped',
+                'Out for Delivery': 'badge-shipped',
+                'Delivered': 'badge-delivered',
+                'Cancelled': 'badge-cancelled'
+            };
+            
+            var html = '';
+            for (var i = 0; i < trackingData.length; i++) {
+                var t = trackingData[i];
+                html += '<tr>' +
+                    '<td class="font-medium">' + t.orderNumber + '</td>' +
+                    '<td>' + t.customer + '</td>' +
+                    '<td>' + (t.courier || '<span class="text-gray-400">Not set</span>') + '</td>' +
+                    '<td class="text-xs">' + (t.trackingNumber || '<span class="text-gray-400">Not set</span>') + '</td>' +
+                    '<td><span class="badge ' + (statusBadges[t.status] || 'badge-confirmed') + '">' + t.status + '</span></td>' +
+                    '<td class="text-xs text-gray-500">' + new Date(t.updatedAt).toLocaleDateString() + '</td>' +
+                    '<td><button class="btn btn-primary btn-sm" onclick="openTracking(\'' + t.orderNumber + '\')"><i class="fas fa-edit"></i> Update</button></td>' +
+                '</tr>';
+            }
+            tbody.innerHTML = html;
+        }
+
+        function openTracking(orderNumber) {
+            var t = null;
+            for (var i = 0; i < trackingData.length; i++) {
+                if (trackingData[i].orderNumber === orderNumber) { t = trackingData[i]; break; }
+            }
+            if (!t) return;
+            
+            document.getElementById('trackOrderId').value = orderNumber;
+            document.getElementById('trackCourier').value = t.courier || '';
+            document.getElementById('trackNumber').value = t.trackingNumber || '';
+            document.getElementById('trackStatus').value = t.status || 'Confirmed';
+            document.getElementById('trackNotes').value = t.notes || '';
+            document.getElementById('trackingModal').style.display = 'flex';
+        }
+
+        function saveTracking(e) {
+            e.preventDefault();
+            var orderNumber = document.getElementById('trackOrderId').value;
+            
+            for (var i = 0; i < trackingData.length; i++) {
+                if (trackingData[i].orderNumber === orderNumber) {
+                    trackingData[i].courier = document.getElementById('trackCourier').value;
+                    trackingData[i].trackingNumber = document.getElementById('trackNumber').value;
+                    trackingData[i].status = document.getElementById('trackStatus').value;
+                    trackingData[i].notes = document.getElementById('trackNotes').value;
+                    trackingData[i].updatedAt = new Date().toISOString();
+                    
+                    // Update order status as well
+                    var orders = JSON.parse(localStorage.getItem('aarvana_orders') || '[]');
+                    for (var j = 0; j < orders.length; j++) {
+                        if (orders[j].orderNumber === orderNumber) {
+                            orders[j].status = trackingData[i].status;
+                            orders[j].tracking = {
+                                courier: trackingData[i].courier,
+                                trackingNumber: trackingData[i].trackingNumber
+                            };
+                            break;
+                        }
+                    }
+                    localStorage.setItem('aarvana_orders', JSON.stringify(orders));
+                    break;
+                }
+            }
+            
+            localStorage.setItem('aarvana_tracking', JSON.stringify(trackingData));
+            document.getElementById('trackingModal').style.display = 'none';
+            renderTracking();
+            alert('Tracking updated!');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTracking);
+    </script>
+</body>
+</html>

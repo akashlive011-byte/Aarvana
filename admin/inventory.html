@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Aarvana Admin - Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#1a1a1a;color:#fff;padding:20px 0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform 0.3s}
+        .sidebar.collapsed{transform:translateX(-260px)}
+        .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px}
+        .sidebar-logo h2{font-size:20px;font-weight:700;letter-spacing:2px}
+        .nav-item{display:flex;align-items:center;padding:12px 20px;color:#aaa;text-decoration:none;font-size:13px;transition:all 0.2s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.05);color:#fff;border-left:3px solid #D4AF37}
+        .nav-item i{width:20px;margin-right:12px;text-align:center}
+        .main-content{flex:1;margin-left:260px;padding:24px;transition:margin-left 0.3s}
+        .main-content.expanded{margin-left:0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .menu-toggle{background:none;border:none;font-size:20px;cursor:pointer;color:#333;padding:8px}
+        .stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .stat-value{font-size:28px;font-weight:700;color:#1a1a1a}
+        .stat-label{font-size:12px;color:#888;margin-top:4px}
+        .table-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .table-card th{background:#fafafa;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #eee}
+        .table-card td{padding:10px 14px;font-size:13px;border-bottom:1px solid #f5f5f5}
+        .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+        .badge-instock{background:#d4edda;color:#155724}
+        .badge-low{background:#fff3cd;color:#856404}
+        .badge-out{background:#f8d7da;color:#721c24}
+        .btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+        .btn-primary{background:#1a1a1a;color:#fff}.btn-primary:hover{background:#000}
+        .btn-sm{padding:6px 12px;font-size:11px}
+        .input-field{width:80px;padding:6px 10px;border:2px solid #e5e5e5;border-radius:6px;font-size:13px;text-align:center}
+        .input-field:focus{outline:none;border-color:#1a1a1a}
+        @media(max-width:768px){.sidebar{transform:translateX(-260px)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><h2>AARVANA</h2><p>ADMIN PANEL</p></div>
+        <nav>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="inventory.html" class="nav-item active"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="tracking.html" class="nav-item"><i class="fas fa-truck"></i> Tracking</a>
+            <a href="discount.html" class="nav-item"><i class="fas fa-tags"></i> Discounts</a>
+            <a href="refund.html" class="nav-item"><i class="fas fa-undo"></i> Refunds</a>
+            <a href="analytics.html" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="offers.html" class="nav-item"><i class="fas fa-bullhorn"></i> Offers</a>
+            <a href="staff.html" class="nav-item"><i class="fas fa-user-shield"></i> Staff</a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <div style="border-top:1px solid #333;margin:10px 0"></div>
+            <a href="#" class="nav-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <h2 class="text-xl font-bold">Inventory Management</h2>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="stat-card">
+                <div class="stat-value text-green-600" id="inStockCount">0</div>
+                <div class="stat-label">In Stock</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value text-yellow-600" id="lowStockCount">0</div>
+                <div class="stat-label">Low Stock</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value text-red-600" id="outStockCount">0</div>
+                <div class="stat-label">Out of Stock</div>
+            </div>
+        </div>
+
+        <!-- Inventory Table -->
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>SKU</th>
+                        <th>Category</th>
+                        <th>Current Stock</th>
+                        <th>Low Stock Alert</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTable">
+                    <tr><td colspan="7" class="text-center text-gray-400 py-8">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/admin.js"></script>
+    <script>
+        if (localStorage.getItem('aarvana_admin_logged_in') !== 'true') { window.location.href = 'login.html'; }
+        function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');document.getElementById('mainContent').classList.toggle('expanded')}
+        function handleLogout(){localStorage.removeItem('aarvana_admin_logged_in');window.location.href='login.html'}
+
+        var inventory = [];
+
+        function loadInventory() {
+            // Load products
+            var stored = localStorage.getItem('aarvana_products');
+            var products = [];
+            if (stored) { try { products = JSON.parse(stored); } catch(e) {} }
+            
+            // Load inventory data
+            var invStored = localStorage.getItem('aarvana_inventory');
+            if (invStored) { try { inventory = JSON.parse(invStored); } catch(e) { inventory = []; } }
+            
+            // Merge products into inventory if not present
+            for (var i = 0; i < products.length; i++) {
+                var found = false;
+                for (var j = 0; j < inventory.length; j++) {
+                    if (inventory[j].id === products[i].id) { found = true; break; }
+                }
+                if (!found) {
+                    inventory.push({
+                        id: products[i].id,
+                        sku: products[i].sku || products[i].id,
+                        name: products[i].name,
+                        category: products[i].category,
+                        stock: Math.floor(Math.random() * 50) + 5,
+                        lowStockAlert: 10
+                    });
+                }
+            }
+            
+            renderInventory();
+            updateStats();
+        }
+
+        function renderInventory() {
+            var tbody = document.getElementById('inventoryTable');
+            if (inventory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-400 py-8">No products in inventory</td></tr>';
+                return;
+            }
+            var html = '';
+            for (var i = 0; i < inventory.length; i++) {
+                var item = inventory[i];
+                var status = '';
+                var badgeClass = '';
+                if (item.stock <= 0) { status = 'Out of Stock'; badgeClass = 'badge-out'; }
+                else if (item.stock <= item.lowStockAlert) { status = 'Low Stock'; badgeClass = 'badge-low'; }
+                else { status = 'In Stock'; badgeClass = 'badge-instock'; }
+                
+                html += '<tr>' +
+                    '<td class="font-medium">' + (item.name || 'Product ' + item.sku) + '</td>' +
+                    '<td class="text-xs text-gray-500">' + (item.sku || item.id) + '</td>' +
+                    '<td>' + (item.category || '-') + '</td>' +
+                    '<td><input type="number" class="input-field" id="stock-'+item.id+'" value="'+item.stock+'" min="0"></td>' +
+                    '<td><input type="number" class="input-field" id="alert-'+item.id+'" value="'+item.lowStockAlert+'" min="1"></td>' +
+                    '<td><span class="badge '+badgeClass+'">'+status+'</span></td>' +
+                    '<td><button class="btn btn-primary btn-sm" onclick="updateStock(\''+item.id+'\')">Update</button></td>' +
+                '</tr>';
+            }
+            tbody.innerHTML = html;
+        }
+
+        function updateStats() {
+            var inStock = 0, lowStock = 0, outStock = 0;
+            for (var i = 0; i < inventory.length; i++) {
+                if (inventory[i].stock <= 0) outStock++;
+                else if (inventory[i].stock <= inventory[i].lowStockAlert) lowStock++;
+                else inStock++;
+            }
+            document.getElementById('inStockCount').textContent = inStock;
+            document.getElementById('lowStockCount').textContent = lowStock;
+            document.getElementById('outStockCount').textContent = outStock;
+        }
+
+        function updateStock(id) {
+            var stockEl = document.getElementById('stock-' + id);
+            var alertEl = document.getElementById('alert-' + id);
+            for (var i = 0; i < inventory.length; i++) {
+                if (inventory[i].id === id) {
+                    inventory[i].stock = parseInt(stockEl.value) || 0;
+                    inventory[i].lowStockAlert = parseInt(alertEl.value) || 10;
+                    break;
+                }
+            }
+            localStorage.setItem('aarvana_inventory', JSON.stringify(inventory));
+            renderInventory();
+            updateStats();
+            alert('Stock updated!');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadInventory);
+    </script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Aarvana Admin - Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;display:flex;min-height:100vh}
+        
+        /* Sidebar */
+        .sidebar{width:260px;background:#1a1a1a;color:#fff;padding:20px 0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform 0.3s}
+        .sidebar.collapsed{transform:translateX(-260px)}
+        .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px}
+        .sidebar-logo h2{font-size:20px;font-weight:700;letter-spacing:2px}
+        .sidebar-logo p{font-size:10px;color:#888;letter-spacing:3px}
+        .nav-item{display:flex;align-items:center;padding:12px 20px;color:#aaa;text-decoration:none;font-size:13px;transition:all 0.2s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.05);color:#fff;border-left:3px solid #D4AF37}
+        .nav-item i{width:20px;margin-right:12px;text-align:center}
+        
+        /* Main Content */
+        .main-content{flex:1;margin-left:260px;padding:24px;transition:margin-left 0.3s}
+        .main-content.expanded{margin-left:0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .menu-toggle{background:none;border:none;font-size:20px;cursor:pointer;color:#333;padding:8px}
+        .menu-toggle:hover{color:#000}
+        
+        /* Settings Cards */
+        .settings-card{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .settings-card h3{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+        .settings-card .card-desc{font-size:12px;color:#888;margin-bottom:16px}
+        .input-field{width:100%;padding:10px 14px;border:2px solid #e5e5e5;border-radius:8px;font-size:13px;margin-bottom:12px;transition:border-color 0.2s}
+        .input-field:focus{outline:none;border-color:#1a1a1a}
+        .input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+        .btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+        .btn-primary{background:#1a1a1a;color:#fff}.btn-primary:hover{background:#000}
+        .btn-success{background:#16a34a;color:#fff}.btn-success:hover{background:#15803d}
+        .btn-outline{background:#fff;color:#1a1a1a;border:2px solid #ddd}.btn-outline:hover{border-color:#1a1a1a}
+        .btn-danger{background:#ef4444;color:#fff}.btn-danger:hover{background:#dc2626}
+        select.input-field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+        .toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:8px;color:#fff;font-size:13px;font-weight:600;z-index:300;animation:slideIn 0.3s ease-out}
+        .toast-success{background:#16a34a}
+        .toast-error{background:#ef4444}
+        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        .currency-symbol{font-size:18px;font-weight:700;color:#1a1a1a;margin-right:8px}
+        
+        @media(max-width:768px){
+            .sidebar{transform:translateX(-260px)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}
+            .input-row,.input-row-3{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    SIDEBAR
+    ============================================ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <h2>AARVANA</h2>
+            <p>ADMIN PANEL</p>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="inventory.html" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="tracking.html" class="nav-item"><i class="fas fa-truck"></i> Tracking</a>
+            <a href="discount.html" class="nav-item"><i class="fas fa-tags"></i> Discounts</a>
+            <a href="refund.html" class="nav-item"><i class="fas fa-undo"></i> Refunds</a>
+            <a href="analytics.html" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="offers.html" class="nav-item"><i class="fas fa-bullhorn"></i> Offers</a>
+            <a href="staff.html" class="nav-item"><i class="fas fa-user-shield"></i> Staff</a>
+            <a href="settings.html" class="nav-item active"><i class="fas fa-cog"></i> Settings</a>
+            <div style="border-top:1px solid #333;margin:10px 0"></div>
+            <a href="#" class="nav-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
+    <main class="main-content" id="mainContent">
+        
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <div>
+                <span class="text-sm text-gray-500" id="adminUser"></span>
+                <a href="../index.html" target="_blank" class="text-sm text-gray-500 hover:text-gray-800 ml-3"><i class="fas fa-external-link-alt mr-1"></i> View Site</a>
+            </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Settings</h2>
+
+        <!-- ============================================
+        GENERAL SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3>General Settings</h3>
+            <p class="card-desc">Basic store configuration</p>
+            <div class="input-row">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Store Name</label>
+                    <input type="text" id="storeName" class="input-field" value="Aarvana" placeholder="Store Name">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Store Email</label>
+                    <input type="email" id="storeEmail" class="input-field" value="support@aarvana.com" placeholder="Store Email">
+                </div>
+            </div>
+            <div class="input-row">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Store Phone</label>
+                    <input type="text" id="storePhone" class="input-field" value="+880 1XXX XXXXXX" placeholder="Store Phone">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Store Address</label>
+                    <input type="text" id="storeAddress" class="input-field" value="123 Fashion Street, Downtown" placeholder="Store Address">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveGeneralSettings()"><i class="fas fa-save mr-1"></i> Save General Settings</button>
+        </div>
+
+        <!-- ============================================
+        CURRENCY SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3><i class="fas fa-dollar-sign mr-2"></i> Currency Settings</h3>
+            <p class="card-desc">Change currency symbol, code, and position across the entire website</p>
+            <div class="input-row-3">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Currency Symbol</label>
+                    <select id="currencySymbol" class="input-field" onchange="updateCurrencyPreview()">
+                        <option value="$">$ (Dollar)</option>
+                        <option value="৳" selected>৳ (Taka)</option>
+                        <option value="₹">₹ (Rupee)</option>
+                        <option value="€">€ (Euro)</option>
+                        <option value="£">£ (Pound)</option>
+                        <option value="¥">¥ (Yen)</option>
+                        <option value="﷼">﷼ (Riyal)</option>
+                        <option value="AED">AED (Dirham)</option>
+                        <option value="custom">Custom...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Currency Code</label>
+                    <select id="currencyCode" class="input-field">
+                        <option value="USD">USD</option>
+                        <option value="BDT" selected>BDT</option>
+                        <option value="INR">INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="SAR">SAR</option>
+                        <option value="AED">AED</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Symbol Position</label>
+                    <select id="currencyPosition" class="input-field" onchange="updateCurrencyPreview()">
+                        <option value="left" selected>Left ($100)</option>
+                        <option value="right">Right (100$)</option>
+                        <option value="left-space">Left with space ($ 100)</option>
+                        <option value="right-space">Right with space (100 $)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="customSymbolRow" class="input-row" style="display:none">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Custom Currency Symbol</label>
+                    <input type="text" id="customCurrencySymbol" class="input-field" placeholder="Enter custom symbol">
+                </div>
+            </div>
+            <div class="mb-3 p-4 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500 mb-1">Preview</p>
+                <p class="text-2xl font-bold text-gray-900" id="currencyPreview">৳1,999.99</p>
+            </div>
+            <button class="btn btn-primary" onclick="saveCurrencySettings()"><i class="fas fa-save mr-1"></i> Save Currency Settings</button>
+        </div>
+
+        <!-- ============================================
+        PAYMENT SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3><i class="fas fa-credit-card mr-2"></i> Payment Settings</h3>
+            <p class="card-desc">Configure payment method numbers shown on checkout</p>
+            <div class="input-row-3">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">bKash Number</label>
+                    <input type="text" id="bkashNumber" class="input-field" value="01XXXXXXXXX" placeholder="bKash Number">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Rocket Number</label>
+                    <input type="text" id="rocketNumber" class="input-field" value="01XXXXXXXXX" placeholder="Rocket Number">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Nagad Number</label>
+                    <input type="text" id="nagadNumber" class="input-field" value="01XXXXXXXXX" placeholder="Nagad Number">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="savePaymentSettings()"><i class="fas fa-save mr-1"></i> Save Payment Numbers</button>
+        </div>
+
+        <!-- ============================================
+        COD SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3><i class="fas fa-truck mr-2"></i> COD (Cash on Delivery) Settings</h3>
+            <p class="card-desc">Configure COD advance amount and notice text</p>
+            <div class="input-row">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">COD Advance Amount (TK)</label>
+                    <input type="number" id="codAdvance" class="input-field" value="200" placeholder="Advance amount">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">COD Note Text</label>
+                    <input type="text" id="codNote" class="input-field" value="To confirm your COD order, pay {amount} TK advance via bKash/Rocket/Nagad below. This amount will be adjusted from your total." placeholder="COD notice text. Use {amount} for advance amount">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveCodSettings()"><i class="fas fa-save mr-1"></i> Save COD Settings</button>
+        </div>
+
+        <!-- ============================================
+        DELIVERY CHARGE SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3><i class="fas fa-shipping-fast mr-2"></i> Delivery Charge Settings</h3>
+            <p class="card-desc">Set delivery charges per division (in TK)</p>
+            <div class="input-row-3">
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Dhaka</label><input type="number" id="shipDhaka" class="input-field" value="60"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Chattogram</label><input type="number" id="shipChattogram" class="input-field" value="120"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Rajshahi</label><input type="number" id="shipRajshahi" class="input-field" value="120"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Khulna</label><input type="number" id="shipKhulna" class="input-field" value="120"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Barishal</label><input type="number" id="shipBarishal" class="input-field" value="130"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Sylhet</label><input type="number" id="shipSylhet" class="input-field" value="130"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Rangpur</label><input type="number" id="shipRangpur" class="input-field" value="150"></div>
+                <div><label class="block text-xs font-medium text-gray-600 mb-1">Mymensingh</label><input type="number" id="shipMymensingh" class="input-field" value="120"></div>
+            </div>
+            <button class="btn btn-primary mt-3" onclick="saveDeliverySettings()"><i class="fas fa-save mr-1"></i> Save Delivery Charges</button>
+        </div>
+
+        <!-- ============================================
+        BACKEND API SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3><i class="fas fa-plug mr-2"></i> Backend API Settings</h3>
+            <p class="card-desc">Configure Google Sheets API for backend integration. Activate to use Google Sheets instead of JSON files.</p>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">Google Apps Script Web App URL</label>
+                <input type="text" id="apiUrl" class="input-field" placeholder="https://script.google.com/macros/s/.../exec">
+            </div>
+            <div class="flex gap-2">
+                <button class="btn btn-success" onclick="activateBackend()"><i class="fas fa-check mr-1"></i> Activate Backend API</button>
+                <button class="btn btn-danger" onclick="deactivateBackend()"><i class="fas fa-times mr-1"></i> Deactivate Backend API</button>
+            </div>
+            <p id="apiStatus" class="text-xs mt-2"></p>
+        </div>
+
+        <!-- ============================================
+        ADMIN ACCOUNT SETTINGS
+        ============================================ -->
+        <div class="settings-card">
+            <h3><i class="fas fa-lock mr-2"></i> Admin Account</h3>
+            <p class="card-desc">Change admin login credentials</p>
+            <div class="input-row">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">New Username</label>
+                    <input type="text" id="newUsername" class="input-field" placeholder="New username">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">New Password</label>
+                    <input type="password" id="newPassword" class="input-field" placeholder="New password">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="saveAdminCredentials()"><i class="fas fa-save mr-1"></i> Update Credentials</button>
+        </div>
+
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" style="position:fixed;top:20px;right:20px;z-index:300"></div>
+
+    <script src="js/admin.js"></script>
+    <script>
+        // ==================== AUTH CHECK ====================
+        if (localStorage.getItem('aarvana_admin_logged_in') !== 'true') { window.location.href = 'login.html'; }
+        document.getElementById('adminUser').textContent = localStorage.getItem('aarvana_admin_user') || 'Admin';
+
+        // ==================== SIDEBAR TOGGLE ====================
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('collapsed'); 
+            document.getElementById('mainContent').classList.toggle('expanded'); 
+        }
+        function handleLogout() { 
+            localStorage.removeItem('aarvana_admin_logged_in'); 
+            localStorage.removeItem('aarvana_admin_user'); 
+            window.location.href = 'login.html'; 
+        }
+
+        // ==================== TOAST ====================
+        function showToast(message, type) {
+            type = type || 'success';
+            var container = document.getElementById('toastContainer');
+            var toast = document.createElement('div');
+            toast.className = 'toast ' + (type === 'success' ? 'toast-success' : 'toast-error');
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(function(){ toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(function(){ toast.remove(); }, 300); }, 3000);
+        }
+
+        // ==================== LOAD SETTINGS ====================
+        function loadSettings() {
+            var gen = JSON.parse(localStorage.getItem('aarvana_general_settings') || '{}');
+            if (gen.storeName) document.getElementById('storeName').value = gen.storeName;
+            if (gen.storeEmail) document.getElementById('storeEmail').value = gen.storeEmail;
+            if (gen.storePhone) document.getElementById('storePhone').value = gen.storePhone;
+            if (gen.storeAddress) document.getElementById('storeAddress').value = gen.storeAddress;
+
+            var curr = JSON.parse(localStorage.getItem('aarvana_currency_settings') || '{}');
+            if (curr.symbol) document.getElementById('currencySymbol').value = curr.symbol;
+            if (curr.code) document.getElementById('currencyCode').value = curr.code;
+            if (curr.position) document.getElementById('currencyPosition').value = curr.position;
+            if (curr.custom) { 
+                document.getElementById('currencySymbol').value = 'custom';
+                document.getElementById('customSymbolRow').style.display = 'grid';
+                document.getElementById('customCurrencySymbol').value = curr.custom;
+            }
+            updateCurrencyPreview();
+
+            var pay = JSON.parse(localStorage.getItem('aarvana_payment_numbers') || '{}');
+            if (pay.bkash) document.getElementById('bkashNumber').value = pay.bkash;
+            if (pay.rocket) document.getElementById('rocketNumber').value = pay.rocket;
+            if (pay.nagad) document.getElementById('nagadNumber').value = pay.nagad;
+
+            var cod = JSON.parse(localStorage.getItem('aarvana_cod_settings') || '{}');
+            if (cod.advance) document.getElementById('codAdvance').value = cod.advance;
+            if (cod.note) document.getElementById('codNote').value = cod.note;
+
+            var ship = JSON.parse(localStorage.getItem('aarvana_shipping_charges') || '{}');
+            if (ship.Dhaka) document.getElementById('shipDhaka').value = ship.Dhaka;
+            if (ship.Chattogram) document.getElementById('shipChattogram').value = ship.Chattogram;
+            if (ship.Rajshahi) document.getElementById('shipRajshahi').value = ship.Rajshahi;
+            if (ship.Khulna) document.getElementById('shipKhulna').value = ship.Khulna;
+            if (ship.Barishal) document.getElementById('shipBarishal').value = ship.Barishal;
+            if (ship.Sylhet) document.getElementById('shipSylhet').value = ship.Sylhet;
+            if (ship.Rangpur) document.getElementById('shipRangpur').value = ship.Rangpur;
+            if (ship.Mymensingh) document.getElementById('shipMymensingh').value = ship.Mymensingh;
+
+            var apiUrl = localStorage.getItem('aarvana_api_url') || '';
+            document.getElementById('apiUrl').value = apiUrl;
+            updateApiStatus();
+        }
+
+        // ==================== CURRENCY PREVIEW ====================
+        function updateCurrencyPreview() {
+            var symbolSelect = document.getElementById('currencySymbol');
+            var position = document.getElementById('currencyPosition').value;
+            var symbol = symbolSelect.value;
+            
+            if (symbol === 'custom') {
+                document.getElementById('customSymbolRow').style.display = 'grid';
+                symbol = document.getElementById('customCurrencySymbol').value || '?';
+            } else {
+                document.getElementById('customSymbolRow').style.display = 'none';
+            }
+
+            var amount = '1,999.99';
+            var preview = '';
+            switch(position) {
+                case 'left': preview = symbol + amount; break;
+                case 'right': preview = amount + symbol; break;
+                case 'left-space': preview = symbol + ' ' + amount; break;
+                case 'right-space': preview = amount + ' ' + symbol; break;
+                default: preview = symbol + amount;
+            }
+            document.getElementById('currencyPreview').textContent = preview;
+        }
+
+        document.getElementById('currencySymbol').addEventListener('change', updateCurrencyPreview);
+        document.getElementById('currencyPosition').addEventListener('change', updateCurrencyPreview);
+        document.getElementById('customCurrencySymbol').addEventListener('input', updateCurrencyPreview);
+
+        // ==================== API STATUS ====================
+        function updateApiStatus() {
+            var el = document.getElementById('apiStatus');
+            var active = localStorage.getItem('aarvana_use_backend') === 'true';
+            if (active) {
+                el.innerHTML = '<span class="text-green-600">● Backend API is ACTIVE</span> - Data is loading from Google Sheets';
+            } else {
+                el.innerHTML = '<span class="text-gray-400">● Backend API is INACTIVE</span> - Data is loading from JSON files';
+            }
+        }
+
+        function activateBackend() {
+            var url = document.getElementById('apiUrl').value.trim();
+            if (!url) { showToast('Please enter API URL', 'error'); return; }
+            localStorage.setItem('aarvana_api_url', url);
+            localStorage.setItem('aarvana_use_backend', 'true');
+            updateApiStatus();
+            showToast('Backend API activated successfully!');
+        }
+
+        function deactivateBackend() {
+            localStorage.setItem('aarvana_use_backend', 'false');
+            updateApiStatus();
+            showToast('Backend API deactivated. Using JSON files.', 'error');
+        }
+
+        // ==================== SAVE FUNCTIONS ====================
+        function saveGeneralSettings() {
+            var settings = {
+                storeName: document.getElementById('storeName').value,
+                storeEmail: document.getElementById('storeEmail').value,
+                storePhone: document.getElementById('storePhone').value,
+                storeAddress: document.getElementById('storeAddress').value
+            };
+            localStorage.setItem('aarvana_general_settings', JSON.stringify(settings));
+            showToast('General settings saved!');
+        }
+
+        function saveCurrencySettings() {
+            var symbol = document.getElementById('currencySymbol').value;
+            var settings = {
+                symbol: symbol,
+                code: document.getElementById('currencyCode').value,
+                position: document.getElementById('currencyPosition').value
+            };
+            if (symbol === 'custom') {
+                settings.custom = document.getElementById('customCurrencySymbol').value;
+            }
+            localStorage.setItem('aarvana_currency_settings', JSON.stringify(settings));
+            showToast('Currency settings saved!');
+        }
+
+        function savePaymentSettings() {
+            var numbers = {
+                bkash: document.getElementById('bkashNumber').value,
+                rocket: document.getElementById('rocketNumber').value,
+                nagad: document.getElementById('nagadNumber').value
+            };
+            localStorage.setItem('aarvana_payment_numbers', JSON.stringify(numbers));
+            showToast('Payment numbers saved!');
+        }
+
+        function saveCodSettings() {
+            var settings = {
+                advance: parseInt(document.getElementById('codAdvance').value) || 200,
+                note: document.getElementById('codNote').value
+            };
+            localStorage.setItem('aarvana_cod_settings', JSON.stringify(settings));
+            localStorage.setItem('aarvana_cod_advance', settings.advance);
+            localStorage.setItem('aarvana_cod_note', settings.note);
+            showToast('COD settings saved!');
+        }
+
+        function saveDeliverySettings() {
+            var charges = {
+                Dhaka: parseInt(document.getElementById('shipDhaka').value) || 60,
+                Chattogram: parseInt(document.getElementById('shipChattogram').value) || 120,
+                Rajshahi: parseInt(document.getElementById('shipRajshahi').value) || 120,
+                Khulna: parseInt(document.getElementById('shipKhulna').value) || 120,
+                Barishal: parseInt(document.getElementById('shipBarishal').value) || 130,
+                Sylhet: parseInt(document.getElementById('shipSylhet').value) || 130,
+                Rangpur: parseInt(document.getElementById('shipRangpur').value) || 150,
+                Mymensingh: parseInt(document.getElementById('shipMymensingh').value) || 120
+            };
+            localStorage.setItem('aarvana_shipping_charges', JSON.stringify(charges));
+            showToast('Delivery charges saved!');
+        }
+
+        function saveAdminCredentials() {
+            var newUser = document.getElementById('newUsername').value.trim();
+            var newPass = document.getElementById('newPassword').value.trim();
+            if (newUser && newPass) {
+                localStorage.setItem('aarvana_admin_username', newUser);
+                localStorage.setItem('aarvana_admin_password', newPass);
+                showToast('Admin credentials updated! Please use new credentials on next login.');
+                document.getElementById('newUsername').value = '';
+                document.getElementById('newPassword').value = '';
+            } else {
+                showToast('Please enter both username and password', 'error');
+            }
+        }
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', loadSettings);
+    </script>
+</body>
+</html>

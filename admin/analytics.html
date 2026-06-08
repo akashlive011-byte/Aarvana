@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Aarvana Admin - Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;display:flex;min-height:100vh}
+        .sidebar{width:260px;background:#1a1a1a;color:#fff;padding:20px 0;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform 0.3s}
+        .sidebar.collapsed{transform:translateX(-260px)}
+        .sidebar-logo{padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px}
+        .sidebar-logo h2{font-size:20px;font-weight:700;letter-spacing:2px}
+        .nav-item{display:flex;align-items:center;padding:12px 20px;color:#aaa;text-decoration:none;font-size:13px;transition:all 0.2s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.05);color:#fff;border-left:3px solid #D4AF37}
+        .nav-item i{width:20px;margin-right:12px;text-align:center}
+        .main-content{flex:1;margin-left:260px;padding:24px;transition:margin-left 0.3s}
+        .main-content.expanded{margin-left:0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .menu-toggle{background:none;border:none;font-size:20px;cursor:pointer;color:#333;padding:8px}
+        .stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+        .stat-value{font-size:24px;font-weight:700;color:#1a1a1a}
+        .stat-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px}
+        .table-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);margin-bottom:20px}
+        .table-card h3{font-size:15px;font-weight:700;padding:16px 20px;border-bottom:1px solid #eee}
+        .table-card table{width:100%}
+        .table-card th{background:#fafafa;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888}
+        .table-card td{padding:10px 14px;font-size:13px;border-bottom:1px solid #f5f5f5}
+        .progress-bar{height:6px;background:#eee;border-radius:3px;overflow:hidden}
+        .progress-fill{height:100%;background:#1a1a1a;border-radius:3px}
+        @media(max-width:768px){.sidebar{transform:translateX(-260px)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><h2>AARVANA</h2><p>ADMIN PANEL</p></div>
+        <nav>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="inventory.html" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="tracking.html" class="nav-item"><i class="fas fa-truck"></i> Tracking</a>
+            <a href="discount.html" class="nav-item"><i class="fas fa-tags"></i> Discounts</a>
+            <a href="refund.html" class="nav-item"><i class="fas fa-undo"></i> Refunds</a>
+            <a href="analytics.html" class="nav-item active"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="offers.html" class="nav-item"><i class="fas fa-bullhorn"></i> Offers</a>
+            <a href="staff.html" class="nav-item"><i class="fas fa-user-shield"></i> Staff</a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <div style="border-top:1px solid #333;margin:10px 0"></div>
+            <a href="#" class="nav-item" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="top-bar">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <h2 class="text-xl font-bold">Analytics</h2>
+        </div>
+
+        <!-- Date Filter -->
+        <div class="flex items-center gap-3 mb-6">
+            <select id="dateFilter" onchange="loadAnalytics()" style="padding:8px 14px;border:2px solid #e5e5e5;border-radius:8px;font-size:13px">
+                <option value="7">Last 7 Days</option>
+                <option value="30">Last 30 Days</option>
+                <option value="90">Last 90 Days</option>
+                <option value="all">All Time</option>
+            </select>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="stat-card"><div class="stat-value" id="statRevenue">$0</div><div class="stat-label">Total Revenue</div></div>
+            <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Total Orders</div></div>
+            <div class="stat-card"><div class="stat-value" id="statAvgOrder">$0</div><div class="stat-label">Avg Order Value</div></div>
+            <div class="stat-card"><div class="stat-value" id="statConversion">0%</div><div class="stat-label">Conversion Rate</div></div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="table-card">
+            <h3>Top Selling Products</h3>
+            <table>
+                <thead><tr><th>#</th><th>Product</th><th>Sold</th><th>Revenue</th><th>Trend</th></tr></thead>
+                <tbody id="topProducts"><tr><td colspan="5" class="text-center text-gray-400 py-8">Loading...</td></tr></tbody>
+            </table>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="table-card">
+            <h3>Revenue by Category</h3>
+            <table>
+                <thead><tr><th>Category</th><th>Orders</th><th>Revenue</th><th>Share</th></tr></thead>
+                <tbody id="categoryBreakdown"><tr><td colspan="4" class="text-center text-gray-400 py-8">Loading...</td></tr></tbody>
+            </table>
+        </div>
+
+        <!-- Payment Method Breakdown -->
+        <div class="table-card">
+            <h3>Payment Method Breakdown</h3>
+            <table>
+                <thead><tr><th>Method</th><th>Orders</th><th>Revenue</th><th>Share</th></tr></thead>
+                <tbody id="paymentBreakdown"><tr><td colspan="4" class="text-center text-gray-400 py-8">Loading...</td></tr></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/admin.js"></script>
+    <script>
+        if (localStorage.getItem('aarvana_admin_logged_in') !== 'true') { window.location.href = 'login.html'; }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); document.getElementById('mainContent').classList.toggle('expanded'); }
+        function handleLogout() { localStorage.removeItem('aarvana_admin_logged_in'); window.location.href = 'login.html'; }
+
+        function loadAnalytics() {
+            var days = document.getElementById('dateFilter').value;
+            var orders = JSON.parse(localStorage.getItem('aarvana_orders') || '[]');
+            
+            // Filter by date
+            var cutoff = new Date();
+            if (days !== 'all') { cutoff.setDate(cutoff.getDate() - parseInt(days)); }
+            
+            var filteredOrders = orders.filter(function(o) {
+                if (days === 'all') return true;
+                return new Date(o.date) >= cutoff;
+            });
+
+            // Stats
+            var totalRevenue = 0;
+            for (var i = 0; i < filteredOrders.length; i++) { totalRevenue += filteredOrders[i].total || 0; }
+            document.getElementById('statRevenue').textContent = '$' + totalRevenue.toFixed(2);
+            document.getElementById('statOrders').textContent = filteredOrders.length;
+            document.getElementById('statAvgOrder').textContent = filteredOrders.length > 0 ? '$' + (totalRevenue / filteredOrders.length).toFixed(2) : '$0';
+            document.getElementById('statConversion').textContent = 'N/A';
+
+            // Top Products
+            var productSales = {};
+            var productRevenue = {};
+            for (var i = 0; i < filteredOrders.length; i++) {
+                var items = filteredOrders[i].items || [];
+                for (var j = 0; j < items.length; j++) {
+                    var name = items[j].name;
+                    productSales[name] = (productSales[name] || 0) + items[j].quantity;
+                    productRevenue[name] = (productRevenue[name] || 0) + (items[j].price * items[j].quantity);
+                }
+            }
+            var topProducts = Object.keys(productSales).sort(function(a,b){return productSales[b]-productSales[a]}).slice(0,10);
+            var maxSales = topProducts.length > 0 ? productSales[topProducts[0]] : 1;
+            var tphtml = '';
+            for (var i = 0; i < topProducts.length; i++) {
+                var pct = Math.round((productSales[topProducts[i]] / maxSales) * 100);
+                tphtml += '<tr><td>'+(i+1)+'</td><td class="font-medium">'+topProducts[i]+'</td><td>'+productSales[topProducts[i]]+'</td><td>$'+productRevenue[topProducts[i]].toFixed(2)+'</td><td><div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%"></div></div></td></tr>';
+            }
+            document.getElementById('topProducts').innerHTML = tphtml || '<tr><td colspan="5" class="text-center text-gray-400 py-8">No data</td></tr>';
+
+            // Category Breakdown
+            var catOrders = {};
+            var catRevenue = {};
+            for (var i = 0; i < filteredOrders.length; i++) {
+                var items = filteredOrders[i].items || [];
+                for (var j = 0; j < items.length; j++) {
+                    var cat = items[j].category || 'Unknown';
+                    catOrders[cat] = (catOrders[cat] || 0) + 1;
+                    catRevenue[cat] = (catRevenue[cat] || 0) + (items[j].price * items[j].quantity);
+                }
+            }
+            var cbhtml = '';
+            var cats = Object.keys(catRevenue);
+            for (var i = 0; i < cats.length; i++) {
+                var share = totalRevenue > 0 ? Math.round((catRevenue[cats[i]] / totalRevenue) * 100) : 0;
+                cbhtml += '<tr><td>'+cats[i]+'</td><td>'+catOrders[cats[i]]+'</td><td>$'+catRevenue[cats[i]].toFixed(2)+'</td><td>'+share+'%</td></tr>';
+            }
+            document.getElementById('categoryBreakdown').innerHTML = cbhtml || '<tr><td colspan="4" class="text-center text-gray-400 py-8">No data</td></tr>';
+
+            // Payment Breakdown
+            var payOrders = {};
+            var payRevenue = {};
+            for (var i = 0; i < filteredOrders.length; i++) {
+                var method = (filteredOrders[i].payment && filteredOrders[i].payment.method) ? filteredOrders[i].payment.method.toUpperCase() : 'Unknown';
+                payOrders[method] = (payOrders[method] || 0) + 1;
+                payRevenue[method] = (payRevenue[method] || 0) + (filteredOrders[i].total || 0);
+            }
+            var pbhtml = '';
+            var methods = Object.keys(payRevenue);
+            for (var i = 0; i < methods.length; i++) {
+                var share = totalRevenue > 0 ? Math.round((payRevenue[methods[i]] / totalRevenue) * 100) : 0;
+                pbhtml += '<tr><td>'+methods[i]+'</td><td>'+payOrders[methods[i]]+'</td><td>$'+payRevenue[methods[i]].toFixed(2)+'</td><td>'+share+'%</td></tr>';
+            }
+            document.getElementById('paymentBreakdown').innerHTML = pbhtml || '<tr><td colspan="4" class="text-center text-gray-400 py-8">No data</td></tr>';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAnalytics);
+    </script>
+</body>
+</html>
